@@ -6,4 +6,5 @@ public class Character {
     private int characterId;
     private String name;
     private Date dateOfBirth;
+    private Actor actor;
 }
