@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Cinema</string>
+    <string name="cinema_title">Cinema</string>
+    <string name="film_title">film_title</string>
+    <string name="filter_menu">Filter</string>
+    <string name="search_menu">Search</string>
+    <string name="sort_menu">Sort</string>
+    <string name="menu_menu">Menu</string>
+    <string name="yourLists_title">Your lists</string>
+    <string name="otherLists_title">Other lists</string>
 </resources>

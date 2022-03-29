@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_lists_page.xml" value="0.2866847826086957" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/single_film_layout.xml" value="0.2708333333333333" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/lists_menu.xml" value="0.30520833333333336" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/main_menu.xml" value="0.2708333333333333" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
