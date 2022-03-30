@@ -17,7 +17,7 @@ import nl.avans.cinema.dataacces.dao.MovieDAO;
 import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 
-@Database(entities = Movie.class, version = 3, exportSchema = false)
+@Database(entities = Movie.class, version = 5, exportSchema = false)
 @TypeConverters({GithubTypeConverter.class})
 public abstract class CinemaDatabase extends RoomDatabase {
 
@@ -51,21 +51,7 @@ public abstract class CinemaDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             //TODO Vul database
-            Movie movie = new Movie();
-            movie.setAdult(true);
-            movie.setAmountOfSeasons(2);
-            movie.setAlternativeTitle("Cool");
-            movie.setId(1);
-            movie.setTitle("Test");
-            List<Genre> genres = new ArrayList<>();
-            Genre genre = new Genre();
-            genre.setGenreId(1);
-            genre.setName("Horror");
-            genres.add(genre);
-            genres.add(genre);
-            movie.setGenres(genres);
-            Log.d("arraytest", genres.get(0).getName());
-            mDao.insertMovie(movie);
+
             return null;
         }
     }

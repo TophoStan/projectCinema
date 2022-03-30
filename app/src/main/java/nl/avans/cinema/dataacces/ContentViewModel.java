@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import nl.avans.cinema.dataacces.api.task.FetchMovies;
 import nl.avans.cinema.domain.Movie;
 
 public class ContentViewModel extends AndroidViewModel {
@@ -27,6 +28,10 @@ public class ContentViewModel extends AndroidViewModel {
 
     public Movie getMovie(int id){
        return mRepository.getMovie(id);
+    }
+
+    public void insertMovie(Movie movie){
+        mRepository.insertMovie(movie);
     }
 
     //TODO Crud functies uit repository hier aan toevoegen

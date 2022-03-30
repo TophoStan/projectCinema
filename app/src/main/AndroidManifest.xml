@@ -12,12 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cinema">
         <activity
-            android:name=".activities.SingleListActivity"
+            android:name=".ui.SingleListActivity"
             android:exported="false"
             android:label="List"
-            android:parentActivityName=".activities.ListsActivity" />
+            android:parentActivityName=".ui.ListsActivity" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,11 +26,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ListsActivity"
+            android:name=".ui.ListsActivity"
             android:exported="false"
             android:label="Lists" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="false"></activity>
     </application>
 

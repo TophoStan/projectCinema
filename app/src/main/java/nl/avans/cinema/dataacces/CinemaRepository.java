@@ -30,8 +30,8 @@ public class CinemaRepository {
         return mAllMovies;
     }
 
-    public void insertMovie(){
-        new insertAsyncTask(mMovieDao).execute();
+    public void insertMovie(Movie movie){
+        new insertAsyncTask(mMovieDao).execute(movie);
     }
 
     public Movie getMovie(int id){

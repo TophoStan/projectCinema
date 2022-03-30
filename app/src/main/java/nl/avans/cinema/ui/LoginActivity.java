@@ -1,4 +1,4 @@
-package nl.avans.cinema.activities;
+package nl.avans.cinema.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 

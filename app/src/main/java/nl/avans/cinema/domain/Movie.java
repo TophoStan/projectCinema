@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import nl.avans.cinema.dataacces.converters.GithubTypeConverter;
 
 @Entity(tableName = "movies")
 @TypeConverters({DateTypeConverter.class, GithubTypeConverter.class})
-public class Movie {
+public class Movie implements Serializable {
 
     @PrimaryKey
     private int id;

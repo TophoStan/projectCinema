@@ -12,6 +12,10 @@ import retrofit2.Response;
 public class FetchMovieDetails {
     private static String LOG_TAG = FetchMovies.class.getSimpleName();
 
+    private OnFetchMovieDetailsListener mListener;
+    public FetchMovieDetails(OnFetchMovieDetailsListener listener){
+        mListener = listener;
+    }
 
     public void execute(int id){
         Call<Movie> call = ApiClient.getUserService().getMoveById(id);
@@ -22,7 +26,9 @@ public class FetchMovieDetails {
                     Log.d(LOG_TAG, response.message());
                     return;
                 }
+                mListener.onReceivingMovieDetails(response.body());
             }
+
 
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
@@ -30,6 +36,11 @@ public class FetchMovieDetails {
             }
         });
     }
+
+    public interface OnFetchMovieDetailsListener {
+        void onReceivingMovieDetails(Movie response);
+    }
+
 
 }
 
