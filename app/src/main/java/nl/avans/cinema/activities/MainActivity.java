@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Sort btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.home_lists) {
             startActivity(new Intent(MainActivity.this, ListsActivity.class));
+        } else if (item.getItemId() == R.id.home_logout) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

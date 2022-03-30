@@ -6,6 +6,11 @@
     <item
         android:id="@+id/lists_home"
         android:icon="@drawable/home_icon"
-        android:title="Home"
+        android:title="@string/home_menu"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/lists_logout"
+        android:icon="@drawable/logout_icon"
+        android:title="@string/logout_menu"
+        app:showAsAction="always" />
 </menu>

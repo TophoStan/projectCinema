@@ -43,6 +43,8 @@ public class ListsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.lists_home) {
             startActivity(new Intent(ListsActivity.this, MainActivity.class));
+        }  else if (item.getItemId() == R.id.lists_logout) {
+            startActivity(new Intent(ListsActivity.this, LoginActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
