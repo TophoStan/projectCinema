@@ -1,5 +1,6 @@
 package nl.avans.cinema.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -8,7 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
@@ -25,21 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, SingleListActivity.class));
-            }
-        });
-        ContentViewModel contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
-        contentViewModel.getAllContentItems();
-        Movie movie = contentViewModel.getMovie(1);
-        Log.d("test", movie.getTitle());
-
-        for (Genre genre: movie.getGenres()) {
-            Log.d("genre", genre.getName());
-        }
     }
 
     @Override
@@ -47,5 +35,21 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu,  menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.home_filter) {
+            Toast.makeText(this, "Filter btn", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.home_search) {
+            Toast.makeText(this, "Search btn", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.home_sort) {
+            Toast.makeText(this, "Sort btn", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.home_lists) {
+            startActivity(new Intent(MainActivity.this, ListsActivity.class));
+        } else if (item.getItemId() == R.id.home_logout) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

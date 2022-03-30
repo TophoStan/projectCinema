@@ -17,4 +17,9 @@
     <string name="otherLists_title">Other lists</string>
     <string name="delete_text_btn">Delete</string>
     <string name="shareMenu_btn">Share</string>
+    <string name="share_menu">Share</string>
+    <string name="delete_menu">Delete</string>
+    <string name="lists_menu">Lists</string>
+    <string name="logout_menu">Logout</string>
+    <string name="home_menu">Home</string>
 </resources>
