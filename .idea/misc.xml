@@ -3,6 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/activity_detail_page.xml" value="0.264" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/activity_lists_page.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/activity_single_list_page.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/single_cast_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/single_cast_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/single_crew_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/single_film_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/layout/single_film_list_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/menu/list_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/menu/lists_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/erena/Desktop/balaba/projectCinema/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/menu_icon.xml" value="0.211" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/search_icon.xml" value="0.211" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/sort_icon.xml" value="0.211" />

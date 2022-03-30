@@ -25,5 +25,10 @@
     <string name="otherLists_title">Other lists</string>
     <string name="delete_text_btn">Delete</string>
     <string name="shareMenu_btn">Share</string>
+    <string name="description_title">Date:</string>
+    <string name="description_price">Price:</string>
+    <string name="description_genre">Genre:</string>
+    <string name="crew_title_lable">Crew</string>
+    <string name="cast_title_label">Cast</string>
     >>>>>>> edfc2ea0d61a9f40fbfc50cff718e43bea199e4d
 </resources>
