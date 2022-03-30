@@ -12,17 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cinema" >
         <activity
-            android:name=".SingleListPage"
+            android:name=".activities.SingleListActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".listsPage"
+            android:name=".activities.ListsActivity"
             android:exported="false"
             android:label="@string/yourLists_title" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
