@@ -2,7 +2,6 @@ package nl.avans.cinema.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,24 +9,30 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import nl.avans.cinema.R;
-import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.MovieResponse;
+import nl.avans.cinema.dataacces.api.task.FetchMovieDetails;
+import nl.avans.cinema.dataacces.api.task.FetchMovies;
 import nl.avans.cinema.databinding.ActivityMainBinding;
-import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FetchMovies.OnFetchMovieIdListener {
 
     private ActivityMainBinding binding;
+    private Movie[] mMovies;
+    private Movie currentMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        FetchMovies fetchMovies = new FetchMovies(this);
+        fetchMovies.execute();
+
     }
 
     @Override
@@ -52,4 +57,11 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onReceivingMovieId(MovieResponse response) {
+        Log.d("maintest", response.getMovies().length + "");
+        mMovies = response.getMovies();
+    }
+
 }
