@@ -3,15 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
-        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/activity_login.xml" value="0.4" />
-=======
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/menu_icon.xml" value="0.211" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/search_icon.xml" value="0.211" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/sort_icon.xml" value="0.211" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_lists_page.xml" value="0.2866847826086957" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_login.xml" value="0.2609375" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/single_film_layout.xml" value="0.2708333333333333" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/lists_menu.xml" value="0.30520833333333336" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/main_menu.xml" value="0.2708333333333333" />
->>>>>>> edfc2ea0d61a9f40fbfc50cff718e43bea199e4d
       </map>
     </option>
   </component>

@@ -26,7 +26,7 @@
         android:layout_below="@id/Login_welcome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
-        app:srcCompat="@drawable/Camera" />
+        app:srcCompat="@drawable/camera" />
 
     <TextView
         android:id="@+id/Login_username"
