@@ -16,4 +16,6 @@
     <string name="menu_menu">Menu</string>
     <string name="yourLists_title">Your lists</string>
     <string name="otherLists_title">Other lists</string>
+    <string name="delete_text_btn">Delete</string>
+    <string name="shareMenu_btn">Share</string>
 </resources>
