@@ -6,7 +6,7 @@
     <string name="register_label">REGISTER</string>
     <string name="guest_label">CONTINUE\nAS GUEST</string>
     <string name="username_label">Username:</string>
-    <string name="welcome_label">Welcome!</string>
+    <string name="welcome_label">Welcome</string>
     <string name="cinema_title">Cinema</string>
     <string name="film_title">film_title</string>
     <string name="filter_menu">Filter</string>

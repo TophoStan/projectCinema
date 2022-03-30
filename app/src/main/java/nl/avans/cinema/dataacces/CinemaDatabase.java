@@ -7,7 +7,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = ContentDao.class, version = 2, exportSchema = false)
+import nl.avans.cinema.dataacces.dao.MovieDAO;
+import nl.avans.cinema.domain.Movie;
+
+@Database(entities = Movie.class, version = 2, exportSchema = false)
 public abstract class CinemaDatabase extends RoomDatabase {
 
     private static CinemaDatabase INSTANCE;
@@ -26,21 +29,27 @@ public abstract class CinemaDatabase extends RoomDatabase {
         new PopulateDbAsync(INSTANCE).execute();
         return INSTANCE;
     }
-    public abstract ContentDao contentDao();
+    public abstract MovieDAO movieDAO();
 
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>{
 
-        private final ContentDao mDao;
+        private final MovieDAO mDao;
 
         public PopulateDbAsync(CinemaDatabase instance) {
-            mDao = instance.contentDao();
+            mDao = instance.movieDAO();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             //TODO Vul database
-            mDao.deleteAll();
+            Movie movie = new Movie();
+            movie.setAdult(true);
+            movie.setAmountOfSeasons(2);
+            movie.setAlternativeTitle("Cool");
+            movie.setId(1);
+            movie.setTitle("Test");
+            mDao.insertMovie(movie);
             return null;
         }
     }

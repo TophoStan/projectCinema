@@ -13,17 +13,22 @@ public class ListsActivity extends AppCompatActivity {
 
     private ActivityListsBinding binding;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityListsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.lists_menu,  menu);
-        return true;
+    public class MainActivity extends AppCompatActivity {
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            binding = ActivityListsBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
+            setContentView(R.layout.activity_main);
+        }
+
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.lists_menu, menu);
+            return true;
+        }
     }
 }
