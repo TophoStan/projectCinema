@@ -1,20 +1,13 @@
 <resources>
     <string name="app_name">Cinema</string>
-    <
-    <
-    <
-    <
-    <
-    <
-    < HEAD
+
     <string name="or_label">OR</string>
     <string name="password_label">Password:</string>
     <string name="login_label">LOGIN</string>
     <string name="register_label">REGISTER</string>
     <string name="guest_label">CONTINUE\nAS GUEST</string>
     <string name="username_label">Username:</string>
-    <string name="welcome_label">Welcome!</string>
-    =======
+    <string name="welcome_label">Welcome</string>
     <string name="cinema_title">Cinema</string>
     <string name="film_title">film_title</string>
     <string name="filter_menu">Filter</string>
@@ -23,5 +16,4 @@
     <string name="menu_menu">Menu</string>
     <string name="yourLists_title">Your lists</string>
     <string name="otherLists_title">Other lists</string>
-    >>>>>>> edfc2ea0d61a9f40fbfc50cff718e43bea199e4d
 </resources>
