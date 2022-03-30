@@ -7,11 +7,13 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.util.Date;
+import java.util.List;
 
 import nl.avans.cinema.dataacces.converters.DateTypeConverter;
+import nl.avans.cinema.dataacces.converters.GithubTypeConverter;
 
 @Entity(tableName = "movies")
-@TypeConverters(DateTypeConverter.class)
+@TypeConverters({DateTypeConverter.class, GithubTypeConverter.class})
 public class Movie {
 
     @PrimaryKey
@@ -24,8 +26,9 @@ public class Movie {
     private int imageId;
     private String poster_path;
     private int amountOfSeasons;
-
-    private Genre[] genres;
+    @ColumnInfo(name = "genreList")
+    private List<Genre> genres;
+    private List<Company> companies;
 
     private boolean adult;
 
@@ -101,19 +104,27 @@ public class Movie {
         this.amountOfSeasons = amountOfSeasons;
     }
 
-    public Genre[] getGenres() {
-        return genres;
-    }
-
-    public void setGenres(Genre[] genres) {
-        this.genres = genres;
-    }
-
     public boolean isAdult() {
         return adult;
     }
 
     public void setAdult(boolean adult) {
         this.adult = adult;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public List<Company> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
     }
 }

@@ -2,6 +2,7 @@ package nl.avans.cinema.dataacces;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -33,6 +34,15 @@ public class CinemaRepository {
         new insertAsyncTask(mMovieDao).execute();
     }
 
+    public Movie getMovie(int id){
+      try {
+          return new getMovieAsyncTask(mMovieDao).execute(id).get();
+      } catch (Exception e){
+          Log.e("error", e.getMessage());
+          return null;
+      }
+    }
+
     private static class insertAsyncTask extends AsyncTask<Movie, Void, Void> {
 
         private MovieDAO mAsyncTaskDao;
@@ -48,6 +58,20 @@ public class CinemaRepository {
         }
     }
 
+    private static class getMovieAsyncTask extends AsyncTask<Integer, Void, Movie>{
+
+        private MovieDAO mAsyncTaskDao;
+
+        getMovieAsyncTask(MovieDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Movie doInBackground(Integer... integers) {
+
+            return mAsyncTaskDao.getMovieById(integers[0]);
+        }
+    }
     //TODO voeg meerdere CRUD functies toe
 
 }

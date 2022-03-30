@@ -25,5 +25,9 @@ public class ContentViewModel extends AndroidViewModel {
         return mAllMovies;
     }
 
+    public Movie getMovie(int id){
+       return mRepository.getMovie(id);
+    }
+
     //TODO Crud functies uit repository hier aan toevoegen
 }
