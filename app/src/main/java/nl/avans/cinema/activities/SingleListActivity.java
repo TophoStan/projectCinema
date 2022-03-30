@@ -2,6 +2,8 @@ package nl.avans.cinema.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,14 +33,13 @@ public class SingleListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.filter:
-                Toast.makeText(this, "Filter knop", Toast.LENGTH_SHORT).show();
-
-            case R.id.deleteList_btn:
-                Toast.makeText(this, "Delete knop", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.list_filter) {
+            Toast.makeText(this, "Filter btn", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.list_share) {
+            Toast.makeText(this, "Share btn", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.list_delete) {
+            Toast.makeText(this, "Delete btn", Toast.LENGTH_SHORT).show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -1,10 +1,15 @@
 package nl.avans.cinema.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.databinding.ActivityListsBinding;
@@ -13,22 +18,32 @@ public class ListsActivity extends AppCompatActivity {
 
     private ActivityListsBinding binding;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityListsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-    public class MainActivity extends AppCompatActivity {
+        binding.toAList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ListsActivity.this, SingleListActivity.class));
+            }
+        });
+    }
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            binding = ActivityListsBinding.inflate(getLayoutInflater());
-            setContentView(binding.getRoot());
-            setContentView(R.layout.activity_main);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.lists_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.lists_home) {
+            startActivity(new Intent(ListsActivity.this, MainActivity.class));
         }
-
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.lists_menu, menu);
-            return true;
-        }
+        return super.onOptionsItemSelected(item);
     }
 }
