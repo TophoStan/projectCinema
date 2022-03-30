@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import nl.avans.cinema.R;
+import nl.avans.cinema.dataacces.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.api.calls.MovieResponse;
 import nl.avans.cinema.dataacces.api.task.FetchMovieDetails;
 import nl.avans.cinema.dataacces.api.task.FetchMovies;
@@ -23,12 +24,15 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
     private ActivityMainBinding binding;
     private Movie[] mMovies;
     private Movie currentMovie;
+    private MovieAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        adapter = new MovieAdapter(this);
 
         FetchMovies fetchMovies = new FetchMovies(this);
         fetchMovies.execute();
