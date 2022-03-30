@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +17,11 @@ import android.widget.Toast;
 import java.util.List;
 
 import nl.avans.cinema.R;
+
+import nl.avans.cinema.dataacces.api.calls.MovieResponse;
+import nl.avans.cinema.dataacces.api.task.FetchMovieDetails;
+import nl.avans.cinema.dataacces.api.task.FetchMovies;
+
 import nl.avans.cinema.databinding.ActivityMainBinding;
 import nl.avans.cinema.ui.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.ContentViewModel;
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
     private ContentViewModel contentViewModel;
     private MovieResponse mMovieResponse;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
         binding.filmsRecyclerView.setAdapter(adapter);
 
         binding.filmsRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
+
 
         FetchMovies fetchMovies = new FetchMovies(this);
         fetchMovies.execute();
@@ -81,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
     public void onReceivingMovieId(MovieResponse response) {
         mMovieResponse = response;
         for (Movie movie: mMovieResponse.getMovies()) {
+            Log.d(LOG_TAG, movie.getTitle());
             contentViewModel.insertMovie(movie);
         }
     }

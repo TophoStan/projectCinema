@@ -17,7 +17,7 @@ import nl.avans.cinema.dataacces.dao.MovieDAO;
 import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 
-@Database(entities = Movie.class, version = 5, exportSchema = false)
+@Database(entities = Movie.class, version = 6, exportSchema = false)
 @TypeConverters({GithubTypeConverter.class})
 public abstract class CinemaDatabase extends RoomDatabase {
 
