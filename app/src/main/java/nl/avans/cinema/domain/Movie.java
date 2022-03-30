@@ -1,7 +1,6 @@
 package nl.avans.cinema.domain;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -17,7 +16,7 @@ import nl.avans.cinema.dataacces.converters.GithubTypeConverter;
 public class Movie {
 
     @PrimaryKey
-    private int Id;
+    private int id;
     private String title;
     private String alternativeTitle;
     private int rating;
@@ -33,11 +32,11 @@ public class Movie {
     private boolean adult;
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getTitle() {
