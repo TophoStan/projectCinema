@@ -5,6 +5,7 @@ import nl.avans.cinema.domain.Movie;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface TheMovieDatabaseAPI {
 
@@ -14,4 +15,8 @@ public interface TheMovieDatabaseAPI {
     @GET("3/movie/{movie_id}?api_key=cfe22f85d9a2f5199dddc1eca8fa2e60")
     Call<Movie> getMoveById(@Path("movie_id") int movieId);
 
+    @GET("search/movie?api_key=cfe22f85d9a2f5199dddc1eca8fa2e60")
+    Call<MovieResponse> searchMovie(
+            @Query("query") String query
+    );
 }
