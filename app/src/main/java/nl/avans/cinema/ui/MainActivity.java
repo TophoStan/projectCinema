@@ -70,15 +70,14 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
         getMenuInflater().inflate(R.menu.main_menu, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(this.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.home_search)
-                .getActionView();
-        searchView.setSearchableInfo(searchManager
-        .getSearchableInfo(getComponentName()));
+        SearchView searchView = (SearchView) menu.findItem(R.id.home_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                Toast.makeText(MainActivity.this, "Input: " + s, Toast.LENGTH_SHORT).show();
 
                 return false;
             }
