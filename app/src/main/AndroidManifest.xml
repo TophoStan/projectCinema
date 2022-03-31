@@ -16,6 +16,7 @@
             android:exported="false"
             android:label="List"
             android:parentActivityName=".ui.ListsActivity" />
+
         <activity
             android:name=".ui.LoginActivity"
             android:exported="true">
@@ -25,16 +26,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.ListsActivity"
             android:exported="false"
             android:label="Lists" />
+
         <activity
             android:name=".ui.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
 
         <activity android:name=".ui.DetailActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="Movie" />
     </application>
 
 </manifest>

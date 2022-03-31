@@ -101,9 +101,7 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
                 return false;
             }
 
-
         });
-
         return true;
     }
 

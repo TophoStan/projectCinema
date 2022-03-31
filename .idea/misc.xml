@@ -28,11 +28,15 @@
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/single_crew_item.xml" value="0.1" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/single_film_layout.xml" value="0.2708333333333333" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/single_film_list_layout.xml" value="0.27239583333333334" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/detail_menu.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/list_menu.xml" value="0.27239583333333334" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/lists_menu.xml" value="0.30520833333333336" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/main_menu.xml" value="0.2708333333333333" />
+<<<<<<< HEAD
         <entry key="..\:/Users/stant/Desktop/Nieuwe map/projectCinema/app/src/main/res/layout/activity_detail.xml" value="0.335" />
         <entry key="..\:/Users/stant/Desktop/Nieuwe map/projectCinema/app/src/main/res/layout/activity_main.xml" value="0.125" />
+=======
+>>>>>>> d935c7aac56fb774e1cde55633c9571c561ec0de
       </map>
     </option>
   </component>
