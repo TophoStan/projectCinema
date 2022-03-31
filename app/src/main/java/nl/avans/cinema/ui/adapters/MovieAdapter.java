@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,8 +19,7 @@ import java.util.List;
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.api.task.FetchMovieDetails;
 import nl.avans.cinema.domain.Movie;
-import nl.avans.cinema.ui.ListsActivity;
-import nl.avans.cinema.ui.MainActivity;
+import nl.avans.cinema.ui.DetailActivity;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder>{
 
@@ -77,7 +75,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder>{
 
         @Override
         public void onClick(View view) {
-                        FetchMovieDetails fetchMovieDetails = new FetchMovieDetails(this);
+            FetchMovieDetails fetchMovieDetails = new FetchMovieDetails(this);
             fetchMovieDetails.execute(movies.get(getAdapterPosition()).getId());
         }
 
@@ -85,7 +83,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder>{
         public void onReceivingMovieDetails(Movie response) {
             //Toast.makeText(mContext, response.getGenres().get(0).getName(), Toast.LENGTH_SHORT).show();
             //TODO LISTACTIVY naar Detailactivity zetten
-            Intent detailIntent = new Intent(mContext, ListsActivity.class);
+            Intent detailIntent = new Intent(mContext, DetailActivity.class);
             detailIntent.putExtra("movie", response);
             mContext.startActivity(detailIntent);
         }

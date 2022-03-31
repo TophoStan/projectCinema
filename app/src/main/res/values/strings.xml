@@ -18,8 +18,12 @@
     <string name="delete_text_btn">Delete</string>
     <string name="shareMenu_btn">Share</string>
     <string name="share_menu">Share</string>
-    <string name="delete_menu">Delete</string>
-    <string name="lists_menu">Lists</string>
-    <string name="logout_menu">Logout</string>
-    <string name="home_menu">Home</string>
+    <string name="description_title">Date:</string>
+    <string name="description_price">Price:</string>
+    <string name="description_genre">Genre:</string>
+    <string name="crew_title_lable">Crew</string>
+    <string name="cast_title_label">Cast</string>
+    <string name="home">Home</string>
+    <string name="log_out">Log out</string>
+    <string name="lists">Lists</string>
 </resources>
