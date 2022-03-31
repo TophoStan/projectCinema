@@ -24,6 +24,7 @@ import nl.avans.cinema.dataacces.api.calls.MovieResponse;
 import nl.avans.cinema.dataacces.api.task.FetchMovieDetails;
 import nl.avans.cinema.dataacces.api.task.FetchMovies;
 
+import nl.avans.cinema.dataacces.api.task.OnFetchData;
 import nl.avans.cinema.databinding.ActivityMainBinding;
 import nl.avans.cinema.ui.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.ContentViewModel;
@@ -31,7 +32,7 @@ import nl.avans.cinema.dataacces.api.calls.MovieResponse;
 import nl.avans.cinema.dataacces.api.task.FetchMovies;
 import nl.avans.cinema.domain.Movie;
 
-public class MainActivity extends AppCompatActivity implements FetchMovies.OnFetchMovieIdListener {
+public class MainActivity extends AppCompatActivity implements OnFetchData {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ActivityMainBinding binding;
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+
                 return false;
             }
 
@@ -108,8 +110,8 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
     }
 
     @Override
-    public void onReceivingMovieId(MovieResponse response) {
-        mMovieResponse = response;
+    public void onRecievingMovie(MovieResponse movieResponse) {
+        mMovieResponse = movieResponse;
         for (Movie movie: mMovieResponse.getMovies()) {
             Log.d(LOG_TAG, movie.getTitle());
             contentViewModel.insertMovie(movie);
