@@ -2,26 +2,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/filter"
+        android:id="@+id/home_filter"
         android:icon="@drawable/filter_icon"
         android:title="@string/filter_menu"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/home_search"
         android:icon="@drawable/search_icon"
         android:title="@string/search_menu"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/sort"
+        android:id="@+id/home_sort"
         android:icon="@drawable/sort_icon"
         android:title="@string/sort_menu"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu"
-        android:icon="@drawable/menu_icon"
-        android:title="@string/menu_menu"
+        android:id="@+id/home_lists"
+        android:icon="@drawable/lists_icon"
+        android:title="@string/lists_menu"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/home_logout"
+        android:icon="@drawable/logout_icon"
+        android:title="@string/logout_menu"
         app:showAsAction="always" />
 </menu>

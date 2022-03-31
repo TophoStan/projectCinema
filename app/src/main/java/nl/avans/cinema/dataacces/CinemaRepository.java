@@ -2,71 +2,76 @@ package nl.avans.cinema.dataacces;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import nl.avans.cinema.domain.Content;
+import nl.avans.cinema.dataacces.dao.MovieDAO;
+import nl.avans.cinema.domain.Movie;
 
 public class CinemaRepository {
-    private ContentDao mContentDao;
-    private LiveData<List<Content>> mAllContentItems;
+    private MovieDAO mMovieDao;
+    private LiveData<List<Movie>> mAllMovies;
 
     public CinemaRepository(Application application) {
         // get database using the Room annotations
         CinemaDatabase db = CinemaDatabase.getDatabase(application);
 
         // get a Dao from de databases to be able to get words
-        mContentDao = db.contentDao();
+        mMovieDao = db.movieDAO();
 
         //get all words from the Dao
-        mAllContentItems = mContentDao.getAllContent();
+        mAllMovies = mMovieDao.getAllMovies();
     }
 
-    public LiveData<List<Content>> getAllContentItems() {
-        return mAllContentItems;
+    public LiveData<List<Movie>> getAllContentItems() {
+        return mAllMovies;
     }
 
-    public void deleteAll() {
-        new deleteAllContentItemsAsyncTask(mContentDao).execute();
+    public void insertMovie(Movie movie){
+        new insertAsyncTask(mMovieDao).execute(movie);
     }
 
-    private static class deleteAllContentItemsAsyncTask extends AsyncTask<Void, Void, Void> {
+    public Movie getMovie(int id){
+      try {
+          return new getMovieAsyncTask(mMovieDao).execute(id).get();
+      } catch (Exception e){
+          Log.e("error", e.getMessage());
+          return null;
+      }
+    }
 
-        private ContentDao mContentDaoAsyncTask;
+    private static class insertAsyncTask extends AsyncTask<Movie, Void, Void> {
 
-        public deleteAllContentItemsAsyncTask(ContentDao contentDao) {
-            mContentDaoAsyncTask = contentDao;
+        private MovieDAO mAsyncTaskDao;
+
+        insertAsyncTask(MovieDAO dao) {
+            mAsyncTaskDao = dao;
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            mContentDaoAsyncTask.deleteAll();
+        protected Void doInBackground(final Movie... params) {
+            mAsyncTaskDao.insertMovie(params[0]);
             return null;
         }
     }
 
-    public void insert(Content content) {
-        new insertContentAsyncTask(mContentDao).execute(content);
-    }
+    private static class getMovieAsyncTask extends AsyncTask<Integer, Void, Movie>{
 
-    private static class insertContentAsyncTask extends AsyncTask<Content, Void, Void> {
+        private MovieDAO mAsyncTaskDao;
 
-        private ContentDao myAsyncTaskDao;
-
-        public insertContentAsyncTask(ContentDao contentDao) {
-            myAsyncTaskDao = contentDao;
+        getMovieAsyncTask(MovieDAO dao) {
+            mAsyncTaskDao = dao;
         }
 
         @Override
-        protected Void doInBackground(Content... contents) {
-            myAsyncTaskDao.insertContent(contents[0]);
-            return null;
+        protected Movie doInBackground(Integer... integers) {
+
+            return mAsyncTaskDao.getMovieById(integers[0]);
         }
     }
-
     //TODO voeg meerdere CRUD functies toe
-
 
 }

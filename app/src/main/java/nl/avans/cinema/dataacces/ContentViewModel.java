@@ -8,29 +8,30 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import nl.avans.cinema.domain.Content;
+import nl.avans.cinema.dataacces.api.task.FetchMovies;
+import nl.avans.cinema.domain.Movie;
 
 public class ContentViewModel extends AndroidViewModel {
 
     private CinemaRepository mRepository;
-    private LiveData<List<Content>> mAllContentItems;
+    private LiveData<List<Movie>> mAllMovies;
 
     public ContentViewModel(@NonNull Application application) {
         super(application);
         mRepository = new CinemaRepository(application);
-        mAllContentItems = mRepository.getAllContentItems();
+        mAllMovies = mRepository.getAllContentItems();
     }
 
-    public LiveData<List<Content>> getAllContentItems(){
-        return mAllContentItems;
+    public LiveData<List<Movie>> getAllContentItems(){
+        return mAllMovies;
     }
 
-    public void insert(Content content){
-        mRepository.insert(content);
+    public Movie getMovie(int id){
+       return mRepository.getMovie(id);
     }
 
-    public void deleteAll(){
-        mRepository.deleteAll();
+    public void insertMovie(Movie movie){
+        mRepository.insertMovie(movie);
     }
 
     //TODO Crud functies uit repository hier aan toevoegen

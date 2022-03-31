@@ -6,8 +6,8 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="389dp"
-        android:layout_height="165dp"
+        android:layout_width="390dp"
+        android:layout_height="175dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,26 +20,34 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/film_img"
-                android:layout_width="131dp"
-                android:layout_height="121dp"
-                android:layout_marginTop="8dp"
-                android:contentDescription="@string/film_title"
+                android:id="@+id/imageView"
+                android:layout_width="135dp"
+                android:layout_height="99dp"
+                android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/logo" />
+                app:srcCompat="@drawable/logo" />
 
             <TextView
-                android:id="@+id/film_title"
+                android:id="@+id/filmTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/film_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/film_img" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
+            <ImageButton
+                android:id="@+id/deleteFilm_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filmTitle"
+                app:srcCompat="@drawable/delete_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
