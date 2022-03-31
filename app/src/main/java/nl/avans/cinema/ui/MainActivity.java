@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
             }
         });
 
-
         return true;
     }
 

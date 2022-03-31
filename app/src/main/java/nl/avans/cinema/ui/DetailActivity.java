@@ -2,24 +2,17 @@ package nl.avans.cinema.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.view.Menu;
 
 import com.bumptech.glide.Glide;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
-import nl.avans.cinema.databinding.ActivityListsBinding;
 import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 
 public class DetailActivity extends Activity {
 
-    private RecyclerView castRecyclerView;
-    private RecyclerView crewRecyclerView;
-    private RecyclerView alternateRecyclerView;
     private ActivityDetailBinding binding;
 
     @Override
@@ -46,6 +39,11 @@ public class DetailActivity extends Activity {
         /*Cast List*/
         binding.crewList.setText(movie.getProduction_companies().get(0).getName());
         /*Crew List*/
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return true;
     }
 }
