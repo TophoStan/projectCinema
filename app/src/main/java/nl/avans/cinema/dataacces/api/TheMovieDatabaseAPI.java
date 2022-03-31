@@ -16,7 +16,5 @@ public interface TheMovieDatabaseAPI {
     Call<Movie> getMoveById(@Path("movie_id") int movieId);
 
     @GET("search/movie?api_key=cfe22f85d9a2f5199dddc1eca8fa2e60")
-    Call<MovieResponse> searchMovie(
-            @Query("query") String query
-    );
+    Call<MovieResponse> searchMovie(@Query("query") String query);
 }

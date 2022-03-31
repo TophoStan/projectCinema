@@ -16,10 +16,10 @@ public class FetchMovies {
 
     private static String LOG_TAG = FetchMovies.class.getSimpleName();
 
-    private OnFetchMovieIdListener mListener;
+    private OnFetchData mListener;
     private MovieResponse movieResponse = new MovieResponse();
 
-    public FetchMovies(OnFetchMovieIdListener listener){
+    public FetchMovies(OnFetchData listener){
         mListener = listener;
     }
 
@@ -35,7 +35,7 @@ public class FetchMovies {
                 }
                 movieResponse = response.body();
                 Log.d(LOG_TAG, movieResponse.getMovies()[0].getTitle());
-                mListener.onReceivingMovieId(movieResponse);
+                mListener.onRecievingMovie(movieResponse);
             }
 
             @Override

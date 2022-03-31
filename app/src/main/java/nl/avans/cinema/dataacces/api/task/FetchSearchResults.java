@@ -12,10 +12,10 @@ public class FetchSearchResults {
 
     private static String LOG_TAG = FetchMovies.class.getSimpleName();
 
-    private FetchMovies.OnFetchMovieIdListener mListener;
+    private OnFetchData mListener;
     private MovieResponse movieResponse = new MovieResponse();
 
-    public FetchSearchResults(FetchMovies.OnFetchMovieIdListener listener){
+    public FetchSearchResults(OnFetchData listener){
         mListener = listener;
     }
     public void execute(String query){
@@ -25,17 +25,14 @@ public class FetchSearchResults {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if(!response.isSuccessful()){
-                    Log.d(LOG_TAG, response.message() + "!!");
                     return;
                 }
-                movieResponse = response.body();
-                Log.d(LOG_TAG, movieResponse.getMovies()[0].getTitle());
-                mListener.onReceivingMovieId(movieResponse);
+                mListener.onRecievingMovie(response.body());
             }
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.e(LOG_TAG, t.getMessage() + "!!");
+
             }
         });
     }
