@@ -35,7 +35,7 @@ public class FetchMovies {
                 }
                 movieResponse = response.body();
                 Log.d(LOG_TAG, movieResponse.getMovies()[0].getTitle());
-                mListener.onRecievingMovie(movieResponse);
+                mListener.onRecievingMovie(movieResponse, "fetchPopular");
             }
 
             @Override

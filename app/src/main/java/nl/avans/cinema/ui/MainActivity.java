@@ -13,9 +13,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.List;
 
 import nl.avans.cinema.R;
@@ -24,6 +27,7 @@ import nl.avans.cinema.dataacces.api.calls.MovieResponse;
 import nl.avans.cinema.dataacces.api.task.FetchMovieDetails;
 import nl.avans.cinema.dataacces.api.task.FetchMovies;
 
+import nl.avans.cinema.dataacces.api.task.FetchSearchResults;
 import nl.avans.cinema.dataacces.api.task.OnFetchData;
 import nl.avans.cinema.databinding.ActivityMainBinding;
 import nl.avans.cinema.ui.adapters.MovieAdapter;
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
     private ActivityMainBinding binding;
     private ContentViewModel contentViewModel;
     private MovieResponse mMovieResponse;
+    private MovieAdapter adapter;
 
 
     @Override
@@ -46,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        MovieAdapter adapter = new MovieAdapter(this);
+        adapter = new MovieAdapter(this);
         binding.filmsRecyclerView.setAdapter(adapter);
 
         binding.filmsRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
@@ -61,6 +66,13 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
             @Override
             public void onChanged(List<Movie> movies) {
                 adapter.setMovies(movies);
+            }
+        });
+
+        binding.fabHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
             }
         });
     }
@@ -78,7 +90,9 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 Toast.makeText(MainActivity.this, "Input: " + s, Toast.LENGTH_SHORT).show();
-
+                FetchSearchResults fetchSearchResults = new FetchSearchResults(MainActivity.this);
+                fetchSearchResults.execute(s);
+                binding.fabHome.setVisibility(View.VISIBLE);
                 return false;
             }
 
@@ -86,8 +100,9 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
             public boolean onQueryTextChange(String s) {
                 return false;
             }
-        });
 
+
+        });
 
         return true;
     }
@@ -109,11 +124,16 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
     }
 
     @Override
-    public void onRecievingMovie(MovieResponse movieResponse) {
+    public void onRecievingMovie(MovieResponse movieResponse, String action) {
         mMovieResponse = movieResponse;
-        for (Movie movie: mMovieResponse.getMovies()) {
-            Log.d(LOG_TAG, movie.getTitle());
-            contentViewModel.insertMovie(movie);
+        if(action.equals("fetchPopular")){
+            for (Movie movie : mMovieResponse.getMovies()) {
+                Log.d(LOG_TAG, movie.getTitle());
+                contentViewModel.insertMovie(movie);
+            }
+        } else if(action.equals("fetchSearch")){
+            adapter.setMovies(Arrays.asList(movieResponse.getMovies()));
         }
+
     }
 }

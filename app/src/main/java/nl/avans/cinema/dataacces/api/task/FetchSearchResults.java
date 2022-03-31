@@ -27,7 +27,7 @@ public class FetchSearchResults {
                 if(!response.isSuccessful()){
                     return;
                 }
-                mListener.onRecievingMovie(response.body());
+                mListener.onRecievingMovie(response.body(), "fetchSearch");
             }
 
             @Override
