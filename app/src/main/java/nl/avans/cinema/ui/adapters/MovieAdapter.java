@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import nl.avans.cinema.dataacces.api.task.FetchMovieDetails;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.ui.DetailActivity;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder>{
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder> {
 
     private List<Movie> movies = new ArrayList<>();
     private Context mContext;
@@ -62,7 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder>{
 
 
 
-    class FilmHolder extends RecyclerView.ViewHolder implements View.OnClickListener, FetchMovieDetails.OnFetchMovieDetailsListener{
+    class FilmHolder extends RecyclerView.ViewHolder implements View.OnClickListener, FetchMovieDetails.OnFetchMovieDetailsListener, Serializable{
         private TextView movieTitle;
         private ImageView movieIMG;
 

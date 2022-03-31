@@ -26,11 +26,20 @@ public class Movie implements Serializable {
     private int imageId;
     private String poster_path;
     private int amountOfSeasons;
+    private String overview;
     @ColumnInfo(name = "genreList")
     private List<Genre> genres;
     private List<Company> companies;
 
     private boolean adult;
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
 
     public int getId() {
         return id;

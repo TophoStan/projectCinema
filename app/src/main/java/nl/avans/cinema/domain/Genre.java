@@ -1,6 +1,8 @@
 package nl.avans.cinema.domain;
 
-public class Genre {
+import java.io.Serializable;
+
+public class Genre implements Serializable {
     private int genreId;
     private String name;
 

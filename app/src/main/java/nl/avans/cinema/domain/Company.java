@@ -2,7 +2,9 @@ package nl.avans.cinema.domain;
 
 import androidx.room.Ignore;
 
-public class Company {
+import java.io.Serializable;
+
+public class Company implements Serializable {
     private int companyId;
     private String name;
     private String logo_path;
