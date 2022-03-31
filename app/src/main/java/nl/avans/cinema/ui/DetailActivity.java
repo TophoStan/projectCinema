@@ -28,20 +28,6 @@ public class DetailActivity extends Activity {
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        /*Cast RecyclerView*/
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        binding.castRV.setLayoutManager(layoutManager);
-
-        /*Crew RecyclerView*/
-        GridLayoutManager crewLayoutManager = new GridLayoutManager(this, 2);
-        binding.crewRV.setLayoutManager(crewLayoutManager);
-
-        /*Alternative Titles RecyclerView*/
-
-        //alternateRecyclerView = findViewById(R.id.)
-        //GridLayoutManager threeColumnLayoutManager = new GridLayoutManager(this, 3);
-        //alternateRecyclerView.setLayoutManager(threeColumnLayoutManager);
-
         Movie movie = (Movie) getIntent().getSerializableExtra("movie");
 
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
@@ -56,5 +42,10 @@ public class DetailActivity extends Activity {
 
         binding.detailGenre.setText(genresString);
         binding.detailDescription.setText(movie.getOverview());
+
+        /*Cast List*/
+        binding.crewList.setText(movie.getProduction_companies().get(0).getName());
+        /*Crew List*/
+
     }
 }
