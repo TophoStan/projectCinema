@@ -28,7 +28,7 @@ public class GithubTypeConverter {
     @TypeConverter
     public static String fromList(List<Genre> list) {
         Gson gson = new Gson();
-        Log.d("test", gson.toJson(list) + "!");
+
         return gson.toJson(list);
     }
     @TypeConverter
@@ -42,14 +42,14 @@ public class GithubTypeConverter {
     @TypeConverter
     public static String listToString(List<Company> list) {
         Gson gson = new Gson();
-        Log.d("test", gson.toJson(list) + "!");
+
         return gson.toJson(list);
     }
 
     @TypeConverter
     public static String intListToString(List<Integer> genre_ids){
         Gson gson = new Gson();
-        Log.d("test", gson.toJson(genre_ids) + "!");
+
         return gson.toJson(genre_ids);
     }
     @TypeConverter

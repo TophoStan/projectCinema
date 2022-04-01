@@ -1,6 +1,7 @@
 package nl.avans.cinema.dataacces.api;
 
 import nl.avans.cinema.dataacces.api.calls.MovieResponse;
+import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.domain.Movie;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,4 +18,7 @@ public interface TheMovieDatabaseAPI {
 
     @GET("3/search/movie?api_key=cfe22f85d9a2f5199dddc1eca8fa2e60")
     Call<MovieResponse> searchMovie(@Query("query") String query);
+
+    @GET("3/movie/{movie_id}/videos?api_key=cfe22f85d9a2f5199dddc1eca8fa2e60")
+    Call<VideoResults> getVideosForMovie(@Path("movie_id") int movieId);
 }
