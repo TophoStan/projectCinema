@@ -17,5 +17,5 @@
         android:id="@+id/list_delete"
         tools:icon="@drawable/delete_icon"
         app:showAsAction="always"
-        android:title="@string/delete_menu" />
+        android:title="@string/delete_text_btn" />
 </menu>

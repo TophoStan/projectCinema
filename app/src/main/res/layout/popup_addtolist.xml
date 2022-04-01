@@ -2,11 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
+    android:layout_width="400dp"
+    app:cardCornerRadius="10dp"
     >
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:background="#A1A1A1"
@@ -19,37 +20,30 @@
         android:text="@string/yourLists_title"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="10dp"/>
 
     <ListView
         android:id="@+id/yourList_list"
         android:layout_width="317dp"
         android:layout_height="228dp"
         android:layout_marginTop="16dp"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourList_txt"/>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/yourList_txt" />
 
-    <TextView
-        android:id="@+id/otherList_txt"
+
+
+    <Button
+        android:id="@+id/popup_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:text="@string/otherLists_title"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourList_list"
-        android:textSize="20sp"/>
-
-    <ListView
-        android:id="@+id/otherList_list"
-        android:layout_width="317dp"
-        android:layout_height="228dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/otherList_txt" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_below="@id/yourList_list"
+        android:backgroundTint="#808080"
+        android:layout_marginStart="270dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/popup_cancel"
+        android:textColor="@color/black"/>
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
