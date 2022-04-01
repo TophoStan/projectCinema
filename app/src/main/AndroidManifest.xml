@@ -24,9 +24,10 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="false"
-            android:label="Cinema"/>
+            android:label="Cinema" />
 
-        <activity android:name=".ui.DetailActivity"
+        <activity
+            android:name=".ui.DetailActivity"
             android:exported="false"
             android:label="Movie"
             android:parentActivityName=".ui.MainActivity" />
@@ -42,9 +43,9 @@
             android:label="List"
             android:parentActivityName=".ui.ListsActivity" />
 
-        <activity android:name=".ui.AddToListPopUp"
-            android:exported="false"
-            android:label="Add to list" />
+        <activity
+            android:name=".ui.AddToListPopUp"
+            android:theme="@style/PopupWindow" />
 
     </application>
 

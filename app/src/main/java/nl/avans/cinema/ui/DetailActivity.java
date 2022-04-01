@@ -36,6 +36,7 @@ public class DetailActivity extends AppCompatActivity {
     private ContentViewModel mViewModel;
     private Movie mMovie;
     private String trailerLink;
+    private String link = "https://www.themoviedb.org/video/play?key=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,27 +44,9 @@ public class DetailActivity extends AppCompatActivity {
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        /*binding.addToList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.addCardview.setVisibility(View.VISIBLE);
-            }
-        });
-
-        binding.popupCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.addCardview.setVisibility(View.INVISIBLE);
-
-            }
-        });*/
-
-
         mMovie = (Movie) getIntent().getSerializableExtra("movie");
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         setData(mMovie);
-
     }
 
     public void setData(Movie movie) {
@@ -92,10 +75,6 @@ public class DetailActivity extends AppCompatActivity {
 
         binding.detailDescription.setText(mMovie.getOverview());
 
-
-        // trailer
-        loadVideo();
-
         // description / overview
         binding.detailDescription.setText(movie.getOverview());
 
@@ -109,7 +88,14 @@ public class DetailActivity extends AppCompatActivity {
         binding.companyRecyclerview.setAdapter(companyAdapter);
         binding.companyRecyclerview.setLayoutManager(new LinearLayoutManager(this));
         companyAdapter.setCompanies(mMovie.getProduction_companies());
-        loadVideo();
+
+        // add to list
+        binding.addToList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DetailActivity.this, AddToListPopUp.class));
+            }
+        });
 
     }
 
@@ -122,21 +108,27 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.detail_trailer) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
+            loadVideo();
+
+            if (trailerLink != null) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void loadVideo() {
-        String link = "https://www.themoviedb.org/video/play?key=";
         mViewModel.getVideoFromMovie(mMovie.getId()).observe(this, videoResults -> {
-            for (Video video : videoResults.getResults()) {
-                if (video.isOfficial()) {
-                    trailerLink = link + video.getKey();
+
+            if (videoResults.getResults().length == 0) {
+                Toast.makeText(this, "This movie has no trailer", Toast.LENGTH_SHORT).show();
+            } else {
+                for (Video video : videoResults.getResults()) {
+                    if (video.isOfficial()) {
+                        trailerLink = link + video.getKey();
+                    }
                 }
             }
         });
     }
-
-
 }

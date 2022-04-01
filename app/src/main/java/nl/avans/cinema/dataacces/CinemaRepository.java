@@ -96,7 +96,7 @@ public class CinemaRepository {
             @Override
             public void onResponse(Call<VideoResults> call, Response<VideoResults> response) {
                 mListOfVideos.setValue(response.body());
-                Log.d("VideoName",response.body().getResults()[0].getName() + "!");
+                // Log.d("VideoName",response.body().getResults()[0].getName() + "!");
             }
 
             @Override
