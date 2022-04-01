@@ -1,9 +1,8 @@
 package nl.avans.cinema.ui;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+<<<<<<< HEAD
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 
+=======
+import android.view.Menu;
+import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+>>>>>>> e61a22ef5e43af783c99b6980eaa328b46b9b425
 
 import com.bumptech.glide.Glide;
 
@@ -21,6 +26,7 @@ import nl.avans.cinema.R;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
 import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.ui.adapters.CompanyAdapter;
 
 public class DetailActivity extends Activity {
 
@@ -32,6 +38,8 @@ public class DetailActivity extends Activity {
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+        setData(movie);
 
         binding.addToList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +52,9 @@ public class DetailActivity extends Activity {
             public void onClick(View view) {
                 binding.addCardview.setVisibility(View.INVISIBLE);
             }});
+    }
 
+<<<<<<< HEAD
 
 
         /*Alternative Titles RecyclerView*/
@@ -56,22 +66,47 @@ public class DetailActivity extends Activity {
 
         Movie movie = (Movie) getIntent().getSerializableExtra("movie");
 
+=======
+    public void setData(Movie movie) {
+        // image
+>>>>>>> e61a22ef5e43af783c99b6980eaa328b46b9b425
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
         Glide.with(this).load(imgURL).into(binding.detailImage);
+
+        // title
         binding.detailTitle.setText(movie.getTitle());
-        // binding.detailDate.setText(movie.getReleaseDate().toString());
+
+        // release date
+        binding.detailDate.setText(movie.getRelease_date());
+
+        // genres
         StringBuilder genresString = new StringBuilder();
-        for (Genre g: movie.getGenres()) {
+        for (Genre g : movie.getGenres()) {
             genresString.append(g.getName());
             genresString.append(", ");
         }
-
+        genresString.deleteCharAt(genresString.length() - 2);
         binding.detailGenre.setText(genresString);
+
+        // trailer
+        if (!movie.isHasMovie()) {
+            binding.detailTrailer.setVisibility(View.GONE);
+        }
+
+        // description / overview
         binding.detailDescription.setText(movie.getOverview());
 
         /*Cast List*/
-        binding.crewList.setText(movie.getProduction_companies().get(0).getName());
+
+
         /*Crew List*/
+
+        /*Company List*/
+        CompanyAdapter companyAdapter = new CompanyAdapter(this);
+        binding.companyRecyclerview.setAdapter(companyAdapter);
+        binding.companyRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        companyAdapter.setCompanies(movie.getProduction_companies());
+
     }
 
     @Override
@@ -79,6 +114,4 @@ public class DetailActivity extends Activity {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
         return true;
     }
-
-
 }

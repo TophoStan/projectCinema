@@ -43,6 +43,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder> 
     public void onBindViewHolder(@NonNull MovieAdapter.FilmHolder holder, int position) {
         Movie movie = movies.get(position);
         holder.movieTitle.setText(movie.getTitle());
+        holder.movieRating.setText("Rating: " + movie.getVote_average());
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
         Glide.with(mContext).load(imgURL).into(holder.movieIMG);
     }
@@ -66,11 +67,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder> 
     class FilmHolder extends RecyclerView.ViewHolder implements View.OnClickListener, FetchMovieDetails.OnFetchMovieDetailsListener, Serializable{
         private TextView movieTitle;
         private ImageView movieIMG;
+        private TextView movieRating;
 
         public FilmHolder (@NonNull View itemView) {
             super(itemView);
             this.movieTitle = itemView.findViewById(R.id.film_title);
             this.movieIMG = itemView.findViewById(R.id.film_img);
+            this.movieRating = itemView.findViewById(R.id.rating);
             itemView.setOnClickListener(this);
         }
 
