@@ -92,18 +92,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
+
             <TextView
                 android:id="@+id/crew_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="324dp"
                 android:text="@string/crew_title_lable"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.077"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/castList"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/cast_title"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
                 tools:ignore="MissingConstraints" />
 
+            <TextView
+                android:id="@+id/companies_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="324dp"
+                android:text="Companies"
+                android:textSize="26sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/crew_title"
+                app:layout_constraintTop_toBottomOf="@+id/crewList"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/date_title"
@@ -160,21 +174,37 @@
                 app:layout_constraintTop_toBottomOf="@+id/date_title" />
 
             <TextView
-                android:id="@+id/castList"
+                android:id="@+id/crewList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/cast_title"
-                app:layout_constraintTop_toBottomOf="@+id/cast_title" />
+                app:layout_constraintStart_toStartOf="@+id/crew_title"
+                app:layout_constraintTop_toBottomOf="@+id/crew_title" />
 
             <TextView
-                android:id="@+id/crewList"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+<<<<<<< HEAD
                 app:layout_constraintStart_toStartOf="@+id/crew_title"
                 app:layout_constraintTop_toBottomOf="@+id/crew_title" />
+=======
+                app:layout_constraintStart_toStartOf="@+id/cast_title"
+                app:layout_constraintTop_toBottomOf="@+id/cast_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/company_recyclerview"
+                android:layout_width="105dp"
+                android:layout_height="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/companies_label"
+                app:layout_constraintTop_toBottomOf="@+id/companies_label" />
+
+
+>>>>>>> 007fc4190c8a966fefc9d280b5c6d1dea1fbdbe0
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
