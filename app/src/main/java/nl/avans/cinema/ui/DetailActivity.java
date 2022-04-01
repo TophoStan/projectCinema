@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
+import nl.avans.cinema.domain.Company;
 import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.ui.adapters.CompanyAdapter;
 
 public class DetailActivity extends Activity {
 
@@ -37,8 +42,16 @@ public class DetailActivity extends Activity {
         binding.detailDescription.setText(movie.getOverview());
 
         /*Cast List*/
-        binding.crewList.setText(movie.getProduction_companies().get(0).getName());
+
+
         /*Crew List*/
+
+        /*Company List*/
+        CompanyAdapter companyAdapter = new CompanyAdapter(this);
+        binding.companyRecyclerview.setAdapter(companyAdapter);
+        binding.companyRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        companyAdapter.setCompanies(movie.getProduction_companies());
+
     }
 
     @Override
