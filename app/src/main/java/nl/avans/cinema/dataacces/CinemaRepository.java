@@ -149,7 +149,15 @@ public class CinemaRepository {
                 //TODO errors
             }
         });
+
     }
+
+    public MutableLiveData<MovieResults> getSearchResults(String query){
+        Call<MovieResults> call = api.searchMovie(query);
+        apiCallMovieResults(call);
+        return mMovieFilteredResults;
+    }
+
 
 }
 

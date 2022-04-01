@@ -29,4 +29,6 @@ public interface TheMovieDatabaseAPI {
     @GET("3/movie/{filter}?api_key=cfe22f85d9a2f5199dddc1eca8fa2e60")
     Call<MovieResults> getMoviesByFilter(@Path("filter") String filter,
                                          @Query("page") int page);
+
+
 }

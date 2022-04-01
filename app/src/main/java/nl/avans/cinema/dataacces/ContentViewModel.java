@@ -52,5 +52,9 @@ public class ContentViewModel extends AndroidViewModel {
     public MutableLiveData<MovieResults> getMovieResultsWithFilter(String filter, int page){
         return mRepository.getFilteredMovieList(filter, page);
     }
+
+    public MutableLiveData<MovieResults> getSearchResults(String query){
+        return mRepository.getSearchResults(query);
+    }
     //TODO Crud functies uit repository hier aan toevoegen
 }

@@ -30,14 +30,12 @@ import nl.avans.cinema.ui.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.domain.Movie;
 
-public class MainActivity extends AppCompatActivity implements OnFetchData {
+public class MainActivity extends AppCompatActivity{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ActivityMainBinding binding;
     private ContentViewModel contentViewModel;
-    private MovieResults mMovieResults;
     private MovieAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +47,6 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
         binding.filmsRecyclerView.setAdapter(adapter);
 
         binding.filmsRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
-
-
-        FetchMovies fetchMovies = new FetchMovies(this);
-        fetchMovies.execute();
 
         contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
 
@@ -67,9 +61,12 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
+
             }
         });
         binding.fabHome.setVisibility(View.INVISIBLE);
+
+        loadFilteredMovie("popular", 1);
     }
 
     @Override
@@ -84,15 +81,18 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Toast.makeText(MainActivity.this, "Input: " + s, Toast.LENGTH_SHORT).show();
-                FetchSearchResults fetchSearchResults = new FetchSearchResults(MainActivity.this);
-                fetchSearchResults.execute(s);
+                //Toast.makeText(MainActivity.this, "Input: " + s, Toast.LENGTH_SHORT).show();
+                //TODO zet adapter list
+                contentViewModel.getSearchResults(s).observe(MainActivity.this, searchResults -> {
+                    adapter.setMovies(Arrays.asList(searchResults.getMovies()));
+                });
                 binding.fabHome.setVisibility(View.VISIBLE);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+
                 return false;
             }
 
@@ -104,12 +104,12 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.home_filter) {
             Toast.makeText(this, "Filter btn", Toast.LENGTH_SHORT).show();
-
+            //loadFilteredMovie("top_rated", 1);
+            //binding.fabHome.setVisibility(View.VISIBLE);
         } else if (item.getItemId() == R.id.home_search) {
             Toast.makeText(this, "Search btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.home_sort) {
             Toast.makeText(this, "Sort btn", Toast.LENGTH_SHORT).show();
-
         } else if (item.getItemId() == R.id.home_lists) {
             startActivity(new Intent(MainActivity.this, ListsActivity.class));
         } else if (item.getItemId() == R.id.home_logout) {
@@ -118,21 +118,7 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onRecievingMovie(MovieResults movieResults, String action) {
-        mMovieResults = movieResults;
-        if(action.equals("fetchPopular")){
-            for (Movie movie : mMovieResults.getMovies()) {
-
-                contentViewModel.insertMovie(movie);
-            }
-        } else if(action.equals("fetchSearch")){
-            adapter.setMovies(Arrays.asList(movieResults.getMovies()));
-        }
-
-    }
-
-    public void loadFilteredMovie(String filter, int page){
+    public void loadFilteredMovie(String filter, int page) {
 
         contentViewModel.getMovieResultsWithFilter(filter, page).observe(this, movieResults -> {
             adapter.setMovies(Arrays.asList(movieResults.getMovies()));
