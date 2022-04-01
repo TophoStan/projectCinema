@@ -29,5 +29,7 @@
     <string name="log_out">Log out</string>
     <string name="lists">Lists</string>
     <string name="trailer">Trailer</string>
+    <string name="release_date">Release date:</string>
     <string name="popup_cancel">Cancel</string>
+    <string name="genres">Genres: </string>
 </resources>
