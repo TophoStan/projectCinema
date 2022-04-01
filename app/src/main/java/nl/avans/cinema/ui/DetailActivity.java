@@ -25,10 +25,13 @@ import com.bumptech.glide.Glide;
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
+import nl.avans.cinema.domain.Cast;
+import nl.avans.cinema.domain.Crew;
 import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.Video;
 import nl.avans.cinema.ui.adapters.CompanyAdapter;
+import retrofit2.http.HEAD;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -47,9 +50,18 @@ public class DetailActivity extends AppCompatActivity {
         mMovie = (Movie) getIntent().getSerializableExtra("movie");
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         setData(mMovie);
+
+        mMovie = (Movie) getIntent().getSerializableExtra("movie");
+        mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
+        setData(mMovie);
+        loadCrewAndCast();
+
     }
 
     public void setData(Movie movie) {
+        // load trailer
+        loadVideo();
+
         // image
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
         Glide.with(this).load(imgURL).into(binding.detailImage);
@@ -108,10 +120,10 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.detail_trailer) {
-            loadVideo();
-
             if (trailerLink != null) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
+            } else {
+                Toast.makeText(this, "This movie has no trailer", Toast.LENGTH_SHORT).show();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -120,14 +132,24 @@ public class DetailActivity extends AppCompatActivity {
     public void loadVideo() {
         mViewModel.getVideoFromMovie(mMovie.getId()).observe(this, videoResults -> {
 
-            if (videoResults.getResults().length == 0) {
-                Toast.makeText(this, "This movie has no trailer", Toast.LENGTH_SHORT).show();
-            } else {
+            if (videoResults.getResults().length != 0) {
                 for (Video video : videoResults.getResults()) {
                     if (video.isOfficial()) {
                         trailerLink = link + video.getKey();
                     }
                 }
+            }
+        });
+    }
+
+    public void loadCrewAndCast(){
+        mViewModel.getCrewAndCastFromMovie(mMovie.getId()).observe(this, creditResults -> {
+            //Hier krijg je crew and cast binnen
+            for (Crew crew: creditResults.getCrew()) {
+
+            }
+            for (Cast cast: creditResults.getCast()) {
+
             }
         });
     }

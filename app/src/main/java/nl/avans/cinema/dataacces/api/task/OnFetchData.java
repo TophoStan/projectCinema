@@ -1,7 +1,7 @@
 package nl.avans.cinema.dataacces.api.task;
 
-import nl.avans.cinema.dataacces.api.calls.MovieResponse;
+import nl.avans.cinema.dataacces.api.calls.MovieResults;
 
 public interface OnFetchData {
-    void onRecievingMovie(MovieResponse movieResponse, String action);
+    void onRecievingMovie(MovieResults movieResults, String action);
 }
