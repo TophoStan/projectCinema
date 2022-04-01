@@ -34,5 +34,9 @@ public class ContentViewModel extends AndroidViewModel {
         mRepository.insertMovie(movie);
     }
 
+    public LiveData<List<Movie>> getSearchMovies(String query){
+        return null;
+    }
+
     //TODO Crud functies uit repository hier aan toevoegen
 }

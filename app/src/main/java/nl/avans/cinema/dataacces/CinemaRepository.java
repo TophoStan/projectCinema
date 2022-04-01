@@ -8,8 +8,13 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import nl.avans.cinema.dataacces.api.ApiClient;
+import nl.avans.cinema.dataacces.api.calls.MovieResponse;
 import nl.avans.cinema.dataacces.dao.MovieDAO;
 import nl.avans.cinema.domain.Movie;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CinemaRepository {
     private MovieDAO mMovieDao;
@@ -72,6 +77,8 @@ public class CinemaRepository {
             return mAsyncTaskDao.getMovieById(integers[0]);
         }
     }
+
+
+    }
     //TODO voeg meerdere CRUD functies toe
 
-}

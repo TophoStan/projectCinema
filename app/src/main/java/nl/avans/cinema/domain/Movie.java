@@ -21,25 +21,19 @@ public class Movie implements Serializable {
     private String title;
     private String alternativeTitle;
     private int rating;
-    private Date releaseDate;
+    private String release_date;
     private int duration;
-    private int imageId;
     private String poster_path;
-    private int amountOfSeasons;
     private String overview;
     @ColumnInfo(name = "genreList")
     private List<Genre> genres;
-    private List<Company> companies;
-
+    private List<Company>
+            production_companies;
+    private double vote_average;
+    private double vote_count;
+    private double popularity;
+    private List<Integer> genre_ids;
     private boolean adult;
-
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
-    public String getOverview() {
-        return overview;
-    }
 
     public int getId() {
         return id;
@@ -73,12 +67,12 @@ public class Movie implements Serializable {
         this.rating = rating;
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
+    public String getRelease_date() {
+        return release_date;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
     }
 
     public int getDuration() {
@@ -89,14 +83,6 @@ public class Movie implements Serializable {
         this.duration = duration;
     }
 
-    public int getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
-    }
-
     public String getPoster_path() {
         return poster_path;
     }
@@ -105,20 +91,12 @@ public class Movie implements Serializable {
         this.poster_path = poster_path;
     }
 
-    public int getAmountOfSeasons() {
-        return amountOfSeasons;
+    public String getOverview() {
+        return overview;
     }
 
-    public void setAmountOfSeasons(int amountOfSeasons) {
-        this.amountOfSeasons = amountOfSeasons;
-    }
-
-    public boolean isAdult() {
-        return adult;
-    }
-
-    public void setAdult(boolean adult) {
-        this.adult = adult;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public List<Genre> getGenres() {
@@ -129,11 +107,51 @@ public class Movie implements Serializable {
         this.genres = genres;
     }
 
-    public List<Company> getCompanies() {
-        return companies;
+    public List<Company> getProduction_companies() {
+        return production_companies;
     }
 
-    public void setCompanies(List<Company> companies) {
-        this.companies = companies;
+    public void setProduction_companies(List<Company> production_companies) {
+        this.production_companies = production_companies;
+    }
+
+    public double getVote_average() {
+        return vote_average;
+    }
+
+    public void setVote_average(double vote_average) {
+        this.vote_average = vote_average;
+    }
+
+    public double getVote_count() {
+        return vote_count;
+    }
+
+    public void setVote_count(double vote_count) {
+        this.vote_count = vote_count;
+    }
+
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
+    public List<Integer> getGenre_ids() {
+        return genre_ids;
+    }
+
+    public void setGenre_ids(List<Integer> genre_ids) {
+        this.genre_ids = genre_ids;
+    }
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
     }
 }

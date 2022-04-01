@@ -6,14 +6,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.List;
 
 import nl.avans.cinema.R;
@@ -22,6 +27,8 @@ import nl.avans.cinema.dataacces.api.calls.MovieResponse;
 import nl.avans.cinema.dataacces.api.task.FetchMovieDetails;
 import nl.avans.cinema.dataacces.api.task.FetchMovies;
 
+import nl.avans.cinema.dataacces.api.task.FetchSearchResults;
+import nl.avans.cinema.dataacces.api.task.OnFetchData;
 import nl.avans.cinema.databinding.ActivityMainBinding;
 import nl.avans.cinema.ui.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.ContentViewModel;
@@ -29,12 +36,13 @@ import nl.avans.cinema.dataacces.api.calls.MovieResponse;
 import nl.avans.cinema.dataacces.api.task.FetchMovies;
 import nl.avans.cinema.domain.Movie;
 
-public class MainActivity extends AppCompatActivity implements FetchMovies.OnFetchMovieIdListener {
+public class MainActivity extends AppCompatActivity implements OnFetchData {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ActivityMainBinding binding;
     private ContentViewModel contentViewModel;
     private MovieResponse mMovieResponse;
+    private MovieAdapter adapter;
 
 
     @Override
@@ -43,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        MovieAdapter adapter = new MovieAdapter(this);
+        adapter = new MovieAdapter(this);
         binding.filmsRecyclerView.setAdapter(adapter);
 
         binding.filmsRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
@@ -60,12 +68,40 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
                 adapter.setMovies(movies);
             }
         });
+
+        binding.fabHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(this.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.home_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Toast.makeText(MainActivity.this, "Input: " + s, Toast.LENGTH_SHORT).show();
+                FetchSearchResults fetchSearchResults = new FetchSearchResults(MainActivity.this);
+                fetchSearchResults.execute(s);
+                binding.fabHome.setVisibility(View.VISIBLE);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+
+        });
         return true;
     }
 
@@ -86,11 +122,16 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.OnFet
     }
 
     @Override
-    public void onReceivingMovieId(MovieResponse response) {
-        mMovieResponse = response;
-        for (Movie movie: mMovieResponse.getMovies()) {
-            Log.d(LOG_TAG, movie.getTitle());
-            contentViewModel.insertMovie(movie);
+    public void onRecievingMovie(MovieResponse movieResponse, String action) {
+        mMovieResponse = movieResponse;
+        if(action.equals("fetchPopular")){
+            for (Movie movie : mMovieResponse.getMovies()) {
+                Log.d(LOG_TAG, movie.getTitle());
+                contentViewModel.insertMovie(movie);
+            }
+        } else if(action.equals("fetchSearch")){
+            adapter.setMovies(Arrays.asList(movieResponse.getMovies()));
         }
+
     }
 }
