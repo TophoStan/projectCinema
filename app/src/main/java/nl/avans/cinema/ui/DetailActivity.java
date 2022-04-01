@@ -38,6 +38,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Locale;
+
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
@@ -52,6 +54,7 @@ public class DetailActivity extends AppCompatActivity {
     private ContentViewModel mViewModel;
     private Movie mMovie;
     private String trailerLink;
+    private String moviePageLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +129,9 @@ public class DetailActivity extends AppCompatActivity {
         // trailer
         loadVideo();
 
+        // get link to homepage
+        loadPage();
+
         // description / overview
         binding.detailDescription.setText(movie.getOverview());
 
@@ -153,6 +159,12 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.detail_trailer) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
+        } else if (item.getItemId() == R.id.detail_share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, "Come look at this cool movie I found\n" +
+                    moviePageLink);
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, "Send To"));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -166,6 +178,14 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void loadPage() {
+        String link = "https://www.themoviedb.org/movie/";
+        String movieTitle = mMovie.getTitle();
+        movieTitle = movieTitle.toLowerCase();
+        movieTitle = movieTitle.replace(" ", "-");
+        moviePageLink = link + mMovie.getId() + "-" + movieTitle;
     }
 
 

@@ -40,7 +40,6 @@ public class SingleListActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.list_filter) {
             Toast.makeText(this, "Filter btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.list_share) {
-            //Toast.makeText(this, "Share btn", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, "Come look at my movie list,\n" +
                     "the code is:");
