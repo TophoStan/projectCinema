@@ -23,13 +23,13 @@
         android:layout_marginStart="45dp"
         android:layout_marginTop="10dp"/>
 
-    <ListView
-        android:id="@+id/yourList_list"
-        android:layout_width="317dp"
-        android:layout_height="228dp"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/yourList_txt" />
+        <ListView
+            android:id="@+id/yourList_list"
+            android:layout_width="317dp"
+            android:layout_height="228dp"
+            android:layout_below="@id/yourList_txt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp" />
 
 
 

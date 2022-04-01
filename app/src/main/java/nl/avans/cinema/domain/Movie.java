@@ -36,6 +36,14 @@ public class Movie implements Serializable {
     private boolean adult;
     private boolean hasMovie;
 
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
     public boolean isHasMovie() {
         return hasMovie;
     }

@@ -1,13 +1,21 @@
 package nl.avans.cinema.ui;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.view.Menu;
+import android.webkit.WebSettings;
+import android.widget.MediaController;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
     private ActivityDetailBinding binding;
     private ContentViewModel mViewModel;
     private Movie mMovie;
+    private String trailerLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +46,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        binding.addToList.setOnClickListener(new View.OnClickListener() {
+        /*binding.addToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 binding.addCardview.setVisibility(View.VISIBLE);
@@ -50,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
                 binding.addCardview.setVisibility(View.INVISIBLE);
 
             }
-        });
+        });*/
 
         mMovie = (Movie) getIntent().getSerializableExtra("movie");
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
@@ -87,9 +96,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
         // trailer
-        if (!movie.isHasMovie()) {
-            binding.detailTrailer.setVisibility(View.GONE);
-        }
+        loadVideo();
 
         // description / overview
         binding.detailDescription.setText(movie.getOverview());
@@ -114,12 +121,21 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.detail_trailer) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void loadVideo() {
+        String link = "https://www.themoviedb.org/video/play?key=";
         mViewModel.getVideoFromMovie(mMovie.getId()).observe(this, videoResults -> {
             for (Video video : videoResults.getResults()) {
-                //TODO STIJN HIER KRIJG JE DE VIDEOS BINNEN!!!
-
-
+                if (video.isOfficial()) {
+                    trailerLink = link + video.getKey();
+                }
             }
         });
     }
