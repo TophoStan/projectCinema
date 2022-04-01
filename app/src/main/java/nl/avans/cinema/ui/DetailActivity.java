@@ -1,19 +1,11 @@
 package nl.avans.cinema.ui;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.view.LayoutInflater;
+
 import android.view.View;
 
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-=======
 import android.view.Menu;
->>>>>>> e1c761d409eda5f1960320513fd5232226f8f34a
 
 import com.bumptech.glide.Glide;
 
@@ -44,14 +36,6 @@ public class DetailActivity extends Activity {
             public void onClick(View view) {
                 binding.addCardview.setVisibility(View.INVISIBLE);
             }});
-
-        /*Cast RecyclerView*/
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        binding.castRV.setLayoutManager(layoutManager);
-
-        /*Crew RecyclerView*/
-        GridLayoutManager crewLayoutManager = new GridLayoutManager(this, 2);
-        binding.crewRV.setLayoutManager(crewLayoutManager);
 
         /*Alternative Titles RecyclerView*/
 
