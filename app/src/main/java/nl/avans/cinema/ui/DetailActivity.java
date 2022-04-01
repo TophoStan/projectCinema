@@ -2,7 +2,7 @@ package nl.avans.cinema.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 
-=======
+
 import android.view.Menu;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
->>>>>>> e61a22ef5e43af783c99b6980eaa328b46b9b425
+
 
 import com.bumptech.glide.Glide;
 
@@ -54,7 +54,7 @@ public class DetailActivity extends Activity {
             }});
     }
 
-<<<<<<< HEAD
+
 
 
         /*Alternative Titles RecyclerView*/
@@ -64,12 +64,12 @@ public class DetailActivity extends Activity {
         //alternateRecyclerView.setLayoutManager(threeColumnLayoutManager);
 
 
-        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+//        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
 
-=======
+
     public void setData(Movie movie) {
         // image
->>>>>>> e61a22ef5e43af783c99b6980eaa328b46b9b425
+
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
         Glide.with(this).load(imgURL).into(binding.detailImage);
 
