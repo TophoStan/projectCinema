@@ -56,13 +56,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder> 
         return movies.size();
     }
 
-
     public void setMovies(List<Movie> movieList) {
         this.movies = movieList;
         notifyDataSetChanged();
     }
-
-
 
     class FilmHolder extends RecyclerView.ViewHolder implements View.OnClickListener, FetchMovieDetails.OnFetchMovieDetailsListener, Serializable{
         private TextView movieTitle;
