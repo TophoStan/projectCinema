@@ -22,18 +22,32 @@ public class DetailActivity extends Activity {
         setContentView(binding.getRoot());
 
         Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+        setData(movie);
+    }
 
+    public void setData(Movie movie) {
+        // image
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
         Glide.with(this).load(imgURL).into(binding.detailImage);
+
+        // title
         binding.detailTitle.setText(movie.getTitle());
-        // binding.detailDate.setText(movie.getReleaseDate().toString());
+
+        // release date
+        binding.detailDate.setText(movie.getRelease_date());
+
+        // genres
         StringBuilder genresString = new StringBuilder();
-        for (Genre g: movie.getGenres()) {
+        for (Genre g : movie.getGenres()) {
             genresString.append(g.getName());
             genresString.append(", ");
         }
-
+        genresString.deleteCharAt(genresString.length() - 2);
         binding.detailGenre.setText(genresString);
+
+        // trailer
+
+        // description / overview
         binding.detailDescription.setText(movie.getOverview());
 
         /*Cast List*/

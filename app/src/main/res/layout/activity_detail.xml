@@ -7,8 +7,8 @@
     tools:context=".ui.DetailActivity">
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="411dp"
+        android:layout_height="730dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -18,72 +18,34 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="728dp"
+            tools:layout_editor_absoluteY="1dp">
 
+
+            <Button
+                android:id="@+id/addToList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="4dp"
+                android:text="Add to list"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageView
                 android:id="@+id/detail_image"
-                android:layout_width="116dp"
-                android:layout_height="111dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="36dp"
+                android:layout_width="155dp"
+                android:layout_height="139dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
                 android:contentDescription="detail_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/detail_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="16dp"
-                android:text=""
-                android:textSize="26sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.21"
-                app:layout_constraintStart_toEndOf="@+id/detail_image"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/detail_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.44"
-                app:layout_constraintStart_toEndOf="@+id/detail_image"
-                app:layout_constraintTop_toBottomOf="@+id/detail_title" />
-
-            <TextView
-                android:id="@+id/detail_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.416"
-                app:layout_constraintStart_toEndOf="@+id/detail_image"
-                app:layout_constraintTop_toBottomOf="@+id/detail_date" />
-
-            <TextView
-                android:id="@+id/detail_genre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="75dp"
-                android:layout_marginTop="24dp"
-                android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/detail_description"
-                app:layout_constraintTop_toBottomOf="@+id/detail_price" />
-
-            <TextView
                 android:id="@+id/detail_description"
-                android:layout_width="wrap_content"
+                android:layout_width="381dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
@@ -146,42 +108,55 @@
                 android:id="@+id/date_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/description_title"
-                app:layout_constraintEnd_toStartOf="@+id/detail_date"
-                app:layout_constraintHorizontal_bias="0.698"
+                android:text="@string/release_date"
                 app:layout_constraintStart_toEndOf="@+id/detail_image"
                 app:layout_constraintTop_toBottomOf="@+id/detail_title" />
 
             <TextView
-                android:id="@+id/price_title"
+                android:id="@+id/detail_genre"
+                android:layout_width="168dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/detail_date" />
+
+            <TextView
+                android:id="@+id/detail_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/description_price"
-                app:layout_constraintEnd_toStartOf="@+id/detail_price"
-                app:layout_constraintHorizontal_bias="0.68"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                app:layout_constraintStart_toEndOf="@+id/date_title"
+                app:layout_constraintTop_toBottomOf="@+id/detail_title" />
+
+            <TextView
+                android:id="@+id/detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="16dp"
+                android:text="title"
+                android:textSize="26sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.036"
                 app:layout_constraintStart_toEndOf="@+id/detail_image"
-                app:layout_constraintTop_toBottomOf="@+id/date_title" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/description_genre"
                 app:layout_constraintStart_toEndOf="@+id/detail_image"
-                app:layout_constraintTop_toBottomOf="@+id/price_title" />
-
-            <Button
-                android:id="@+id/addToList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="Add to list"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/date_title" />
 
             <TextView
                 android:id="@+id/castList"
