@@ -6,8 +6,23 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+
+
+import android.view.LayoutInflater;
+import android.view.View;
+
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.Menu;
+
+
+import android.view.Menu;
+
 import android.util.Log;
 import android.view.MenuItem;
+
 import android.view.View;
 
 import android.view.Menu;
@@ -20,7 +35,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+
 import com.bumptech.glide.Glide;
+
+import java.util.Locale;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
@@ -39,6 +57,7 @@ public class DetailActivity extends AppCompatActivity {
     private ContentViewModel mViewModel;
     private Movie mMovie;
     private String trailerLink;
+    private String moviePageLink;
     private String link = "https://www.themoviedb.org/video/play?key=";
 
     @Override
@@ -58,11 +77,25 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+
+
+
+        /*Alternative Titles RecyclerView*/
+
+        //alternateRecyclerView = findViewById(R.id.)
+        //GridLayoutManager threeColumnLayoutManager = new GridLayoutManager(this, 3);
+        //alternateRecyclerView.setLayoutManager(threeColumnLayoutManager);
+
+
+//        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+
+
     public void setData(Movie movie) {
         // load trailer
         loadVideo();
 
         // image
+
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
         Glide.with(this).load(imgURL).into(binding.detailImage);
 
@@ -86,6 +119,13 @@ public class DetailActivity extends AppCompatActivity {
         binding.detailGenre.setText(genresString);
 
         binding.detailDescription.setText(mMovie.getOverview());
+
+
+        // trailer
+        loadVideo();
+
+        // get link to homepage
+        loadPage();
 
         // description / overview
         binding.detailDescription.setText(movie.getOverview());
@@ -120,11 +160,18 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.detail_trailer) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
             if (trailerLink != null) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
             } else {
                 Toast.makeText(this, "This movie has no trailer", Toast.LENGTH_SHORT).show();
             }
+        } else if (item.getItemId() == R.id.detail_share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, "Come look at this cool movie I found\n" +
+                    moviePageLink);
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, "Send To"));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -142,11 +189,20 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+
+    public void loadPage() {
+        String link = "https://www.themoviedb.org/movie/";
+        String movieTitle = mMovie.getTitle();
+        movieTitle = movieTitle.toLowerCase();
+        movieTitle = movieTitle.replace(" ", "-");
+        moviePageLink = link + mMovie.getId() + "-" + movieTitle;
+    }
+
+
     public void loadCrewAndCast(){
         mViewModel.getCrewAndCastFromMovie(mMovie.getId()).observe(this, creditResults -> {
             //Hier krijg je crew and cast binnen
             for (Crew crew: creditResults.getCrew()) {
-
             }
             for (Cast cast: creditResults.getCast()) {
 

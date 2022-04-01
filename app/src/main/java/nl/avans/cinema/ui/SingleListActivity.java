@@ -3,10 +3,13 @@ package nl.avans.cinema.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import nl.avans.cinema.R;
@@ -21,6 +24,7 @@ public class SingleListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySingleListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
     }
 
     @Override
@@ -32,10 +36,15 @@ public class SingleListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Context context;
         if (item.getItemId() == R.id.list_filter) {
             Toast.makeText(this, "Filter btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.list_share) {
-            Toast.makeText(this, "Share btn", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, "Come look at my movie list,\n" +
+                    "the code is:");
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, "Send To"));
         } else if (item.getItemId() == R.id.list_delete) {
             Toast.makeText(this, "Delete btn", Toast.LENGTH_SHORT).show();
         }
