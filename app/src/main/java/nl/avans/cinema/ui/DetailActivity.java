@@ -57,11 +57,8 @@ public class DetailActivity extends AppCompatActivity {
     private ContentViewModel mViewModel;
     private Movie mMovie;
     private String trailerLink;
-<<<<<<< HEAD
     private String moviePageLink;
-=======
     private String link = "https://www.themoviedb.org/video/play?key=";
->>>>>>> e254a70f293122f9f6342c2cd3133578f79e1ff0
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +120,6 @@ public class DetailActivity extends AppCompatActivity {
 
         binding.detailDescription.setText(mMovie.getOverview());
 
-<<<<<<< HEAD
 
         // trailer
         loadVideo();
@@ -131,8 +127,6 @@ public class DetailActivity extends AppCompatActivity {
         // get link to homepage
         loadPage();
 
-=======
->>>>>>> e254a70f293122f9f6342c2cd3133578f79e1ff0
         // description / overview
         binding.detailDescription.setText(movie.getOverview());
 
