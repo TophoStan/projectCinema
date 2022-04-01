@@ -2,8 +2,15 @@ package nl.avans.cinema.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.view.Menu;
 import android.view.View;
+=======
+
+import android.view.View;
+
+import android.view.Menu;
+>>>>>>> 4de2b5b455ed84120ffaa372ed8108d105f37739
 
 import com.bumptech.glide.Glide;
 
@@ -24,6 +31,18 @@ public class DetailActivity extends Activity {
 
         Movie movie = (Movie) getIntent().getSerializableExtra("movie");
         setData(movie);
+
+        binding.addToList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.addCardview.setVisibility(View.VISIBLE);
+        }});
+
+        binding.popupCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.addCardview.setVisibility(View.INVISIBLE);
+            }});
     }
 
     public void setData(Movie movie) {
