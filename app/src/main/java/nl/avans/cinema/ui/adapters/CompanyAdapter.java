@@ -18,7 +18,7 @@ import nl.avans.cinema.R;
 import nl.avans.cinema.domain.Company;
 import nl.avans.cinema.domain.Movie;
 
-public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.CompanyHolder>{
+public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.CompanyHolder> {
 
     private List<Company> companies = new ArrayList<>();
     private Context mContext;
@@ -32,15 +32,21 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.CompanyH
         View view = inflater.inflate(R.layout.single_company_item, parent, false);
         return new CompanyHolder(view);
     }
+
     public void onBindViewHolder(CompanyHolder holder, int position) {
         Company company = companies.get(position);
-        holder.companyTitle.setText(company.getName());
-        //Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + company.getLogo_path()).into(holder.companyLogo);
+
+        if(company.getName()!= null){
+            holder.companyTitle.setText(company.getName());
+        }
+        // Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + company.getLogo_path()).into(holder.companyLogo);
+
     }
 
     public int getItemCount() {
         return companies.size();
     }
+
     public void setCompanies(List<Company> companyList) {
         this.companies = companyList;
         notifyDataSetChanged();

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/Users/Stan/Desktop/TestClone/projectCinema/app/src/main/res/layout/activity_detail.xml" value="0.5" />
         <entry key="..\:/Users/Stan/Desktop/TestClone/projectCinema/app/src/main/res/layout/activity_lists.xml" value="0.3625" />
         <entry key="..\:/Users/Stan/Desktop/TestClone/projectCinema/app/src/main/res/layout/activity_main.xml" value="0.3625" />
@@ -16,10 +17,12 @@
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/delete_icon.xml" value="0.203" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/home_icon.xml" value="0.203" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/lists_icon.xml" value="0.203" />
+=======
+>>>>>>> 4de2b5b455ed84120ffaa372ed8108d105f37739
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/menu_icon.xml" value="0.211" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/search_icon.xml" value="0.211" />
-        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/share_icon.xml" value="0.203" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/drawable/sort_icon.xml" value="0.211" />
+<<<<<<< HEAD
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_lists.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_lists_page.xml" value="0.2866847826086957" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_login.xml" value="0.2609375" />
@@ -27,11 +30,38 @@
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_single_list.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_single_list_page.xml" value="0.2609375" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/film_layout_list.xml" value="0.2694746376811594" />
+=======
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_lists_page.xml" value="0.2866847826086957" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_login.xml" value="0.2609375" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/activity_main.xml" value="0.25" />
+>>>>>>> 4de2b5b455ed84120ffaa372ed8108d105f37739
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/single_film_layout.xml" value="0.2708333333333333" />
+<<<<<<< HEAD
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/lists_menu.xml" value="0.30520833333333336" />
+        <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/main_menu.xml" value="0.2708333333333333" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/drawable/popup_addtolist.xml" value="0.1935" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/activity_detail.xml" value="0.2" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/activity_lists.xml" value="0.25" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/activity_lists_page.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/activity_login.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/activity_single_list_page.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/film_layout_list.xml" value="0.18478260869565216" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/film_layout_main.xml" value="0.18478260869565216" />
+        <entry key="..\:/Users/thoma/OneDrive/Bureaublad/github/projectCinema/app/src/main/res/layout/popup_addtolist.xml" value="0.2" />
+=======
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/layout/single_film_list_layout.xml" value="0.27239583333333334" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/list_menu.xml" value="0.27239583333333334" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/lists_menu.xml" value="0.30520833333333336" />
         <entry key="..\:/Users/sbspa/OneDrive/Documenten/GitHub/projectCinema/app/src/main/res/menu/main_menu.xml" value="0.2708333333333333" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <entry key="..\:/Users/stant/Desktop/Nieuwe map/projectCinema/app/src/main/res/layout/activity_detail.xml" value="0.335" />
+        <entry key="..\:/Users/stant/Desktop/Nieuwe map/projectCinema/app/src/main/res/layout/activity_main.xml" value="0.125" />
+=======
+>>>>>>> d935c7aac56fb774e1cde55633c9571c561ec0de
+>>>>>>> e1c761d409eda5f1960320513fd5232226f8f34a
+>>>>>>> 4de2b5b455ed84120ffaa372ed8108d105f37739
       </map>
     </option>
   </component>

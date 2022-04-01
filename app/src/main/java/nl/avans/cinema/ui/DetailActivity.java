@@ -2,6 +2,9 @@ package nl.avans.cinema.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import android.view.View;
+
 import android.view.Menu;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +28,26 @@ public class DetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        binding.addToList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.addCardview.setVisibility(View.VISIBLE);
+        }});
+
+        binding.popupCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.addCardview.setVisibility(View.INVISIBLE);
+            }});
+
+        /*Alternative Titles RecyclerView*/
+
+        //alternateRecyclerView = findViewById(R.id.)
+        //GridLayoutManager threeColumnLayoutManager = new GridLayoutManager(this, 3);
+        //alternateRecyclerView.setLayoutManager(threeColumnLayoutManager);
+
 
         Movie movie = (Movie) getIntent().getSerializableExtra("movie");
 
@@ -59,4 +82,6 @@ public class DetailActivity extends Activity {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
         return true;
     }
+
+
 }
