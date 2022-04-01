@@ -42,6 +42,10 @@
             android:label="List"
             android:parentActivityName=".ui.ListsActivity" />
 
+        <activity android:name=".ui.AddToListPopUp"
+            android:exported="false"
+            android:label="Add to list" />
+
     </application>
 
 </manifest>

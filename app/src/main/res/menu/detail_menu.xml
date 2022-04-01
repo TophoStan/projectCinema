@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/detail_trailer"
+        android:title="@string/trailer"
+        tools:icon="@drawable/video_icon"
+        app:showAsAction="always"/>
     <item
-        android:id="@+id/list_share"
+        android:id="@+id/detail_share"
         tools:icon="@drawable/share_icon"
         app:showAsAction="always"
         android:title="@string/share_menu" />
+
 </menu>
