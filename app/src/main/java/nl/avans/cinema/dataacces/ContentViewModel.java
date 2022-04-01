@@ -9,8 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import nl.avans.cinema.dataacces.api.calls.CreditResults;
+import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
-import nl.avans.cinema.dataacces.api.task.FetchMovies;
 import nl.avans.cinema.domain.Movie;
 
 public class ContentViewModel extends AndroidViewModel {
@@ -44,5 +45,12 @@ public class ContentViewModel extends AndroidViewModel {
         return mRepository.getListOfVideos(movieId);
     }
 
+    public MutableLiveData<CreditResults> getCrewAndCastFromMovie(int movieId){
+        return mRepository.getCrewAndCastFromMovie(movieId);
+    }
+
+    public MutableLiveData<MovieResults> getMovieResultsWithFilter(String filter, int page){
+        return mRepository.getFilteredMovieList(filter, page);
+    }
     //TODO Crud functies uit repository hier aan toevoegen
 }

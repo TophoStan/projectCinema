@@ -3,7 +3,6 @@ package nl.avans.cinema.dataacces.api.task;
 import android.util.Log;
 
 import nl.avans.cinema.dataacces.api.ApiClient;
-import nl.avans.cinema.dataacces.api.calls.MovieResponse;
 import nl.avans.cinema.domain.Movie;
 import retrofit2.Call;
 import retrofit2.Callback;

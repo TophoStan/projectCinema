@@ -17,6 +17,8 @@ import com.bumptech.glide.Glide;
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
+import nl.avans.cinema.domain.Cast;
+import nl.avans.cinema.domain.Crew;
 import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.Video;
@@ -50,10 +52,10 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-
         mMovie = (Movie) getIntent().getSerializableExtra("movie");
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         setData(mMovie);
+        loadCrewAndCast();
 
     }
 
@@ -121,6 +123,15 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+    public void loadCrewAndCast(){
+        mViewModel.getCrewAndCastFromMovie(mMovie.getId()).observe(this, creditResults -> {
+            //Hier krijg je crew and cast binnen
+            for (Crew crew: creditResults.getCrew()) {
 
+            }
+            for (Cast cast: creditResults.getCast()) {
 
+            }
+        });
+    }
 }
