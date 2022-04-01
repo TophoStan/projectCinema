@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements OnFetchData {
         mMovieResponse = movieResponse;
         if(action.equals("fetchPopular")){
             for (Movie movie : mMovieResponse.getMovies()) {
-                Log.d(LOG_TAG, movie.getTitle());
+
                 contentViewModel.insertMovie(movie);
             }
         } else if(action.equals("fetchSearch")){
