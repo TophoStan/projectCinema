@@ -3,6 +3,7 @@ package nl.avans.cinema.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 
@@ -46,6 +47,9 @@ public class DetailActivity extends Activity {
         binding.detailGenre.setText(genresString);
 
         // trailer
+        if (!movie.isHasMovie()) {
+            binding.detailTrailer.setVisibility(View.GONE);
+        }
 
         // description / overview
         binding.detailDescription.setText(movie.getOverview());

@@ -34,6 +34,15 @@ public class Movie implements Serializable {
     private double popularity;
     private List<Integer> genre_ids;
     private boolean adult;
+    private boolean hasMovie;
+
+    public boolean isHasMovie() {
+        return hasMovie;
+    }
+
+    public void setHasMovie(boolean hasMovie) {
+        this.hasMovie = hasMovie;
+    }
 
     public int getId() {
         return id;
