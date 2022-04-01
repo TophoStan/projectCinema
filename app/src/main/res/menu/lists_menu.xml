@@ -10,7 +10,6 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/lists_logout"
-        android:icon="@drawable/logout_icon"
         android:title="@string/log_out"
         app:showAsAction="never" />
 </menu>
