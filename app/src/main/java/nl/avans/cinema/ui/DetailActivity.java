@@ -80,6 +80,10 @@ public class DetailActivity extends Activity {
         binding.detailDate.setText(movie.getRelease_date());
 
         // genres
+        if (movie.getGenres().size() > 1) {
+            binding.genreTitle.setText(R.string.genres);
+        }
+
         StringBuilder genresString = new StringBuilder();
         for (Genre g : movie.getGenres()) {
             genresString.append(g.getName());

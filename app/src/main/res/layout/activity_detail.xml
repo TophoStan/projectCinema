@@ -184,7 +184,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintStart_toEndOf="@+id/genre_title"
                 app:layout_constraintTop_toBottomOf="@+id/detail_date" />
 
             <TextView
@@ -201,15 +201,15 @@
                 android:id="@+id/detail_title"
                 android:layout_width="212dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 android:text="title"
                 android:textSize="26sp"
                 app:layout_constraintStart_toEndOf="@+id/detail_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/genre_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
