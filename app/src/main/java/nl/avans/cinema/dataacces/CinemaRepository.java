@@ -102,6 +102,7 @@ public class CinemaRepository {
             @Override
             public void onResponse(Call<VideoResults> call, Response<VideoResults> response) {
                 mListOfVideos.setValue(response.body());
+
             }
 
             @Override

@@ -31,6 +31,7 @@ import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.Video;
 import nl.avans.cinema.ui.adapters.CompanyAdapter;
+import retrofit2.http.HEAD;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -38,6 +39,7 @@ public class DetailActivity extends AppCompatActivity {
     private ContentViewModel mViewModel;
     private Movie mMovie;
     private String trailerLink;
+    private String link = "https://www.themoviedb.org/video/play?key=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +47,9 @@ public class DetailActivity extends AppCompatActivity {
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        /*binding.addToList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.addCardview.setVisibility(View.VISIBLE);
-            }
-        });
-
-        binding.popupCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.addCardview.setVisibility(View.INVISIBLE);
-
-            }
-        });*/
+        mMovie = (Movie) getIntent().getSerializableExtra("movie");
+        mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
+        setData(mMovie);
 
         mMovie = (Movie) getIntent().getSerializableExtra("movie");
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
@@ -69,6 +59,9 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void setData(Movie movie) {
+        // load trailer
+        loadVideo();
+
         // image
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
         Glide.with(this).load(imgURL).into(binding.detailImage);
@@ -94,10 +87,6 @@ public class DetailActivity extends AppCompatActivity {
 
         binding.detailDescription.setText(mMovie.getOverview());
 
-
-        // trailer
-        loadVideo();
-
         // description / overview
         binding.detailDescription.setText(movie.getOverview());
 
@@ -111,7 +100,14 @@ public class DetailActivity extends AppCompatActivity {
         binding.companyRecyclerview.setAdapter(companyAdapter);
         binding.companyRecyclerview.setLayoutManager(new LinearLayoutManager(this));
         companyAdapter.setCompanies(mMovie.getProduction_companies());
-        loadVideo();
+
+        // add to list
+        binding.addToList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DetailActivity.this, AddToListPopUp.class));
+            }
+        });
 
     }
 
@@ -124,21 +120,28 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.detail_trailer) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
+            if (trailerLink != null) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
+            } else {
+                Toast.makeText(this, "This movie has no trailer", Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void loadVideo() {
-        String link = "https://www.themoviedb.org/video/play?key=";
         mViewModel.getVideoFromMovie(mMovie.getId()).observe(this, videoResults -> {
-            for (Video video : videoResults.getResults()) {
-                if (video.isOfficial()) {
-                    trailerLink = link + video.getKey();
+
+            if (videoResults.getResults().length != 0) {
+                for (Video video : videoResults.getResults()) {
+                    if (video.isOfficial()) {
+                        trailerLink = link + video.getKey();
+                    }
                 }
             }
         });
     }
+
     public void loadCrewAndCast(){
         mViewModel.getCrewAndCastFromMovie(mMovie.getId()).observe(this, creditResults -> {
             //Hier krijg je crew and cast binnen
