@@ -9,9 +9,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
+import java.util.Locale;
 
 import nl.avans.cinema.dataacces.api.ApiClient;
 import nl.avans.cinema.dataacces.api.TheMovieDatabaseAPI;
+import nl.avans.cinema.dataacces.api.calls.CreditResults;
+import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.dataacces.dao.MovieDAO;
 import nl.avans.cinema.domain.Movie;
@@ -21,10 +24,13 @@ import retrofit2.Response;
 
 public class CinemaRepository {
     private MovieDAO mMovieDao;
-    private LiveData<List<Movie>> mAllMovies;
     private Context mContext;
     private TheMovieDatabaseAPI api;
+    private LiveData<List<Movie>> mAllMovies;
     private MutableLiveData<VideoResults> mListOfVideos = new MutableLiveData<>();
+    private MutableLiveData<CreditResults> mCrewAndCast = new MutableLiveData<>();
+    private MutableLiveData<MovieResults> mMovieFilteredResults = new MutableLiveData<>();
+
 
     public CinemaRepository(Application application) {
         // get database using the Room annotations
@@ -42,17 +48,17 @@ public class CinemaRepository {
         return mAllMovies;
     }
 
-    public void insertMovie(Movie movie){
+    public void insertMovie(Movie movie) {
         new insertAsyncTask(mMovieDao).execute(movie);
     }
 
-    public Movie getMovie(int id){
-      try {
-          return new getMovieAsyncTask(mMovieDao).execute(id).get();
-      } catch (Exception e){
-          Log.e("error", e.getMessage());
-          return null;
-      }
+    public Movie getMovie(int id) {
+        try {
+            return new getMovieAsyncTask(mMovieDao).execute(id).get();
+        } catch (Exception e) {
+            Log.e("error", e.getMessage());
+            return null;
+        }
     }
 
     private static class insertAsyncTask extends AsyncTask<Movie, Void, Void> {
@@ -70,7 +76,7 @@ public class CinemaRepository {
         }
     }
 
-    private static class getMovieAsyncTask extends AsyncTask<Integer, Void, Movie>{
+    private static class getMovieAsyncTask extends AsyncTask<Integer, Void, Movie> {
 
         private MovieDAO mAsyncTaskDao;
 
@@ -85,18 +91,17 @@ public class CinemaRepository {
         }
     }
 
-    public MutableLiveData<VideoResults> getListOfVideos(int movieId){
+    public MutableLiveData<VideoResults> getListOfVideos(int movieId) {
         Call<VideoResults> call = api.getVideosForMovie(movieId);
         apiCallVideos(call);
         return mListOfVideos;
     }
 
-    private void apiCallVideos(Call<VideoResults> call){
+    private void apiCallVideos(Call<VideoResults> call) {
         call.enqueue(new Callback<VideoResults>() {
             @Override
             public void onResponse(Call<VideoResults> call, Response<VideoResults> response) {
                 mListOfVideos.setValue(response.body());
-                Log.d("VideoName",response.body().getResults()[0].getName() + "!");
             }
 
             @Override
@@ -106,6 +111,56 @@ public class CinemaRepository {
         });
     }
 
+    public MutableLiveData<CreditResults> getCrewAndCastFromMovie(int movieId){
+        Call<CreditResults> call = api.getCrewAndCastFromMovie(movieId);
+        apiCallCrewAndCast(call);
+        return mCrewAndCast;
     }
-    //TODO voeg meerdere CRUD functies toe
+
+    private void apiCallCrewAndCast(Call<CreditResults> call) {
+        call.enqueue(new Callback<CreditResults>() {
+            @Override
+            public void onResponse(Call<CreditResults> call, Response<CreditResults> response) {
+                mCrewAndCast.setValue(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<CreditResults> call, Throwable t) {
+                //TODO errors
+            }
+        });
+    }
+
+    public MutableLiveData<MovieResults> getFilteredMovieList(String filter, int page){
+        Call<MovieResults> call = api.getMoviesByFilter(filter, page);
+        apiCallMovieResults(call);
+        return mMovieFilteredResults;
+    }
+    private void apiCallMovieResults(Call<MovieResults> call) {
+        call.enqueue(new Callback<MovieResults>() {
+            @Override
+            public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                mMovieFilteredResults.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<MovieResults> call, Throwable t) {
+                //TODO errors
+            }
+        });
+
+    }
+
+    public MutableLiveData<MovieResults> getSearchResults(String query){
+        Call<MovieResults> call = api.searchMovie(query);
+        apiCallMovieResults(call);
+        return mMovieFilteredResults;
+    }
+
+
+}
+
+
+//TODO voeg meerdere CRUD functies toe
 

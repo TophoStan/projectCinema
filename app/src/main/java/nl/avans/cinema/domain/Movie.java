@@ -32,8 +32,17 @@ public class Movie implements Serializable {
     private double vote_count;
     private double popularity;
     private List<Integer> genre_ids;
+    private String homepage;
     private boolean adult;
     private boolean hasMovie;
+
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
 
     public boolean isHasMovie() {
         return hasMovie;

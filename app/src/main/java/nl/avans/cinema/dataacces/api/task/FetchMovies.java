@@ -1,13 +1,9 @@
 package nl.avans.cinema.dataacces.api.task;
 
-import android.content.Context;
 import android.util.Log;
 
-import java.util.List;
-
 import nl.avans.cinema.dataacces.api.ApiClient;
-import nl.avans.cinema.dataacces.api.calls.MovieResponse;
-import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,7 +13,7 @@ public class FetchMovies {
     private static String LOG_TAG = FetchMovies.class.getSimpleName();
 
     private OnFetchData mListener;
-    private MovieResponse movieResponse = new MovieResponse();
+    private MovieResults movieResults = new MovieResults();
 
     public FetchMovies(OnFetchData listener){
         mListener = listener;
@@ -25,21 +21,21 @@ public class FetchMovies {
 
     public void execute(){
 
-        Call<MovieResponse> call = ApiClient.getUserService().getMovieIds();
-        call.enqueue(new Callback<MovieResponse>() {
+        Call<MovieResults> call = ApiClient.getUserService().getMovieIds();
+        call.enqueue(new Callback<MovieResults>() {
             @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+            public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
                 if(!response.isSuccessful()){
                     Log.d(LOG_TAG, response.message() + "!!");
                     return;
                 }
-                movieResponse = response.body();
-                Log.d(LOG_TAG, movieResponse.getMovies()[0].getTitle());
-                mListener.onRecievingMovie(movieResponse, "fetchPopular");
+                movieResults = response.body();
+                Log.d(LOG_TAG, movieResults.getMovies()[0].getTitle());
+                mListener.onRecievingMovie(movieResults, "fetchPopular");
             }
 
             @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
+            public void onFailure(Call<MovieResults> call, Throwable t) {
                 Log.e(LOG_TAG, t.getMessage() + "!!");
             }
         });
@@ -47,6 +43,6 @@ public class FetchMovies {
 
 
     public interface OnFetchMovieIdListener {
-        void onReceivingMovieId(MovieResponse response);
+        void onReceivingMovieId(MovieResults response);
     }
 }
