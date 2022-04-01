@@ -11,21 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cinema">
-        <activity
-            android:name=".ui.SingleListActivity"
-            android:exported="false"
-            android:label="List"
-            android:parentActivityName=".ui.ListsActivity" />
 
         <activity
             android:name=".ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:label="Cinema"/>
+
+        <activity android:name=".ui.DetailActivity"
+            android:exported="false"
+            android:label="Movie"
+            android:parentActivityName=".ui.MainActivity" />
 
         <activity
             android:name=".ui.ListsActivity"
@@ -33,13 +37,11 @@
             android:label="Lists" />
 
         <activity
-            android:name=".ui.MainActivity"
-            android:exported="false" />
-
-        <activity android:name=".ui.DetailActivity"
+            android:name=".ui.SingleListActivity"
             android:exported="false"
-            android:parentActivityName=".ui.MainActivity"
-            android:label="Movie" />
+            android:label="List"
+            android:parentActivityName=".ui.ListsActivity" />
+
     </application>
 
 </manifest>
