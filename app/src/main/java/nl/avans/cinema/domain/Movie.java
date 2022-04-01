@@ -20,7 +20,6 @@ public class Movie implements Serializable {
     private int id;
     private String title;
     private String alternativeTitle;
-    private int rating;
     private String release_date;
     private int duration;
     private String poster_path;
@@ -66,14 +65,6 @@ public class Movie implements Serializable {
 
     public void setAlternativeTitle(String alternativeTitle) {
         this.alternativeTitle = alternativeTitle;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
     }
 
     public String getRelease_date() {
