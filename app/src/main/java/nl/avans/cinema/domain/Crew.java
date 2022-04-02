@@ -5,7 +5,7 @@ public class Crew {
     private String name;
     private Integer gender;
     private String known_for_department;
-    private int credit_id;
+    private String credit_id;
     private String profile_path;
     private String department;
     private String job;
@@ -42,11 +42,11 @@ public class Crew {
         this.known_for_department = known_for_department;
     }
 
-    public int getCredit_id() {
+    public String getCredit_id() {
         return credit_id;
     }
 
-    public void setCredit_id(int credit_id) {
+    public void setCredit_id(String credit_id) {
         this.credit_id = credit_id;
     }
 

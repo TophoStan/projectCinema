@@ -6,14 +6,12 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
-import nl.avans.cinema.dataacces.converters.DateTypeConverter;
-import nl.avans.cinema.dataacces.converters.GithubTypeConverter;
+import nl.avans.cinema.dataacces.converters.Converter;
 
 @Entity(tableName = "movies")
-@TypeConverters({DateTypeConverter.class, GithubTypeConverter.class})
+@TypeConverters({Converter.class})
 public class Movie implements Serializable {
 
     @PrimaryKey
@@ -26,8 +24,7 @@ public class Movie implements Serializable {
     private String overview;
     @ColumnInfo(name = "genreList")
     private List<Genre> genres;
-    private List<Company>
-            production_companies;
+    private List<Company> production_companies;
     private double vote_average;
     private double vote_count;
     private double popularity;

@@ -32,4 +32,5 @@
     <string name="release_date">Release date:</string>
     <string name="popup_cancel">Cancel</string>
     <string name="genres">Genres: </string>
+    <string name="rating_label">Rating</string>
 </resources>

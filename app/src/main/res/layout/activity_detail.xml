@@ -61,7 +61,7 @@
                 android:text="@string/cast_title_label"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.072"
+                app:layout_constraintHorizontal_bias="0.07"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detail_description" />
 
@@ -69,21 +69,19 @@
                 android:id="@+id/companies_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
                 android:layout_marginEnd="252dp"
                 android:text="Companies"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/crew_title"
-                app:layout_constraintTop_toBottomOf="@+id/crewList"
+                app:layout_constraintStart_toStartOf="@+id/recyclerView"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
                 tools:ignore="MissingConstraints" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/company_recyclerview"
-                android:layout_width="105dp"
-                android:layout_height="100dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/recyclerView"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/companies_label"
                 app:layout_constraintTop_toBottomOf="@+id/companies_label" />
@@ -139,23 +137,31 @@
                 app:layout_constraintStart_toEndOf="@+id/detail_image"
                 app:layout_constraintTop_toBottomOf="@+id/date_title" />
 
-            <TextView
-                android:id="@+id/crewList"
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="26dp"
-                android:text="TextView"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="220dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/cast_title"
                 app:layout_constraintTop_toBottomOf="@+id/cast_title" />
 
             <TextView
-                android:id="@+id/crew_title"
+                android:id="@+id/crew_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:text="TextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/crewList" />
+                android:text="Crew"
+                android:textSize="26sp"
+                app:layout_constraintStart_toStartOf="@+id/company_recyclerview"
+                app:layout_constraintTop_toBottomOf="@+id/company_recyclerview" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/crew_recyclerview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/company_recyclerview"
+                app:layout_constraintStart_toStartOf="@+id/crew_label"
+                app:layout_constraintTop_toBottomOf="@+id/crew_label" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

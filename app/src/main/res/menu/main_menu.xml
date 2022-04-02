@@ -31,9 +31,9 @@
                 android:title="Playing now"
                 app:showAsAction="always" />
             <item
-                android:id="@+id/latest"
+                android:id="@+id/upcoming"
                 android:icon="@drawable/filter_icon"
-                android:title="Latest"
+                android:title="Upcoming"
                 app:showAsAction="always" />
         </menu>
     </item>
