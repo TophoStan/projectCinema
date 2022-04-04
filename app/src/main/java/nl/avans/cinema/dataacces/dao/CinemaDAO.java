@@ -11,9 +11,10 @@ import androidx.room.Query;
 import java.util.List;
 
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.domain.User;
 
 @Dao
-public interface MovieDAO {
+public interface CinemaDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertMovie(Movie movie);
@@ -26,6 +27,16 @@ public interface MovieDAO {
 
     @Query("DELETE FROM movies")
     void deleteAll();
+
+    @Query("SELECT * FROM User")
+    User getUser();
+
+    @Query("DELETE FROM User")
+    void deleteUsers();
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertUser(User user);
+
 
 
 }

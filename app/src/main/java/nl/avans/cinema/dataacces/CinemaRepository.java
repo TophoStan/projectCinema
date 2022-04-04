@@ -20,14 +20,15 @@ import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
-import nl.avans.cinema.dataacces.dao.MovieDAO;
+import nl.avans.cinema.dataacces.dao.CinemaDAO;
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.domain.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CinemaRepository {
-    private MovieDAO mMovieDao;
+    private CinemaDAO mMovieDao;
     private Context mContext;
     private TheMovieDatabaseAPI api;
     private LiveData<List<Movie>> mAllMovies;
@@ -71,9 +72,9 @@ public class CinemaRepository {
 
     private static class insertAsyncTask extends AsyncTask<Movie, Void, Void> {
 
-        private MovieDAO mAsyncTaskDao;
+        private CinemaDAO mAsyncTaskDao;
 
-        insertAsyncTask(MovieDAO dao) {
+        insertAsyncTask(CinemaDAO dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -86,9 +87,9 @@ public class CinemaRepository {
 
     private static class getMovieAsyncTask extends AsyncTask<Integer, Void, Movie> {
 
-        private MovieDAO mAsyncTaskDao;
+        private CinemaDAO mAsyncTaskDao;
 
-        getMovieAsyncTask(MovieDAO dao) {
+        getMovieAsyncTask(CinemaDAO dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -236,6 +237,67 @@ public class CinemaRepository {
             }
         });
     }
+
+    public User getUserInfo(){
+        try {
+            return new getUserInfoAsyncTask(mMovieDao).execute().get();
+        } catch (Exception e){
+            Log.e(LOG_TAG, e.getMessage());
+            return null;
+        }
+    }
+
+    public void deleteUsers(){
+        new deleteUsersFromDatabase(mMovieDao).execute();
+    }
+
+    public void insertUser(User user){
+        new insertUserToDatabase(mMovieDao).execute(user);
+    }
+
+    private static class insertUserToDatabase extends AsyncTask <User, Void, Void>{
+        private CinemaDAO dao;
+
+        public insertUserToDatabase(CinemaDAO dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(User... users) {
+            dao.insertUser(users[0]);
+            return null;
+        }
+    }
+
+    private static class deleteUsersFromDatabase extends AsyncTask <Void, Void, Void>{
+        private CinemaDAO dao;
+
+        public deleteUsersFromDatabase(CinemaDAO dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            dao.deleteUsers();
+            return null;
+        }
+    }
+
+
+    private static class getUserInfoAsyncTask extends AsyncTask <Void, Void, User>{
+
+        private CinemaDAO asyncDao;
+
+        public getUserInfoAsyncTask(CinemaDAO cinemaDAO) {
+            asyncDao = cinemaDAO;
+        }
+
+        @Override
+        protected User doInBackground(Void... users) {
+            return asyncDao.getUser();
+        }
+    }
+
 }
 
 

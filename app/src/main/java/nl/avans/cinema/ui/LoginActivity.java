@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         binding.LoginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
-
+        mViewModel.deleteUsers();
     }
 
     public void startLoginProcess() {
@@ -83,9 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
             setContentView(webview);
             webview.loadUrl(url);
-
         });
-
     }
 
     public void postLogin(String requestToken) {
@@ -94,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             User user = new User();
             user.setAccount_id(results.getAccount_id());
             user.setAccess_token(results.getAccess_token());
+            mViewModel.insertUser(user);
             startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("user", user));
         });
     }

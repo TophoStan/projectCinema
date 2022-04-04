@@ -9,10 +9,11 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import nl.avans.cinema.dataacces.converters.Converter;
-import nl.avans.cinema.dataacces.dao.MovieDAO;
+import nl.avans.cinema.dataacces.dao.CinemaDAO;
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.domain.User;
 
-@Database(entities = Movie.class, version = 18, exportSchema = false)
+@Database(entities = {Movie.class, User.class}, version = 19, exportSchema = false)
 @TypeConverters({Converter.class})
 public abstract class CinemaDatabase extends RoomDatabase {
 
@@ -32,12 +33,12 @@ public abstract class CinemaDatabase extends RoomDatabase {
         new PopulateDbAsync(INSTANCE).execute();
         return INSTANCE;
     }
-    public abstract MovieDAO movieDAO();
+    public abstract CinemaDAO movieDAO();
 
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>{
 
-        private final MovieDAO mDao;
+        private final CinemaDAO mDao;
 
         public PopulateDbAsync(CinemaDatabase instance) {
             mDao = instance.movieDAO();

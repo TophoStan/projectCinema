@@ -1,8 +1,15 @@
 package nl.avans.cinema.domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class User implements Serializable {
+    @NonNull
+    @PrimaryKey
     private String account_id;
     private String access_token;
     private String username;
