@@ -15,6 +15,7 @@ import nl.avans.cinema.dataacces.api.ApiClient;
 import nl.avans.cinema.dataacces.api.TheMovieDatabaseAPI;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
+import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
@@ -35,6 +36,7 @@ public class CinemaRepository {
     private MutableLiveData<MovieResults> mMovieFilteredResults = new MutableLiveData<>();
     private MutableLiveData<RequestTokenResult> mRequestTokenResult = new MutableLiveData<>();
     private MutableLiveData<AccessTokenResult> mAccessTokenResult = new MutableLiveData<>();
+    private MutableLiveData<Convert4To3Result> convertedResult = new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -214,6 +216,25 @@ public class CinemaRepository {
             sessionType = "guest_" + sessionType;
         }
         api.setMovieRating(movieId, sessionType, sessionId, "application/json;charset=utf-8", ratingRequest);
+    }
+
+    public MutableLiveData<Convert4To3Result> convertV4SessionToV3(AccessTokenResult access_token){
+        Call<Convert4To3Result> call = api.convertV4To3(access_token);
+        apiCallConvertSessionId(call);
+        return convertedResult;
+    }
+    private void apiCallConvertSessionId(Call<Convert4To3Result> call){
+        call.enqueue(new Callback<Convert4To3Result>() {
+            @Override
+            public void onResponse(Call<Convert4To3Result> call, Response<Convert4To3Result> response) {
+                convertedResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Convert4To3Result> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
     }
 }
 

@@ -47,13 +47,13 @@ public interface TheMovieDatabaseAPI {
                                                 @Header("Authorization") String authorization,
                                                 @Body AccessTokenRequest request);
 
-    @POST("3/authentication/session/convert/4?api_key=" + key)
-    Call<Convert4To3Result> convertV4To3(@Body AccessTokenResult accessToken);
-
     @POST("3/movie/{movie_id}/rating?api_key=" + key + "&{session_type}={session_id}")
     Call<Void> setMovieRating(@Path("movie_id") int movieId,
                                  @Path("session_type") String sessionType,
                                  @Path("session_id") String sessionId,
                                  @Header("Content-Type") String content_type,
                                  @Body String ratingRequest);
+
+    @POST("3/authentication/session/convert/4?api_key=" + key)
+    Call<Convert4To3Result> convertV4To3(@Body AccessTokenResult accessToken);
 }
