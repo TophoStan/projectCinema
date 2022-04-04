@@ -2,6 +2,7 @@ package nl.avans.cinema.dataacces.api;
 
 import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
+import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
@@ -44,5 +45,8 @@ public interface TheMovieDatabaseAPI {
     Call<AccessTokenResult> generateAccessToken(@Header("Content-Type") String content_type,
                                                 @Header("Authorization") String authorization,
                                                 @Body AccessTokenRequest request);
+
+    @POST("3/authentication/session/convert/4?api_key=cfe22f85d9a2f5199dddc1eca8fa2e60")
+    Call<Convert4To3Result> convertV4To3(@Body AccessTokenResult accessToken);
 
 }
