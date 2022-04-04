@@ -36,10 +36,14 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.CompanyH
     public void onBindViewHolder(CompanyHolder holder, int position) {
         Company company = companies.get(position);
 
-        if(company.getName()!= null){
+        if (company.getName() != null) {
             holder.companyTitle.setText(company.getName());
         }
-        //Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + company.getLogo_path()).into(holder.companyLogo);
+        if (company.getLogo_path() == null) {
+            holder.companyLogo.setImageResource(R.drawable.ic_company);
+        } else {
+            Glide.with(mContext).load("https://image.tmdb.org/t/p/original" + company.getLogo_path()).into(holder.companyLogo);
+        }
 
     }
 

@@ -7,11 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 
 
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,18 +39,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
+import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
 import nl.avans.cinema.domain.Cast;
 import nl.avans.cinema.domain.Crew;
 import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.Video;
+import nl.avans.cinema.ui.adapters.CastAdapter;
 import nl.avans.cinema.ui.adapters.CompanyAdapter;
 import nl.avans.cinema.ui.adapters.CrewAdapter;
 import retrofit2.http.HEAD;
@@ -60,10 +63,12 @@ public class DetailActivity extends AppCompatActivity {
     private ActivityDetailBinding binding;
     private ContentViewModel mViewModel;
     private CrewAdapter mCrewAdapter;
+    private CastAdapter mCastAdapter;
     private Movie mMovie;
     private String trailerLink;
     private String moviePageLink;
     private String link = "https://www.themoviedb.org/video/play?key=";
+    private String sessionID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,23 +112,43 @@ public class DetailActivity extends AppCompatActivity {
         binding.detailDescription.setText(mMovie.getOverview());
 
         // rating bar
+        if (!mViewModel.getUsers().isGuest()) {
+            //session id
+            loadSessionId();
+
+            mViewModel.getRatedMoviesByUser(mViewModel.getUsers().getAccount_id(), mViewModel.getUsers().getAccess_token()).observe(this, ratedMovies -> {
+                Log.d("ratedmovies", ratedMovies.getMovies().length + " rated movies");
+
+                for (Movie m : ratedMovies.getMovies()) {
+                    if (m.getId() == movie.getId()) {
+                        Log.d("movie", m.getTitle() + " with a " + m.getAccount_rating().getValue() + " rating");
+                        float rating = Math.abs(m.getAccount_rating().getValue() / 2);
+                        binding.ratingBar.setRating(rating);
+                        break;
+                    }
+                }
+            });
+        }
+
         binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                double rating = binding.ratingBar.getRating() * 2;
+                if (b) {
+                    int rating = Math.round(v) * 2;
+                    mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
 
-                mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
 
-                    boolean isGuest = mViewModel.getUsers().isGuest();
-                    if(isGuest){
-                        setRating(mMovie.getId(), rating, mViewModel.getUsers().getAccount_id(), true);
-                    } else {
-                    setRating(mMovie.getId(), rating, convertedSessionId.getSession_id(), false);
-                    }
-                });
+                        boolean isGuest = mViewModel.getUsers().isGuest();
+                        if (isGuest) {
+                            setRating(mMovie.getId(), rating, mViewModel.getUsers().getAccount_id(), true);
+                        } else {
+                            setRating(mMovie.getId(), rating, convertedSessionId.getSession_id(), false);
+                        }
+                        Toast.makeText(DetailActivity.this, "Your " + rating + " has been submitted!", Toast.LENGTH_SHORT).show();
+                    });
+                }
 
-                Toast.makeText(DetailActivity.this, "Your " + rating + " has been submitted!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -137,11 +162,14 @@ public class DetailActivity extends AppCompatActivity {
         binding.detailDescription.setText(movie.getOverview());
 
         /*Cast List*/
+        mCastAdapter = new CastAdapter(this);
+        binding.castRecyclerview.setAdapter(mCastAdapter);
+        binding.castRecyclerview.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
 
         /*Crew List*/
         mCrewAdapter = new CrewAdapter(this);
         binding.crewRecyclerview.setAdapter(mCrewAdapter);
-        binding.crewRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        binding.crewRecyclerview.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
         loadCrewAndCast();
         /*Company List*/
         CompanyAdapter companyAdapter = new CompanyAdapter(this);
@@ -157,6 +185,13 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void loadSessionId() {
+        mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
+            Log.d("SessionID", convertedSessionId.getSession_id());
+            sessionID = convertedSessionId.getSession_id();
+        });
     }
 
     @Override
@@ -205,13 +240,15 @@ public class DetailActivity extends AppCompatActivity {
         moviePageLink = link + mMovie.getId() + "-" + movieTitle;
     }
 
-    public void loadCrewAndCast(){
+    public void loadCrewAndCast() {
         mViewModel.getCrewAndCastFromMovie(mMovie.getId()).observe(this, creditResults -> {
-        Log.d("crewtest",   "yoo!");
+            Log.d("crewtest", "yoo!");
             mCrewAdapter.setCrewList(creditResults.getCrew());
+            mCastAdapter.setCastList(creditResults.getCast());
         });
     }
-    public void setRating(int movieId, double rating, String sessionId, boolean isGuest){
+
+    public void setRating(int movieId, int rating, String sessionId, boolean isGuest) {
         mViewModel.setMovieRating(movieId, rating, sessionId, isGuest).observe(this, ratingResults -> {
             Log.d("ratingwerk", ratingResults.getStatus_message());
         });
