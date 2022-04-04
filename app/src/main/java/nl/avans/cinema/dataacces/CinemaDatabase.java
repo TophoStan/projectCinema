@@ -13,7 +13,7 @@ import nl.avans.cinema.dataacces.dao.CinemaDAO;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.User;
 
-@Database(entities = {Movie.class, User.class}, version = 19, exportSchema = false)
+@Database(entities = {Movie.class, User.class}, version = 20, exportSchema = false)
 @TypeConverters({Converter.class})
 public abstract class CinemaDatabase extends RoomDatabase {
 
@@ -34,7 +34,6 @@ public abstract class CinemaDatabase extends RoomDatabase {
         return INSTANCE;
     }
     public abstract CinemaDAO movieDAO();
-
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>{
 

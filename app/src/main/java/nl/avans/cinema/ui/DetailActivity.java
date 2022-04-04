@@ -114,8 +114,13 @@ public class DetailActivity extends AppCompatActivity {
                 double rating = binding.ratingBar.getRating() * 2;
 
                 mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
-                    Log.d("SessionID" , convertedSessionId.getSession_id());
-                    setRating(mMovie.getId(), rating, convertedSessionId.getSession_id());
+
+                    boolean isGuest = mViewModel.getUsers().isGuest();
+                    if(isGuest){
+                        setRating(mMovie.getId(), rating, mViewModel.getUsers().getAccount_id(), true);
+                    } else {
+                    setRating(mMovie.getId(), rating, convertedSessionId.getSession_id(), false);
+                    }
                 });
 
                 Toast.makeText(DetailActivity.this, "Your " + rating + " has been submitted!", Toast.LENGTH_SHORT).show();
@@ -206,8 +211,8 @@ public class DetailActivity extends AppCompatActivity {
             mCrewAdapter.setCrewList(creditResults.getCrew());
         });
     }
-    public void setRating(int movieId, double rating, String sessionId){
-        mViewModel.setMovieRating(movieId, rating, sessionId).observe(this, ratingResults -> {
+    public void setRating(int movieId, double rating, String sessionId, boolean isGuest){
+        mViewModel.setMovieRating(movieId, rating, sessionId, isGuest).observe(this, ratingResults -> {
             Log.d("ratingwerk", ratingResults.getStatus_message());
         });
     }

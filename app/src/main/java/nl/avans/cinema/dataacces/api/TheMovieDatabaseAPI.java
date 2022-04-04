@@ -4,6 +4,7 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
+import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RatingRequest;
 import nl.avans.cinema.dataacces.api.calls.RatingResult;
@@ -50,10 +51,16 @@ public interface TheMovieDatabaseAPI {
                                                 @Body AccessTokenRequest request);
 
     @POST("3/movie/{movie_id}/rating?api_key=" + key)
-    Call<RatingResult> setMovieRating(@Path("movie_id") int movieId,
-                                      @Query("session_id") String sessionId,
-                                      @Header("Content-Type") String content_type,
-                                      @Body RatingRequest ratingRequest);
+    Call<RatingResult> setMovieRatingLoggedInUser(@Path("movie_id") int movieId,
+                                                  @Query("session_id") String sessionId,
+                                                  @Header("Content-Type") String content_type,
+                                                  @Body RatingRequest ratingRequest);
+
+    @POST("3/movie/{movie_id}/rating?api_key=" + key)
+    Call<RatingResult> setMovieRatingGuest (@Path("movie_id") int movieId,
+                                                  @Query("guest_session_id") String sessionId,
+                                                  @Header("Content-Type") String content_type,
+                                                  @Body RatingRequest ratingRequest);
 
     @POST("3/authentication/session/convert/4?api_key=" + key)
     Call<Convert4To3Result> convertV4To3(@Body AccessTokenResult accessToken);
@@ -61,4 +68,7 @@ public interface TheMovieDatabaseAPI {
     @GET("3/account/{account_id}/rated/movies?api_key=" + key)
     Call<MovieResults> getRatedMoviesByUser(@Path("account_id") String account_id,
                                             @Query("session_id") String session_id);
+
+    @GET("3/authentication/guest_session/new?api_key=" + key)
+    Call<GuestResult> generateGuestSession();
 }
