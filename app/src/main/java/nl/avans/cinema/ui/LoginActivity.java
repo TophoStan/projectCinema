@@ -106,7 +106,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void startGuestProcess(){
         mViewModel.generateGuestSession().observe(this, guestResult -> {
-            Toast.makeText(this, guestResult.getGuest_session_id(), Toast.LENGTH_SHORT).show();
             User user = new User();
             user.setGuest(true);
             user.setAccount_id(guestResult.getGuest_session_id());

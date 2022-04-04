@@ -82,8 +82,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder> 
 
         @Override
         public void onReceivingMovieDetails(Movie response) {
-            //Toast.makeText(mContext, response.getGenres().get(0).getName(), Toast.LENGTH_SHORT).show();
-            //TODO LISTACTIVY naar Detailactivity zetten
             Intent detailIntent = new Intent(mContext, DetailActivity.class);
             detailIntent.putExtra("movie", response);
             mContext.startActivity(detailIntent);
