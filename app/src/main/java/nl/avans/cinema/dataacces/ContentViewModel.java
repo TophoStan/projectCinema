@@ -9,8 +9,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
+import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
+import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.domain.Movie;
 
@@ -56,5 +59,14 @@ public class ContentViewModel extends AndroidViewModel {
     public MutableLiveData<MovieResults> getSearchResults(String query){
         return mRepository.getSearchResults(query);
     }
+
+    public MutableLiveData<RequestTokenResult> generateRequestToken(){
+        return mRepository.generateRequestToken();
+    }
+
+    public MutableLiveData<AccessTokenResult> generateLogin(String request){
+        return mRepository.generateAccessToken(request);
+    }
+
     //TODO Crud functies uit repository hier aan toevoegen
 }

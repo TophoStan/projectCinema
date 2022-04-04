@@ -9,12 +9,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
-import java.util.Locale;
 
+import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.api.ApiClient;
 import nl.avans.cinema.dataacces.api.TheMovieDatabaseAPI;
+import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
+import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
+import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.dataacces.dao.MovieDAO;
 import nl.avans.cinema.domain.Movie;
@@ -30,6 +33,8 @@ public class CinemaRepository {
     private MutableLiveData<VideoResults> mListOfVideos = new MutableLiveData<>();
     private MutableLiveData<CreditResults> mCrewAndCast = new MutableLiveData<>();
     private MutableLiveData<MovieResults> mMovieFilteredResults = new MutableLiveData<>();
+    private MutableLiveData<RequestTokenResult> mRequestTokenResult = new MutableLiveData<>();
+    private MutableLiveData<AccessTokenResult> mAccessTokenResult = new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -97,8 +102,8 @@ public class CinemaRepository {
         apiCallVideos(call);
         return mListOfVideos;
     }
-
     private void apiCallVideos(Call<VideoResults> call) {
+
         call.enqueue(new Callback<VideoResults>() {
             @Override
             public void onResponse(Call<VideoResults> call, Response<VideoResults> response) {
@@ -108,7 +113,7 @@ public class CinemaRepository {
 
             @Override
             public void onFailure(Call<VideoResults> call, Throwable t) {
-                //TODO errors
+                Log.e(LOG_TAG, t.getMessage());
             }
         });
     }
@@ -119,8 +124,8 @@ public class CinemaRepository {
 
         return mCrewAndCast;
     }
-
     private void apiCallCrewAndCast(Call<CreditResults> call) {
+
         call.enqueue(new Callback<CreditResults>() {
             @Override
             public void onResponse(Call<CreditResults> call, Response<CreditResults> response) {
@@ -130,7 +135,6 @@ public class CinemaRepository {
 
             @Override
             public void onFailure(Call<CreditResults> call, Throwable t) {
-                //TODO errors
                 Log.e(LOG_TAG, t.getMessage());
             }
         });
@@ -138,6 +142,11 @@ public class CinemaRepository {
 
     public MutableLiveData<MovieResults> getFilteredMovieList(String filter, int page){
         Call<MovieResults> call = api.getMoviesByFilter(filter, page);
+        apiCallMovieResults(call);
+        return mMovieFilteredResults;
+    }
+    public MutableLiveData<MovieResults> getSearchResults(String query){
+        Call<MovieResults> call = api.searchMovie(query);
         apiCallMovieResults(call);
         return mMovieFilteredResults;
     }
@@ -150,18 +159,52 @@ public class CinemaRepository {
 
             @Override
             public void onFailure(Call<MovieResults> call, Throwable t) {
-                //TODO errors
+                Log.e(LOG_TAG, t.getMessage());
             }
         });
 
     }
 
-    public MutableLiveData<MovieResults> getSearchResults(String query){
-        Call<MovieResults> call = api.searchMovie(query);
-        apiCallMovieResults(call);
-        return mMovieFilteredResults;
+    public MutableLiveData<RequestTokenResult> generateRequestToken(){
+        Call<RequestTokenResult> call = api.generateRequestToken("application/json;charset=utf-8","Bearer " + mContext.getResources().getString(R.string.bearer));
+        apiCallRequestToken(call);
+        return mRequestTokenResult;
+    }
+    private void apiCallRequestToken(Call<RequestTokenResult> call) {
+        call.enqueue(new Callback<RequestTokenResult>() {
+            @Override
+            public void onResponse(Call<RequestTokenResult> call, Response<RequestTokenResult> response) {
+                mRequestTokenResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RequestTokenResult> call, Throwable t) {
+                //TODO errors
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+
     }
 
+    public MutableLiveData<AccessTokenResult> generateAccessToken(String request){
+        Call<AccessTokenResult> call = api.generateAccessToken("application/json;charset=utf-8", "Bearer " + mContext.getResources().getString(R.string.bearer), new AccessTokenRequest(request));
+        apiCallAccessToken(call);
+        return mAccessTokenResult;
+    }
+
+    private void apiCallAccessToken(Call<AccessTokenResult> call){
+        call.enqueue(new Callback<AccessTokenResult>() {
+            @Override
+            public void onResponse(Call<AccessTokenResult> call, Response<AccessTokenResult> response) {
+                mAccessTokenResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<AccessTokenResult> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+    }
 
 }
 

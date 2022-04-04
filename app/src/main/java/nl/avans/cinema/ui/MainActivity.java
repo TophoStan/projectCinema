@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.List;
 import nl.avans.cinema.R;
 
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
+import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.task.FetchMovies;
 
 import nl.avans.cinema.dataacces.api.task.FetchSearchResults;
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         currentPageNumber = 1;
 
         loadFilteredMovie("popular", 1);
+
     }
 
     @Override
