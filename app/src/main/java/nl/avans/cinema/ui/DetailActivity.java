@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.Menu;
 import android.webkit.WebSettings;
 import android.widget.MediaController;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -117,6 +118,16 @@ public class DetailActivity extends AppCompatActivity {
 
         binding.detailDescription.setText(mMovie.getOverview());
 
+        // rating bar
+        binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                double rating = binding.ratingBar.getRating() * 2;
+                mViewModel.setMovieRating(movie.getId(), rating, true, "1234ab");
+                Toast.makeText(DetailActivity.this, "Your " + rating + " has been submitted!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // trailer
         loadVideo();
