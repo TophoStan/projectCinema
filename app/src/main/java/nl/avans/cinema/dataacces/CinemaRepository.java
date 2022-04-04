@@ -25,6 +25,8 @@ import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.dataacces.dao.CinemaDAO;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.User;
+import nl.avans.cinema.ui.DetailActivity;
+import nl.avans.cinema.ui.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -214,8 +216,6 @@ public class CinemaRepository {
     }
 
     public MutableLiveData<RatingResult> setMovieRating(int movieId, double rating, String sessionId) {
-        //String sessionType = "session_id";
-
         Call<RatingResult> call = api.setMovieRating(movieId, sessionId, "application/json;charset=utf-8", new RatingRequest(rating));
         apiCallMovieRating(call);
         return mRatingResult;
@@ -310,8 +310,8 @@ public class CinemaRepository {
         }
     }
 
-    public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String session_id){
-        Call<MovieResults> call = api.getRatedMoviesByUser(account_id,session_id);
+    public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String access_token) {
+        Call<MovieResults> call = api.getRatedMoviesByUser(account_id, access_token);
         apiCallGetRatedMoviesByUser(call);
         return mRatedMovies;
     }

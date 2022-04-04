@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,12 +40,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
+import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
 import nl.avans.cinema.domain.Cast;
 import nl.avans.cinema.domain.Crew;
@@ -64,6 +67,7 @@ public class DetailActivity extends AppCompatActivity {
     private String trailerLink;
     private String moviePageLink;
     private String link = "https://www.themoviedb.org/video/play?key=";
+    private String sessionID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,10 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void setData(Movie movie) {
+        
+        //session id
+        loadSessionId();
+        
         // load trailer
         loadVideo();
 
@@ -106,18 +114,26 @@ public class DetailActivity extends AppCompatActivity {
 
         binding.detailDescription.setText(mMovie.getOverview());
 
+        mViewModel.getRatedMoviesByUser(mViewModel.getUsers().getAccount_id(), mViewModel.getUsers().getAccess_token()).observe(this, ratedMovies -> {
+            Log.d("user", mViewModel.getUsers().getAccount_id());
+            Log.d("accesstoken", mViewModel.getUsers().getAccess_token());
+            // Log.d("ratedmovies", "" + ratedMovies.getMovies().length);
+
+            /*for (Movie m : ratedMovies.getMovies()) {
+                if (m.getId() == movie.getId()) {
+                    binding.ratingBar.setRating(m.getRating());
+                    break;
+                }
+            }*/
+        });
+
         // rating bar
         binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 double rating = binding.ratingBar.getRating() * 2;
-
-                mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
-                    Log.d("SessionID" , convertedSessionId.getSession_id());
-                    setRating(mMovie.getId(), rating, convertedSessionId.getSession_id());
-                });
-
+                setRating(mMovie.getId(), rating, sessionID);
                 Toast.makeText(DetailActivity.this, "Your " + rating + " has been submitted!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -152,6 +168,13 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void loadSessionId() {
+        mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
+            Log.d("SessionID" , convertedSessionId.getSession_id());
+            sessionID = convertedSessionId.getSession_id();
+        });
     }
 
     @Override

@@ -32,6 +32,15 @@ public class Movie implements Serializable {
     private String homepage;
     private boolean adult;
     private boolean hasMovie;
+    private int rating;
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public String getHomepage() {
         return homepage;

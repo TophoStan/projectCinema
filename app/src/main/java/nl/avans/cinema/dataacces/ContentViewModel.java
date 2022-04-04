@@ -80,8 +80,8 @@ public class ContentViewModel extends AndroidViewModel {
        return mRepository.setMovieRating(movieId,rating, sessionId);
     }
 
-    public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String session_id){
-        return mRepository.getRatedMoviesByUser(account_id, session_id);
+    public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String access_token){
+        return mRepository.getRatedMoviesByUser(account_id, access_token);
     }
 
     public User getUsers(){

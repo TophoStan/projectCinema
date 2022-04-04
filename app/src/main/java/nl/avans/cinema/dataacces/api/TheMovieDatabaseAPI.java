@@ -58,7 +58,7 @@ public interface TheMovieDatabaseAPI {
     @POST("3/authentication/session/convert/4?api_key=" + key)
     Call<Convert4To3Result> convertV4To3(@Body AccessTokenResult accessToken);
 
-    @GET("3/account/{account_id}/rated/movies?api_key=" + key)
+    @GET("4/account/{account_id}/movie/rated?api_key=" + key)
     Call<MovieResults> getRatedMoviesByUser(@Path("account_id") String account_id,
-                                            @Query("session_id") String session_id);
+                                            @Header("authorization") String authorization);
 }
