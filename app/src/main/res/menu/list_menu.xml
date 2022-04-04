@@ -4,18 +4,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/filter"
+        android:id="@+id/list_filter"
         android:icon="@drawable/filter_icon"
-        android:title="@string/filter_menu"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/share"
-        android:title="@string/shareMenu_btn"
         app:showAsAction="always"
-        tools:icon="@drawable/share_icon" />
+        android:title="@string/filter_menu" />
     <item
-        android:id="@+id/deleteList_btn"
-        android:title="@string/delete_text_btn"
+        android:id="@+id/list_share"
+        tools:icon="@drawable/share_icon"
         app:showAsAction="always"
-        tools:icon="@drawable/delete_icon" />
+        android:title="@string/share_menu" />
+    <item
+        android:id="@+id/list_delete"
+        tools:icon="@drawable/delete_icon"
+        app:showAsAction="always"
+        android:title="@string/delete_text_btn" />
 </menu>

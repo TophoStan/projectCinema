@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".ui.LoginActivity">
 
     <TextView
         android:id="@+id/Login_welcome"
@@ -22,55 +22,19 @@
     <ImageView
         android:id="@+id/Login_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="154dp"
         android:layout_below="@id/Login_welcome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
         app:srcCompat="@drawable/camera" />
 
-    <TextView
-        android:id="@+id/Login_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Login_image"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="100dp"
-        android:text="@string/username_label" />
-
-    <EditText
-        android:id="@+id/Login_editUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Login_username"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/Login_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Login_editUsername"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="100dp"
-        android:text="@string/password_label" />
-
-    <EditText
-        android:id="@+id/Login_editPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Login_password"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="textPassword" />
-
     <Button
         android:id="@+id/Login_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Login_editPassword"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/Login_image"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
         android:text="@string/login_label" />
 
     <TextView

@@ -2,26 +2,56 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/filter"
+        android:id="@+id/home_search"
+        android:icon="@drawable/search_icon"
+        android:orderInCategory="0"
+        android:title="@string/search_menu"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/home_filter"
         android:icon="@drawable/filter_icon"
         android:title="@string/filter_menu"
-        app:showAsAction="always" />
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/top_rated"
+                android:icon="@drawable/filter_icon"
+                android:title="Top rated"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/popular"
+                android:icon="@drawable/filter_icon"
+                android:title="Popular"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/playing_now"
+                android:icon="@drawable/filter_icon"
+                android:title="Playing now"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/upcoming"
+                android:icon="@drawable/filter_icon"
+                android:title="Upcoming"
+                app:showAsAction="always" />
+        </menu>
+    </item>
 
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/search_icon"
-        android:title="@string/search_menu"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/sort"
+        android:id="@+id/home_sort"
         android:icon="@drawable/sort_icon"
         android:title="@string/sort_menu"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu"
-        android:icon="@drawable/menu_icon"
-        android:title="@string/menu_menu"
-        app:showAsAction="always" />
+        android:id="@+id/home_lists"
+        android:icon="@drawable/lists_icon"
+        android:title="@string/lists"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/home_logout"
+        android:title="@string/log_out"
+        app:showAsAction="never" />
 </menu>

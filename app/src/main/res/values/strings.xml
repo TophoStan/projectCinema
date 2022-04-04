@@ -1,20 +1,14 @@
 <resources>
     <string name="app_name">Cinema</string>
-    <
-    <
-    <
-    <
-    <
-    <
-    < HEAD
+
     <string name="or_label">OR</string>
     <string name="password_label">Password:</string>
     <string name="login_label">LOGIN</string>
     <string name="register_label">REGISTER</string>
     <string name="guest_label">CONTINUE\nAS GUEST</string>
     <string name="username_label">Username:</string>
+
     <string name="welcome_label">Welcome!</string>
-    =======
     <string name="cinema_title">Cinema</string>
     <string name="film_title">film_title</string>
     <string name="filter_menu">Filter</string>
@@ -25,5 +19,19 @@
     <string name="otherLists_title">Other lists</string>
     <string name="delete_text_btn">Delete</string>
     <string name="shareMenu_btn">Share</string>
-    >>>>>>> edfc2ea0d61a9f40fbfc50cff718e43bea199e4d
+    <string name="share_menu">Share</string>
+    <string name="description_title">Date:</string>
+    <string name="description_price">Price:</string>
+    <string name="description_genre">Genre:</string>
+    <string name="crew_title_lable">Crew</string>
+    <string name="cast_title_label">Cast</string>
+    <string name="home">Home</string>
+    <string name="log_out">Log out</string>
+    <string name="lists">Lists</string>
+    <string name="trailer">Trailer</string>
+    <string name="release_date">Release date:</string>
+    <string name="popup_cancel">Cancel</string>
+    <string name="genres">Genres: </string>
+    <string name="rating_label">Rating</string>
+    <string name="bearer">eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZmUyMmY4NWQ5YTJmNTE5OWRkZGMxZWNhOGZhMmU2MCIsInN1YiI6IjYyNDQzZGRhYzUwYWQyMDA0NzAwMTkyYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fewHZDQbJlDRbCD6SFsTMMiylqxJwqjq_dyrASXjML4</string>
 </resources>
