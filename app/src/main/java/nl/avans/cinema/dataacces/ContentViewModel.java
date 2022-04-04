@@ -11,16 +11,21 @@ import java.util.List;
 
 import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
+import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
+import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
+import nl.avans.cinema.dataacces.api.calls.RatingResult;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.domain.User;
 
 public class ContentViewModel extends AndroidViewModel {
 
     private CinemaRepository mRepository;
     private LiveData<List<Movie>> mAllMovies;
+
 
     public ContentViewModel(@NonNull Application application) {
         super(application);
@@ -67,6 +72,36 @@ public class ContentViewModel extends AndroidViewModel {
     public MutableLiveData<AccessTokenResult> generateLogin(String request){
         return mRepository.generateAccessToken(request);
     }
+
+    public MutableLiveData<Convert4To3Result> convertV4ToV3SessionId(AccessTokenResult tokenResult){
+        return mRepository.convertV4SessionToV3(tokenResult);
+    }
+
+    public MutableLiveData<RatingResult> setMovieRating(int movieId, double rating, String sessionId, boolean isGuest) {
+       return mRepository.setMovieRating(movieId,rating, sessionId, isGuest);
+    }
+
+    public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String session_id){
+        return mRepository.getRatedMoviesByUser(account_id, session_id);
+    }
+
+    public MutableLiveData<GuestResult> generateGuestSession(){
+        return mRepository.generateGuestSession();
+    }
+
+    public User getUsers(){
+        return mRepository.getUserInfo();
+    }
+
+    public void deleteUsers(){
+        mRepository.deleteUsers();
+    }
+
+    public void insertUser(User user){
+        mRepository.insertUser(user);
+    }
+
+
 
     //TODO Crud functies uit repository hier aan toevoegen
 }

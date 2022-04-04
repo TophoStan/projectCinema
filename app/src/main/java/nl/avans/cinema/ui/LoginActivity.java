@@ -1,22 +1,31 @@
 package nl.avans.cinema.ui;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.View;
-import android.webkit.WebChromeClient;
+
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
+import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
-import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
-import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.databinding.ActivityLoginBinding;
+import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.domain.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,15 +56,16 @@ public class LoginActivity extends AppCompatActivity {
         binding.LoginGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startGuestProcess();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         });
 
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
-
+        mViewModel.deleteUsers();
     }
 
-    public void startLoginProcess(){
+    public void startLoginProcess() {
         mViewModel.generateRequestToken().observe(this, results -> {
             //login(results.getRequest_token());
             String url = "https://www.themoviedb.org/auth/access?request_token=" + results.getRequest_token();
@@ -63,14 +73,17 @@ public class LoginActivity extends AppCompatActivity {
 
             WebView webview = new WebView(this);
 
-            webview.setWebChromeClient(new WebChromeClient() {
+            webview.reload();
+            webview.setBackground(new ColorDrawable(getResources().getColor(R.color.black)));
+
+            webview.setWebViewClient(new WebViewClient() {
                 @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    if("https://www.themoviedb.org/auth/access/approve".equals(webview.getUrl())){
+                public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+                    if ("https://www.themoviedb.org/auth/access/approve".equals(webview.getUrl())) {
                         setContentView(binding.getRoot());
                         postLogin(results.getRequest_token());
                     }
-                    super.onProgressChanged(view, newProgress);
+                    super.doUpdateVisitedHistory(view, url, isReload);
                 }
             });
 
@@ -79,12 +92,25 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-    public void postLogin(String requestToken){
+    public void postLogin(String requestToken) {
 
         mViewModel.generateLogin(requestToken).observe(this, results -> {
+            User user = new User();
+            user.setAccount_id(results.getAccount_id());
+            user.setAccess_token(results.getAccess_token());
+            user.setGuest(false);
+            mViewModel.insertUser(user);
+            startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("user", user));
+        });
+    }
 
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    public void startGuestProcess(){
+        mViewModel.generateGuestSession().observe(this, guestResult -> {
+            Toast.makeText(this, guestResult.getGuest_session_id(), Toast.LENGTH_SHORT).show();
+            User user = new User();
+            user.setGuest(true);
+            user.setAccount_id(guestResult.getGuest_session_id());
+            mViewModel.insertUser(user);
         });
     }
 

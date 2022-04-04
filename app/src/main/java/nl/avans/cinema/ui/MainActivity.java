@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
         loadFilteredMovie("popular", 1);
 
+
+
     }
 
     @Override
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String s) {
                 contentViewModel.getSearchResults(s).observe(MainActivity.this, searchResults -> {
                     adapter.setMovies(Arrays.asList(searchResults.getMovies()));
+                    setHomeButtonVisibility(true);
                 });
 
                 return false;
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.playing_now) {
-            currentFilter = "playing_now";
+            currentFilter = "now_playing";
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.upcoming) {

@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.Menu;
 import android.webkit.WebSettings;
 import android.widget.MediaController;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,8 @@ import java.util.Locale;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
+import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
 import nl.avans.cinema.domain.Cast;
 import nl.avans.cinema.domain.Crew;
@@ -71,21 +74,7 @@ public class DetailActivity extends AppCompatActivity {
         mMovie = (Movie) getIntent().getSerializableExtra("movie");
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         setData(mMovie);
-
     }
-
-
-
-
-        /*Alternative Titles RecyclerView*/
-
-        //alternateRecyclerView = findViewById(R.id.)
-        //GridLayoutManager threeColumnLayoutManager = new GridLayoutManager(this, 3);
-        //alternateRecyclerView.setLayoutManager(threeColumnLayoutManager);
-
-
-//        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
-
 
     public void setData(Movie movie) {
         // load trailer
@@ -117,6 +106,26 @@ public class DetailActivity extends AppCompatActivity {
 
         binding.detailDescription.setText(mMovie.getOverview());
 
+        // rating bar
+        binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                double rating = binding.ratingBar.getRating() * 2;
+
+                mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
+
+                    boolean isGuest = mViewModel.getUsers().isGuest();
+                    if(isGuest){
+                        setRating(mMovie.getId(), rating, mViewModel.getUsers().getAccount_id(), true);
+                    } else {
+                    setRating(mMovie.getId(), rating, convertedSessionId.getSession_id(), false);
+                    }
+                });
+
+                Toast.makeText(DetailActivity.this, "Your " + rating + " has been submitted!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // trailer
         loadVideo();
@@ -128,7 +137,6 @@ public class DetailActivity extends AppCompatActivity {
         binding.detailDescription.setText(movie.getOverview());
 
         /*Cast List*/
-
 
         /*Crew List*/
         mCrewAdapter = new CrewAdapter(this);
@@ -189,7 +197,6 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-
     public void loadPage() {
         String link = "https://www.themoviedb.org/movie/";
         String movieTitle = mMovie.getTitle();
@@ -198,11 +205,15 @@ public class DetailActivity extends AppCompatActivity {
         moviePageLink = link + mMovie.getId() + "-" + movieTitle;
     }
 
-
     public void loadCrewAndCast(){
         mViewModel.getCrewAndCastFromMovie(mMovie.getId()).observe(this, creditResults -> {
         Log.d("crewtest",   "yoo!");
             mCrewAdapter.setCrewList(creditResults.getCrew());
+        });
+    }
+    public void setRating(int movieId, double rating, String sessionId, boolean isGuest){
+        mViewModel.setMovieRating(movieId, rating, sessionId, isGuest).observe(this, ratingResults -> {
+            Log.d("ratingwerk", ratingResults.getStatus_message());
         });
     }
 }

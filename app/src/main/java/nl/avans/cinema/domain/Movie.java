@@ -25,6 +25,7 @@ public class Movie implements Serializable {
     @ColumnInfo(name = "genreList")
     private List<Genre> genres;
     private List<Company> production_companies;
+    //rating
     private double vote_average;
     private double vote_count;
     private double popularity;

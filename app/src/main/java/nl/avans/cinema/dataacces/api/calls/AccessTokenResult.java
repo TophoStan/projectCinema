@@ -7,6 +7,10 @@ public class AccessTokenResult {
     private int status_code;
     private String account_id;
 
+    public AccessTokenResult(String access_token) {
+        this.access_token = access_token;
+    }
+
     public boolean isSuccess() {
         return success;
     }
