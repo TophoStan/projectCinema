@@ -5,6 +5,8 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
+import nl.avans.cinema.dataacces.api.calls.ListResult;
+import nl.avans.cinema.dataacces.api.calls.ListsResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RatingRequest;
 import nl.avans.cinema.dataacces.api.calls.RatingResult;
@@ -71,4 +73,13 @@ public interface TheMovieDatabaseAPI {
 
     @GET("3/authentication/guest_session/new?api_key=" + key)
     Call<GuestResult> generateGuestSession();
+
+    @GET("4/list/{list_id}?api_key=" + key)
+    Call<ListResult> getList(@Path("list_id") int listId,
+                             @Header("Content_Type") String content_type);
+
+    @GET("4/account/{account_id}/lists")
+    Call<ListsResult> getLists(@Path("account_id") String accountId,
+                               @Header("authorization") String authorization);
+
 }

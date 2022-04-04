@@ -1,11 +1,12 @@
 package nl.avans.cinema.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 public class MovieList {
-    private ArrayList<Movie> list = new ArrayList<>();
+    private List<Movie> list = new ArrayList<>();
     private int id;
     private String name;
 
@@ -21,7 +22,7 @@ public class MovieList {
         return name;
     }
 
-    public ArrayList<Movie> getList() {
+    public List<Movie> getList() {
         return list;
     }
 

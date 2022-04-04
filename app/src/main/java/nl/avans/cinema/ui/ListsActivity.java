@@ -2,8 +2,8 @@ package nl.avans.cinema.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,19 +12,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import nl.avans.cinema.R;
+import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.databinding.ActivityListsBinding;
 import nl.avans.cinema.domain.MovieList;
 import nl.avans.cinema.ui.adapters.ListAdapter;
 
 public class ListsActivity extends AppCompatActivity {
 
-    private final LinkedList<String> mListList = new LinkedList<>();
+    private List<MovieList> mListList = new ArrayList<>();
     private ActivityListsBinding binding;
-    private RecyclerView mRecyclerView;
     private ListAdapter mAdapter;
+    private ContentViewModel contentViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +35,28 @@ public class ListsActivity extends AppCompatActivity {
         binding = ActivityListsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        MovieList Favourites = new MovieList("Favourites");
-        MovieList Plan_to_Watch = new MovieList("Plan to watch");
+        contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
 
-        mListList.add(Favourites.getName());
-        mListList.add(Plan_to_Watch.getName());
+        /*MovieList favourites = new MovieList("Favourites");
+        MovieList plan_to_Watch = new MovieList("Plan to watch");
 
-        // Get a handle to the RecyclerView.
-        mRecyclerView = findViewById(R.id.yourList_list);
+        mListList.add(favourites);
+        mListList.add(plan_to_Watch);*/
+
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new ListAdapter(this, mListList);
+        mAdapter = new ListAdapter(this, contentViewModel, this);
         // Connect the adapter with the RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
+        binding.yourListList.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager.
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.yourListList.setLayoutManager(new LinearLayoutManager(this));
 
+        // commit data
+        contentViewModel.getListsFromUser(contentViewModel.getUsers().getAccount_id(), contentViewModel.getUsers().getAccess_token()).observe(this, listsResult -> {
+            mListList = listsResult.getResults();
+            mAdapter.setLists(mListList);
+        });
 
+        // test btn
         binding.toAList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

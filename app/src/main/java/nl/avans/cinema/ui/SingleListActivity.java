@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import nl.avans.cinema.R;
+import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.databinding.ActivitySingleListBinding;
+import nl.avans.cinema.domain.MovieList;
 
 public class SingleListActivity extends AppCompatActivity {
 
@@ -25,6 +27,10 @@ public class SingleListActivity extends AppCompatActivity {
         binding = ActivitySingleListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        ListResult movieList = (ListResult) getIntent().getSerializableExtra("list");
+        binding.listNamePage.setText(movieList.getName());
+
+        //TODO laat films zien in lijst
     }
 
     @Override

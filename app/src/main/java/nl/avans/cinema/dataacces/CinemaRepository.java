@@ -18,6 +18,8 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
+import nl.avans.cinema.dataacces.api.calls.ListResult;
+import nl.avans.cinema.dataacces.api.calls.ListsResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RatingRequest;
 import nl.avans.cinema.dataacces.api.calls.RatingResult;
@@ -46,6 +48,8 @@ public class CinemaRepository {
     private MutableLiveData<RatingResult> mRatingResult = new MutableLiveData<>();
     private MutableLiveData<MovieResults> mRatedMovies = new MutableLiveData<>();
     private MutableLiveData<GuestResult> mGuestData = new MutableLiveData<>();
+    private MutableLiveData<ListResult> mListResult = new MutableLiveData<>();
+    private MutableLiveData<ListsResult> mListsResult = new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -363,6 +367,46 @@ public class CinemaRepository {
 
             @Override
             public void onFailure(Call<GuestResult> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<ListResult> getListFromUser(int listId) {
+        Call<ListResult> call = api.getList(listId, "application/json;charset=utf-8");
+        apiCallGetListFromUser(call);
+        return mListResult;
+    }
+
+    private void apiCallGetListFromUser(Call<ListResult> call) {
+        call.enqueue(new Callback<ListResult>() {
+            @Override
+            public void onResponse(Call<ListResult> call, Response<ListResult> response) {
+                mListResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ListResult> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<ListsResult> getListsFromUser(String accountId, String session_id) {
+        Call<ListsResult> call = api.getLists(accountId, "Bearer " + session_id);
+        apiCallGetListsFromUser(call);
+        return mListsResult;
+    }
+
+    private void apiCallGetListsFromUser(Call<ListsResult> call) {
+        call.enqueue(new Callback<ListsResult>() {
+            @Override
+            public void onResponse(Call<ListsResult> call, Response<ListsResult> response) {
+                mListsResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ListsResult> call, Throwable t) {
                 Log.e(LOG_TAG, t.getMessage());
             }
         });
