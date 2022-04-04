@@ -17,11 +17,13 @@ import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.domain.User;
 
 public class ContentViewModel extends AndroidViewModel {
 
     private CinemaRepository mRepository;
     private LiveData<List<Movie>> mAllMovies;
+
 
     public ContentViewModel(@NonNull Application application) {
         super(application);
@@ -76,6 +78,20 @@ public class ContentViewModel extends AndroidViewModel {
     public void setMovieRating(int movieId, double rating, boolean isUser, String sessionId) {
         mRepository.setMovieRating(movieId,rating, isUser, sessionId);
     }
+
+    public User getUsers(){
+        return mRepository.getUserInfo();
+    }
+
+    public void deleteUsers(){
+        mRepository.deleteUsers();
+    }
+
+    public void insertUser(User user){
+        mRepository.insertUser(user);
+    }
+
+
 
     //TODO Crud functies uit repository hier aan toevoegen
 }
