@@ -33,14 +33,14 @@ public class Movie implements Serializable {
     private String homepage;
     private boolean adult;
     private boolean hasMovie;
-    private int rating;
+    private AccountRating account_rating;
 
-    public int getRating() {
-        return rating;
+    public AccountRating getAccount_rating() {
+        return account_rating;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setAccount_rating(AccountRating account_rating) {
+        this.account_rating = account_rating;
     }
 
     public String getHomepage() {

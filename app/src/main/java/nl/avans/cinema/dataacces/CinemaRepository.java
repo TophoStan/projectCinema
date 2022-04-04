@@ -222,7 +222,7 @@ public class CinemaRepository {
         });
     }
 
-    public MutableLiveData<RatingResult> setMovieRating(int movieId, double rating, String sessionId, boolean isGuest) {
+    public MutableLiveData<RatingResult> setMovieRating(int movieId, int rating, String sessionId, boolean isGuest) {
 
         if (!isGuest) {
             Call<RatingResult> call = api.setMovieRatingLoggedInUser(movieId, sessionId, "application/json;charset=utf-8", new RatingRequest(rating));

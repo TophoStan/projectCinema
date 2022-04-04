@@ -77,7 +77,7 @@ public class ContentViewModel extends AndroidViewModel {
         return mRepository.convertV4SessionToV3(tokenResult);
     }
 
-    public MutableLiveData<RatingResult> setMovieRating(int movieId, double rating, String sessionId, boolean isGuest) {
+    public MutableLiveData<RatingResult> setMovieRating(int movieId, int rating, String sessionId, boolean isGuest) {
        return mRepository.setMovieRating(movieId,rating, sessionId, isGuest);
     }
 

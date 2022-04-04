@@ -1,6 +1,5 @@
 package nl.avans.cinema.dataacces.converters;
 
-import android.util.Log;
 
 import androidx.room.TypeConverter;
 
@@ -8,9 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
+import nl.avans.cinema.domain.AccountRating;
 import nl.avans.cinema.domain.Company;
 import nl.avans.cinema.domain.Genre;
 
@@ -58,5 +57,20 @@ public class Converter {
         Type listType = new TypeToken<List<Integer>>() {}.getType();
 
         return new Gson().fromJson(data, listType);
+    }
+
+    @TypeConverter
+    public static AccountRating stringToAccountRating(String data) {
+
+        Type listType = new TypeToken<AccountRating>() {}.getType();
+
+        return new Gson().fromJson(data, listType);
+    }
+
+    @TypeConverter
+    public static String fromAccountRatingToList(AccountRating list) {
+        Gson gson = new Gson();
+
+        return gson.toJson(list);
     }
 }

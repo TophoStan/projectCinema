@@ -1,18 +1,18 @@
 package nl.avans.cinema.dataacces.api.calls;
 
 public class RatingRequest {
-    private double value;
+    private int value;
 
-    public RatingRequest(double value) {
+    public RatingRequest(int value) {
 
         this.value = value;
     }
 
-    public double getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(int value) {
         this.value = value;
     }
 }
