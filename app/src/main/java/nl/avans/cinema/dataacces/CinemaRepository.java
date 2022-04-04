@@ -206,6 +206,15 @@ public class CinemaRepository {
         });
     }
 
+    public void setMovieRating(int movieId, double rating, boolean isUser, String sessionId) {
+        String ratingRequest = "{'value': "+ rating + "}";
+        String sessionType = "session_id";
+
+        if (!isUser) {
+            sessionType = "guest_" + sessionType;
+        }
+        api.setMovieRating(movieId, sessionType, sessionId, "application/json;charset=utf-8", ratingRequest);
+    }
 }
 
 
