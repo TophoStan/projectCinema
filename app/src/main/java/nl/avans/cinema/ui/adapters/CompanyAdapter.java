@@ -39,7 +39,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.CompanyH
         if(company.getName()!= null){
             holder.companyTitle.setText(company.getName());
         }
-        // Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + company.getLogo_path()).into(holder.companyLogo);
+        //Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + company.getLogo_path()).into(holder.companyLogo);
 
     }
 

@@ -8,8 +8,9 @@ public class Cast {
     private Character[] characters;
     private int cast_id;
     private int order;
-    private int credit_id;
+    private String credit_id;
     private String profile_path;
+    private String character;
 
     public int getId() {
         return id;
@@ -67,11 +68,11 @@ public class Cast {
         this.order = order;
     }
 
-    public int getCredit_id() {
+    public String getCredit_id() {
         return credit_id;
     }
 
-    public void setCredit_id(int credit_id) {
+    public void setCredit_id(String credit_id) {
         this.credit_id = credit_id;
     }
 
@@ -81,5 +82,13 @@ public class Cast {
 
     public void setProfile_path(String profile_path) {
         this.profile_path = profile_path;
+    }
+
+    public String getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(String character) {
+        this.character = character;
     }
 }

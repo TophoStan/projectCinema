@@ -30,6 +30,7 @@ public class CinemaRepository {
     private MutableLiveData<VideoResults> mListOfVideos = new MutableLiveData<>();
     private MutableLiveData<CreditResults> mCrewAndCast = new MutableLiveData<>();
     private MutableLiveData<MovieResults> mMovieFilteredResults = new MutableLiveData<>();
+    private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
     public CinemaRepository(Application application) {
@@ -115,6 +116,7 @@ public class CinemaRepository {
     public MutableLiveData<CreditResults> getCrewAndCastFromMovie(int movieId){
         Call<CreditResults> call = api.getCrewAndCastFromMovie(movieId);
         apiCallCrewAndCast(call);
+
         return mCrewAndCast;
     }
 
@@ -129,6 +131,7 @@ public class CinemaRepository {
             @Override
             public void onFailure(Call<CreditResults> call, Throwable t) {
                 //TODO errors
+                Log.e(LOG_TAG, t.getMessage());
             }
         });
     }

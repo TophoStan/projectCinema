@@ -49,12 +49,14 @@ import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.Video;
 import nl.avans.cinema.ui.adapters.CompanyAdapter;
+import nl.avans.cinema.ui.adapters.CrewAdapter;
 import retrofit2.http.HEAD;
 
 public class DetailActivity extends AppCompatActivity {
 
     private ActivityDetailBinding binding;
     private ContentViewModel mViewModel;
+    private CrewAdapter mCrewAdapter;
     private Movie mMovie;
     private String trailerLink;
     private String moviePageLink;
@@ -69,11 +71,6 @@ public class DetailActivity extends AppCompatActivity {
         mMovie = (Movie) getIntent().getSerializableExtra("movie");
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         setData(mMovie);
-
-        mMovie = (Movie) getIntent().getSerializableExtra("movie");
-        mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
-        setData(mMovie);
-        loadCrewAndCast();
 
     }
 
@@ -134,7 +131,10 @@ public class DetailActivity extends AppCompatActivity {
 
 
         /*Crew List*/
-
+        mCrewAdapter = new CrewAdapter(this);
+        binding.crewRecyclerview.setAdapter(mCrewAdapter);
+        binding.crewRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        loadCrewAndCast();
         /*Company List*/
         CompanyAdapter companyAdapter = new CompanyAdapter(this);
         binding.companyRecyclerview.setAdapter(companyAdapter);
@@ -201,12 +201,8 @@ public class DetailActivity extends AppCompatActivity {
 
     public void loadCrewAndCast(){
         mViewModel.getCrewAndCastFromMovie(mMovie.getId()).observe(this, creditResults -> {
-            //Hier krijg je crew and cast binnen
-            for (Crew crew: creditResults.getCrew()) {
-            }
-            for (Cast cast: creditResults.getCast()) {
-
-            }
+        Log.d("crewtest",   "yoo!");
+            mCrewAdapter.setCrewList(creditResults.getCrew());
         });
     }
 }
