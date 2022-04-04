@@ -41,6 +41,7 @@ public class CinemaRepository {
     private MutableLiveData<AccessTokenResult> mAccessTokenResult = new MutableLiveData<>();
     private MutableLiveData<Convert4To3Result> convertedResult = new MutableLiveData<>();
     private MutableLiveData<RatingResult> mRatingResult = new MutableLiveData<>();
+    private MutableLiveData<MovieResults> mRatedMovies = new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -307,6 +308,26 @@ public class CinemaRepository {
         protected User doInBackground(Void... users) {
             return asyncDao.getUser();
         }
+    }
+
+    public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String session_id){
+        Call<MovieResults> call = api.getRatedMoviesByUser(account_id,session_id);
+        apiCallGetRatedMoviesByUser(call);
+        return mRatedMovies;
+    }
+
+    private void apiCallGetRatedMoviesByUser(Call<MovieResults> call){
+        call.enqueue(new Callback<MovieResults>() {
+            @Override
+            public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                mRatedMovies.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<MovieResults> call, Throwable t) {
+
+            }
+        });
     }
 
 }

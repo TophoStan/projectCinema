@@ -74,7 +74,6 @@ public class DetailActivity extends AppCompatActivity {
         mMovie = (Movie) getIntent().getSerializableExtra("movie");
         mViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         setData(mMovie);
-
     }
 
     public void setData(Movie movie) {
@@ -133,7 +132,6 @@ public class DetailActivity extends AppCompatActivity {
         binding.detailDescription.setText(movie.getOverview());
 
         /*Cast List*/
-
 
         /*Crew List*/
         mCrewAdapter = new CrewAdapter(this);
