@@ -17,6 +17,7 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
+import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RatingRequest;
 import nl.avans.cinema.dataacces.api.calls.RatingResult;
@@ -44,6 +45,7 @@ public class CinemaRepository {
     private MutableLiveData<Convert4To3Result> convertedResult = new MutableLiveData<>();
     private MutableLiveData<RatingResult> mRatingResult = new MutableLiveData<>();
     private MutableLiveData<MovieResults> mRatedMovies = new MutableLiveData<>();
+    private MutableLiveData<GuestResult> mGuestData = new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -67,15 +69,6 @@ public class CinemaRepository {
         new insertAsyncTask(mMovieDao).execute(movie);
     }
 
-    public Movie getMovie(int id) {
-        try {
-            return new getMovieAsyncTask(mMovieDao).execute(id).get();
-        } catch (Exception e) {
-            Log.e("error", e.getMessage());
-            return null;
-        }
-    }
-
     private static class insertAsyncTask extends AsyncTask<Movie, Void, Void> {
 
         private CinemaDAO mAsyncTaskDao;
@@ -87,6 +80,15 @@ public class CinemaRepository {
         @Override
         protected Void doInBackground(final Movie... params) {
             mAsyncTaskDao.insertMovie(params[0]);
+            return null;
+        }
+    }
+
+    public Movie getMovie(int id) {
+        try {
+            return new getMovieAsyncTask(mMovieDao).execute(id).get();
+        } catch (Exception e) {
+            Log.e("error", e.getMessage());
             return null;
         }
     }
@@ -111,6 +113,7 @@ public class CinemaRepository {
         apiCallVideos(call);
         return mListOfVideos;
     }
+
     private void apiCallVideos(Call<VideoResults> call) {
 
         call.enqueue(new Callback<VideoResults>() {
@@ -127,12 +130,13 @@ public class CinemaRepository {
         });
     }
 
-    public MutableLiveData<CreditResults> getCrewAndCastFromMovie(int movieId){
+    public MutableLiveData<CreditResults> getCrewAndCastFromMovie(int movieId) {
         Call<CreditResults> call = api.getCrewAndCastFromMovie(movieId);
         apiCallCrewAndCast(call);
 
         return mCrewAndCast;
     }
+
     private void apiCallCrewAndCast(Call<CreditResults> call) {
 
         call.enqueue(new Callback<CreditResults>() {
@@ -149,16 +153,18 @@ public class CinemaRepository {
         });
     }
 
-    public MutableLiveData<MovieResults> getFilteredMovieList(String filter, int page){
+    public MutableLiveData<MovieResults> getFilteredMovieList(String filter, int page) {
         Call<MovieResults> call = api.getMoviesByFilter(filter, page);
         apiCallMovieResults(call);
         return mMovieFilteredResults;
     }
-    public MutableLiveData<MovieResults> getSearchResults(String query){
+
+    public MutableLiveData<MovieResults> getSearchResults(String query) {
         Call<MovieResults> call = api.searchMovie(query);
         apiCallMovieResults(call);
         return mMovieFilteredResults;
     }
+
     private void apiCallMovieResults(Call<MovieResults> call) {
         call.enqueue(new Callback<MovieResults>() {
             @Override
@@ -174,11 +180,12 @@ public class CinemaRepository {
 
     }
 
-    public MutableLiveData<RequestTokenResult> generateRequestToken(){
-        Call<RequestTokenResult> call = api.generateRequestToken("application/json;charset=utf-8","Bearer " + mContext.getResources().getString(R.string.bearer));
+    public MutableLiveData<RequestTokenResult> generateRequestToken() {
+        Call<RequestTokenResult> call = api.generateRequestToken("application/json;charset=utf-8", "Bearer " + mContext.getResources().getString(R.string.bearer));
         apiCallRequestToken(call);
         return mRequestTokenResult;
     }
+
     private void apiCallRequestToken(Call<RequestTokenResult> call) {
         call.enqueue(new Callback<RequestTokenResult>() {
             @Override
@@ -195,13 +202,13 @@ public class CinemaRepository {
 
     }
 
-    public MutableLiveData<AccessTokenResult> generateAccessToken(String request){
+    public MutableLiveData<AccessTokenResult> generateAccessToken(String request) {
         Call<AccessTokenResult> call = api.generateAccessToken("application/json;charset=utf-8", "Bearer " + mContext.getResources().getString(R.string.bearer), new AccessTokenRequest(request));
         apiCallAccessToken(call);
         return mAccessTokenResult;
     }
 
-    private void apiCallAccessToken(Call<AccessTokenResult> call){
+    private void apiCallAccessToken(Call<AccessTokenResult> call) {
         call.enqueue(new Callback<AccessTokenResult>() {
             @Override
             public void onResponse(Call<AccessTokenResult> call, Response<AccessTokenResult> response) {
@@ -215,13 +222,19 @@ public class CinemaRepository {
         });
     }
 
-    public MutableLiveData<RatingResult> setMovieRating(int movieId, double rating, String sessionId) {
-        Call<RatingResult> call = api.setMovieRating(movieId, sessionId, "application/json;charset=utf-8", new RatingRequest(rating));
-        apiCallMovieRating(call);
+    public MutableLiveData<RatingResult> setMovieRating(int movieId, double rating, String sessionId, boolean isGuest) {
+
+        if (!isGuest) {
+            Call<RatingResult> call = api.setMovieRatingLoggedInUser(movieId, sessionId, "application/json;charset=utf-8", new RatingRequest(rating));
+            apiCallMovieRating(call);
+        } else {
+            Call<RatingResult> call = api.setMovieRatingGuest(movieId, sessionId, "application/json;charset=utf-8", new RatingRequest(rating));
+            apiCallMovieRating(call);
+        }
         return mRatingResult;
     }
 
-    private void apiCallMovieRating(Call<RatingResult> call){
+    private void apiCallMovieRating(Call<RatingResult> call) {
         call.enqueue(new Callback<RatingResult>() {
             @Override
             public void onResponse(Call<RatingResult> call, Response<RatingResult> response) {
@@ -235,12 +248,13 @@ public class CinemaRepository {
         });
     }
 
-    public MutableLiveData<Convert4To3Result> convertV4SessionToV3(AccessTokenResult access_token){
+    public MutableLiveData<Convert4To3Result> convertV4SessionToV3(AccessTokenResult access_token) {
         Call<Convert4To3Result> call = api.convertV4To3(access_token);
         apiCallConvertSessionId(call);
         return convertedResult;
     }
-    private void apiCallConvertSessionId(Call<Convert4To3Result> call){
+
+    private void apiCallConvertSessionId(Call<Convert4To3Result> call) {
         call.enqueue(new Callback<Convert4To3Result>() {
             @Override
             public void onResponse(Call<Convert4To3Result> call, Response<Convert4To3Result> response) {
@@ -254,10 +268,11 @@ public class CinemaRepository {
         });
     }
 
-    public void insertUser(User user){
+    public void insertUser(User user) {
         new insertUserToDatabase(mMovieDao).execute(user);
     }
-    private static class insertUserToDatabase extends AsyncTask <User, Void, Void>{
+
+    private static class insertUserToDatabase extends AsyncTask<User, Void, Void> {
         private CinemaDAO dao;
 
         public insertUserToDatabase(CinemaDAO dao) {
@@ -271,10 +286,11 @@ public class CinemaRepository {
         }
     }
 
-    public void deleteUsers(){
+    public void deleteUsers() {
         new deleteUsersFromDatabase(mMovieDao).execute();
     }
-    private static class deleteUsersFromDatabase extends AsyncTask <Void, Void, Void>{
+
+    private static class deleteUsersFromDatabase extends AsyncTask<Void, Void, Void> {
         private CinemaDAO dao;
 
         public deleteUsersFromDatabase(CinemaDAO dao) {
@@ -288,15 +304,16 @@ public class CinemaRepository {
         }
     }
 
-    public User getUserInfo(){
+    public User getUserInfo() {
         try {
             return new getUserInfoAsyncTask(mMovieDao).execute().get();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage());
             return null;
         }
     }
-    private static class getUserInfoAsyncTask extends AsyncTask <Void, Void, User>{
+
+    private static class getUserInfoAsyncTask extends AsyncTask<Void, Void, User> {
 
         private CinemaDAO asyncDao;
 
@@ -310,13 +327,14 @@ public class CinemaRepository {
         }
     }
 
-    public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String access_token) {
-        Call<MovieResults> call = api.getRatedMoviesByUser(account_id, access_token);
+
+    public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String session_id) {
+        Call<MovieResults> call = api.getRatedMoviesByUser(account_id,"Bearer " + session_id);
         apiCallGetRatedMoviesByUser(call);
         return mRatedMovies;
     }
 
-    private void apiCallGetRatedMoviesByUser(Call<MovieResults> call){
+    private void apiCallGetRatedMoviesByUser(Call<MovieResults> call) {
         call.enqueue(new Callback<MovieResults>() {
             @Override
             public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
@@ -325,11 +343,30 @@ public class CinemaRepository {
 
             @Override
             public void onFailure(Call<MovieResults> call, Throwable t) {
-
+                Log.e(LOG_TAG, t.getMessage());
             }
         });
     }
 
+    public MutableLiveData<GuestResult> generateGuestSession() {
+        Call<GuestResult> call = api.generateGuestSession();
+        apiCallGenerateGuest(call);
+        return mGuestData;
+    }
+
+    private void apiCallGenerateGuest(Call<GuestResult> call) {
+        call.enqueue(new Callback<GuestResult>() {
+            @Override
+            public void onResponse(Call<GuestResult> call, Response<GuestResult> response) {
+                mGuestData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GuestResult> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+    }
 }
 
 

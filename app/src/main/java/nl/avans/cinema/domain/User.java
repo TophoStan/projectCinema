@@ -10,9 +10,19 @@ import java.io.Serializable;
 public class User implements Serializable {
     @NonNull
     @PrimaryKey
+    //account_id functions as session_id for guest
     private String account_id;
     private String access_token;
     private String username;
+    private boolean isGuest;
+
+    public boolean isGuest() {
+        return isGuest;
+    }
+
+    public void setGuest(boolean guest) {
+        isGuest = guest;
+    }
 
     public String getAccount_id() {
         return account_id;

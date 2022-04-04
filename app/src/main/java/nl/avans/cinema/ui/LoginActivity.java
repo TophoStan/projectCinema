@@ -15,11 +15,16 @@ import android.view.View;
 
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.databinding.ActivityLoginBinding;
+import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.User;
 
 public class LoginActivity extends AppCompatActivity {
@@ -33,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         binding.LoginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.LoginGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startGuestProcess();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         });
@@ -93,8 +98,19 @@ public class LoginActivity extends AppCompatActivity {
             User user = new User();
             user.setAccount_id(results.getAccount_id());
             user.setAccess_token(results.getAccess_token());
+            user.setGuest(false);
             mViewModel.insertUser(user);
             startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("user", user));
+        });
+    }
+
+    public void startGuestProcess(){
+        mViewModel.generateGuestSession().observe(this, guestResult -> {
+            Toast.makeText(this, guestResult.getGuest_session_id(), Toast.LENGTH_SHORT).show();
+            User user = new User();
+            user.setGuest(true);
+            user.setAccount_id(guestResult.getGuest_session_id());
+            mViewModel.insertUser(user);
         });
     }
 
