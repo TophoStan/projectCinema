@@ -75,8 +75,8 @@ public class ContentViewModel extends AndroidViewModel {
         return mRepository.convertV4SessionToV3(tokenResult);
     }
 
-    public void setMovieRating(int movieId, double rating, boolean isUser, String sessionId) {
-        mRepository.setMovieRating(movieId,rating, isUser, sessionId);
+    public void setMovieRating(int movieId, double rating, String sessionId) {
+        mRepository.setMovieRating(movieId,rating, sessionId);
     }
 
     public User getUsers(){

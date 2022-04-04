@@ -209,14 +209,11 @@ public class CinemaRepository {
         });
     }
 
-    public void setMovieRating(int movieId, double rating, boolean isUser, String sessionId) {
+    public void setMovieRating(int movieId, double rating, String sessionId) {
         String ratingRequest = "{'value': "+ rating + "}";
         String sessionType = "session_id";
 
-        if (!isUser) {
-            sessionType = "guest_" + sessionType;
-        }
-        api.setMovieRating(movieId, sessionType, sessionId, "application/json;charset=utf-8", ratingRequest);
+        api.setMovieRating(movieId, sessionId, "application/json;charset=utf-8", ratingRequest);
     }
 
     public MutableLiveData<Convert4To3Result> convertV4SessionToV3(AccessTokenResult access_token){

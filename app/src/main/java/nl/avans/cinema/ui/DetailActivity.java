@@ -44,6 +44,7 @@ import java.util.Locale;
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
+import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.databinding.ActivityDetailBinding;
 import nl.avans.cinema.domain.Cast;
 import nl.avans.cinema.domain.Crew;
@@ -125,8 +126,12 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 double rating = binding.ratingBar.getRating() * 2;
-                // String sessionId = mViewModel.convertV4ToV3SessionId();
-                mViewModel.setMovieRating(movie.getId(), rating, true, "abc");
+
+                mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
+                    Log.d("SessionID" , convertedSessionId.getSession_id());
+                    mViewModel.setMovieRating(movie.getId(), rating, convertedSessionId.getSession_id());
+                });
+
                 Toast.makeText(DetailActivity.this, "Your " + rating + " has been submitted!", Toast.LENGTH_SHORT).show();
             }
         });
