@@ -14,6 +14,7 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
+import nl.avans.cinema.dataacces.api.calls.RatingResult;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.domain.Movie;
@@ -75,8 +76,8 @@ public class ContentViewModel extends AndroidViewModel {
         return mRepository.convertV4SessionToV3(tokenResult);
     }
 
-    public void setMovieRating(int movieId, double rating, String sessionId) {
-        mRepository.setMovieRating(movieId,rating, sessionId);
+    public MutableLiveData<RatingResult> setMovieRating(int movieId, double rating, String sessionId) {
+       return mRepository.setMovieRating(movieId,rating, sessionId);
     }
 
     public User getUsers(){

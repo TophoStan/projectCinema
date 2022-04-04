@@ -77,19 +77,6 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-
-
-
-        /*Alternative Titles RecyclerView*/
-
-        //alternateRecyclerView = findViewById(R.id.)
-        //GridLayoutManager threeColumnLayoutManager = new GridLayoutManager(this, 3);
-        //alternateRecyclerView.setLayoutManager(threeColumnLayoutManager);
-
-
-//        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
-
-
     public void setData(Movie movie) {
         // load trailer
         loadVideo();
@@ -129,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
                     Log.d("SessionID" , convertedSessionId.getSession_id());
-                    mViewModel.setMovieRating(movie.getId(), rating, convertedSessionId.getSession_id());
+                    setRating(mMovie.getId(), rating, convertedSessionId.getSession_id());
                 });
 
                 Toast.makeText(DetailActivity.this, "Your " + rating + " has been submitted!", Toast.LENGTH_SHORT).show();
@@ -207,7 +194,6 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-
     public void loadPage() {
         String link = "https://www.themoviedb.org/movie/";
         String movieTitle = mMovie.getTitle();
@@ -216,11 +202,15 @@ public class DetailActivity extends AppCompatActivity {
         moviePageLink = link + mMovie.getId() + "-" + movieTitle;
     }
 
-
     public void loadCrewAndCast(){
         mViewModel.getCrewAndCastFromMovie(mMovie.getId()).observe(this, creditResults -> {
         Log.d("crewtest",   "yoo!");
             mCrewAdapter.setCrewList(creditResults.getCrew());
+        });
+    }
+    public void setRating(int movieId, double rating, String sessionId){
+        mViewModel.setMovieRating(movieId, rating, sessionId).observe(this, ratingResults -> {
+            Log.d("ratingwerk", ratingResults.getStatus_message());
         });
     }
 }

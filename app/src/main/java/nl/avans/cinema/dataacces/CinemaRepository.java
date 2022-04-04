@@ -18,6 +18,8 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
+import nl.avans.cinema.dataacces.api.calls.RatingRequest;
+import nl.avans.cinema.dataacces.api.calls.RatingResult;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.dataacces.dao.CinemaDAO;
@@ -38,6 +40,7 @@ public class CinemaRepository {
     private MutableLiveData<RequestTokenResult> mRequestTokenResult = new MutableLiveData<>();
     private MutableLiveData<AccessTokenResult> mAccessTokenResult = new MutableLiveData<>();
     private MutableLiveData<Convert4To3Result> convertedResult = new MutableLiveData<>();
+    private MutableLiveData<RatingResult> mRatingResult = new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -209,11 +212,26 @@ public class CinemaRepository {
         });
     }
 
-    public void setMovieRating(int movieId, double rating, String sessionId) {
-        String ratingRequest = "{'value': "+ rating + "}";
-        String sessionType = "session_id";
+    public MutableLiveData<RatingResult> setMovieRating(int movieId, double rating, String sessionId) {
+        //String sessionType = "session_id";
 
-        api.setMovieRating(movieId, sessionId, "application/json;charset=utf-8", ratingRequest);
+        Call<RatingResult> call = api.setMovieRating(movieId, sessionId, "application/json;charset=utf-8", new RatingRequest(rating));
+        apiCallMovieRating(call);
+        return mRatingResult;
+    }
+
+    private void apiCallMovieRating(Call<RatingResult> call){
+        call.enqueue(new Callback<RatingResult>() {
+            @Override
+            public void onResponse(Call<RatingResult> call, Response<RatingResult> response) {
+                mRatingResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RatingResult> call, Throwable t) {
+
+            }
+        });
     }
 
     public MutableLiveData<Convert4To3Result> convertV4SessionToV3(AccessTokenResult access_token){
@@ -235,23 +253,9 @@ public class CinemaRepository {
         });
     }
 
-    public User getUserInfo(){
-        try {
-            return new getUserInfoAsyncTask(mMovieDao).execute().get();
-        } catch (Exception e){
-            Log.e(LOG_TAG, e.getMessage());
-            return null;
-        }
-    }
-
-    public void deleteUsers(){
-        new deleteUsersFromDatabase(mMovieDao).execute();
-    }
-
     public void insertUser(User user){
         new insertUserToDatabase(mMovieDao).execute(user);
     }
-
     private static class insertUserToDatabase extends AsyncTask <User, Void, Void>{
         private CinemaDAO dao;
 
@@ -266,6 +270,9 @@ public class CinemaRepository {
         }
     }
 
+    public void deleteUsers(){
+        new deleteUsersFromDatabase(mMovieDao).execute();
+    }
     private static class deleteUsersFromDatabase extends AsyncTask <Void, Void, Void>{
         private CinemaDAO dao;
 
@@ -280,7 +287,14 @@ public class CinemaRepository {
         }
     }
 
-
+    public User getUserInfo(){
+        try {
+            return new getUserInfoAsyncTask(mMovieDao).execute().get();
+        } catch (Exception e){
+            Log.e(LOG_TAG, e.getMessage());
+            return null;
+        }
+    }
     private static class getUserInfoAsyncTask extends AsyncTask <Void, Void, User>{
 
         private CinemaDAO asyncDao;

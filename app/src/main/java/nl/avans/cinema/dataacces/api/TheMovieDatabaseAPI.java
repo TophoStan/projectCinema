@@ -5,6 +5,8 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
+import nl.avans.cinema.dataacces.api.calls.RatingRequest;
+import nl.avans.cinema.dataacces.api.calls.RatingResult;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.domain.Movie;
@@ -48,10 +50,10 @@ public interface TheMovieDatabaseAPI {
                                                 @Body AccessTokenRequest request);
 
     @POST("3/movie/{movie_id}/rating?api_key=" + key)
-    Call<Void> setMovieRating(@Path("movie_id") int movieId,
-                                 @Query("session_id") String sessionId,
-                                 @Header("Content-Type") String content_type,
-                                 @Body String ratingRequest);
+    Call<RatingResult> setMovieRating(@Path("movie_id") int movieId,
+                                      @Query("session_id") String sessionId,
+                                      @Header("Content-Type") String content_type,
+                                      @Body RatingRequest ratingRequest);
 
     @POST("3/authentication/session/convert/4?api_key=" + key)
     Call<Convert4To3Result> convertV4To3(@Body AccessTokenResult accessToken);
