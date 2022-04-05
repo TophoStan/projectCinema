@@ -37,12 +37,6 @@ public class ListsActivity extends AppCompatActivity {
 
         contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
 
-        /*MovieList favourites = new MovieList("Favourites");
-        MovieList plan_to_Watch = new MovieList("Plan to watch");
-
-        mListList.add(favourites);
-        mListList.add(plan_to_Watch);*/
-
         // Create an adapter and supply the data to be displayed.
         mAdapter = new ListAdapter(this, contentViewModel, this);
         // Connect the adapter with the RecyclerView.

@@ -17,6 +17,7 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
+import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.dataacces.api.calls.ListsResult;
@@ -51,6 +52,7 @@ public class CinemaRepository {
     private MutableLiveData<ListResult> mListResult = new MutableLiveData<>();
     private MutableLiveData<ListsResult> mListsResult = new MutableLiveData<>();
     private MutableLiveData<Movie> mMovieResult =  new MutableLiveData<>();
+    private Boolean mDeleteItemFromListResult;
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -427,7 +429,27 @@ public class CinemaRepository {
 
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+    }
 
+    public Boolean deleteItemFromList(int listId, String session_id, List<DeleteItemRequest> deleteItemRequestList) {
+        Call<Boolean> call = api.deleteItemFromList(listId,"Bearer " + session_id, "application/json;charset=utf-8", deleteItemRequestList);
+        apiCallDeleteItemFromList(call);
+        return mDeleteItemFromListResult;
+    }
+
+    private void apiCallDeleteItemFromList(Call<Boolean> call) {
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                mDeleteItemFromListResult = true;
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
             }
         });
     }

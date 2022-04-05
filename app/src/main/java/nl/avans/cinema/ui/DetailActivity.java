@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -56,6 +57,7 @@ import nl.avans.cinema.domain.Video;
 import nl.avans.cinema.ui.adapters.CastAdapter;
 import nl.avans.cinema.ui.adapters.CompanyAdapter;
 import nl.avans.cinema.ui.adapters.CrewAdapter;
+import nl.avans.cinema.ui.adapters.ListMovieAdapter;
 import retrofit2.http.HEAD;
 
 public class DetailActivity extends AppCompatActivity {
@@ -184,7 +186,9 @@ public class DetailActivity extends AppCompatActivity {
                 if (mViewModel.getUsers().isGuest()) {
                     Toast.makeText(DetailActivity.this, "Login to use lists!", Toast.LENGTH_SHORT).show();
                 } else {
-                    startActivity(new Intent(DetailActivity.this, AddToListPopUp.class));
+                    Intent popUpIntent = new Intent(DetailActivity.this, AddToListPopUp.class);
+                    popUpIntent.putExtra("viewmodel", (Serializable) mViewModel);
+                    startActivity(popUpIntent);
                 }
             }
         });
@@ -256,5 +260,16 @@ public class DetailActivity extends AppCompatActivity {
         mViewModel.setMovieRating(movieId, rating, sessionId, isGuest).observe(this, ratingResults -> {
             Log.d("ratingwerk", ratingResults.getStatus_message());
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getIntent().getExtras().getBoolean("listPage")) {
+            Intent listIntent = new Intent(DetailActivity.this, SingleListActivity.class);
+            listIntent.putExtra("list", getIntent().getSerializableExtra("list"));
+            startActivity(listIntent);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

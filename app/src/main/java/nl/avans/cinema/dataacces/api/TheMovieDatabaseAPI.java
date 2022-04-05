@@ -1,9 +1,12 @@
 package nl.avans.cinema.dataacces.api;
 
+import java.util.List;
+
 import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
+import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.dataacces.api.calls.ListsResult;
@@ -15,6 +18,7 @@ import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.domain.Movie;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -81,4 +85,12 @@ public interface TheMovieDatabaseAPI {
     @GET("4/account/{account_id}/lists")
     Call<ListsResult> getLists(@Path("account_id") String accountId,
                                @Header("authorization") String authorization);
+
+
+    // werkt nog niet!! //
+    @DELETE("4/list/{list_id}/items?api_key=" + key)
+    Call<Boolean> deleteItemFromList(@Path("list_id") int listId,
+                                     @Header("authorization") String authorization,
+                                     @Header("Content_Type") String content_type,
+                                     @Body() List<DeleteItemRequest> deleteItemRequestList);
 }

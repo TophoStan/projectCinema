@@ -24,6 +24,8 @@ import java.util.List;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
+import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.ui.DetailActivity;
 import nl.avans.cinema.ui.SingleListActivity;
@@ -34,11 +36,13 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
     private Context mContext;
     private ContentViewModel mViewModel;
     private SingleListActivity mActivity;
+    private ListResult mListResult;
 
-    public ListMovieAdapter(Context context, ContentViewModel viewModel, SingleListActivity activity) {
+    public ListMovieAdapter(Context context, ContentViewModel viewModel, SingleListActivity activity, ListResult listResult) {
         this.mContext = context;
         this.mViewModel = viewModel;
         this.mActivity = activity;
+        this.mListResult = listResult;
     }
 
     @NonNull
@@ -55,6 +59,12 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
         holder.movieTitle.setText(movie.getTitle());
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
         Glide.with(mContext).load(imgURL).into(holder.movieIMG);
+
+        if (holder.movieDeleteBtn.getVisibility() != View.VISIBLE) {
+            holder.movieDeleteBtn.setVisibility(View.VISIBLE);
+        } else {
+            holder.movieDeleteBtn.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -70,7 +80,6 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
         notifyDataSetChanged();
     }
 
-
     public class ListMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView movieIMG;
@@ -82,17 +91,27 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
             this.movieIMG = itemView.findViewById(R.id.movieIMG);
             this.movieTitle = itemView.findViewById(R.id.movieTitle);
             this.movieDeleteBtn = itemView.findViewById(R.id.deleteFilm_btn);
+            this.movieDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    List<DeleteItemRequest> removeList = new ArrayList<>();
+                    DeleteItemRequest deleteItemRequest = new DeleteItemRequest("movie", movies.get(getAdapterPosition()).getId());
+                    removeList.add(deleteItemRequest);
+                    mViewModel.deleteItemFromList(mListResult.getId(), mViewModel.getUsers().getAccess_token(), removeList);
+                }
+            });
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-             /*mViewModel.(movies.get(getAdapterPosition()).getId()).observe(mActivity, movie -> {
+             mViewModel.getMovieById(movies.get(getAdapterPosition()).getId()).observe(mActivity, movie -> {
                  Intent detailIntent = new Intent(mContext, DetailActivity.class);
                  detailIntent.putExtra("movie", movie);
+                 detailIntent.putExtra("listPage", true);
+                 detailIntent.putExtra("list", mListResult);
                  mContext.startActivity(detailIntent);
-            });*/
-
+            });
         }
     }
 }

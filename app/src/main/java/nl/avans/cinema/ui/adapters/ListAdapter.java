@@ -17,6 +17,7 @@ import java.util.List;
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.domain.MovieList;
+import nl.avans.cinema.ui.AddToListPopUp;
 import nl.avans.cinema.ui.ListsActivity;
 import nl.avans.cinema.ui.SingleListActivity;
 
@@ -26,11 +27,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     private Context mContext;
     private ContentViewModel mViewModel;
     private ListsActivity mListActivity;
+    private AddToListPopUp mAddToListPopUp;
 
     public ListAdapter(Context context, ContentViewModel viewModel, ListsActivity listActivity) {
         this.mContext = context;
         this.mViewModel = viewModel;
         this.mListActivity = listActivity;
+    }
+
+    public ListAdapter(Context context, ContentViewModel viewModel, AddToListPopUp addToListPopUp) {
+        this.mContext = context;
+        this.mViewModel = viewModel;
+        this.mAddToListPopUp = addToListPopUp;
     }
 
     @NonNull

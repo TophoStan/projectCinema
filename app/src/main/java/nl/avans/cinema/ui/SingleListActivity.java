@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import nl.avans.cinema.R;
@@ -41,12 +41,18 @@ public class SingleListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Zet methode in adapter die delete button visible zet
+                adapter.setMovies(movieList.getResults());
             }
         });
-        binding.listDesc.setText(movieList.getDescription());
+
+        if (movieList.getDescription().isEmpty()) {
+            binding.listDesc.setVisibility(View.GONE);
+        } else {
+            binding.listDesc.setText(movieList.getDescription());
+        }
 
         this.contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
-        adapter = new ListMovieAdapter(this, this.contentViewModel, this);
+        adapter = new ListMovieAdapter(this, this.contentViewModel, this, this.movieList);
         binding.listRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
         binding.listRecyclerView.setAdapter(adapter);
 

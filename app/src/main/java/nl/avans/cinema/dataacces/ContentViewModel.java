@@ -13,6 +13,7 @@ import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
+import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.dataacces.api.calls.ListsResult;
@@ -115,5 +116,8 @@ public class ContentViewModel extends AndroidViewModel {
         return mRepository.getMovieById(id);
     }
 
+    public Boolean deleteItemFromList(int listId, String authorization, List<DeleteItemRequest> deleteItemRequestList) {
+        return mRepository.deleteItemFromList(listId, authorization, deleteItemRequestList);
+    }
     //TODO Crud functies uit repository hier aan toevoegen
 }
