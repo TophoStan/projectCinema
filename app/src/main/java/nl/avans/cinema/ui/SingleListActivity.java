@@ -2,6 +2,7 @@ package nl.avans.cinema.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,17 +10,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import nl.avans.cinema.R;
+import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.databinding.ActivitySingleListBinding;
-import nl.avans.cinema.domain.MovieList;
+import nl.avans.cinema.ui.adapters.ListMovieAdapter;
 
 public class SingleListActivity extends AppCompatActivity {
 
     private ActivitySingleListBinding binding;
+    private ListMovieAdapter adapter;
+    private ContentViewModel contentViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,12 @@ public class SingleListActivity extends AppCompatActivity {
         ListResult movieList = (ListResult) getIntent().getSerializableExtra("list");
         binding.listNamePage.setText(movieList.getName());
 
-        //TODO laat films zien in lijst
+        this.contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
+        adapter = new ListMovieAdapter(this, this.contentViewModel);
+
+        contentViewModel.getListFromUser(movieList.getId()).observe(this, listResult -> {
+            adapter.setMovies(listResult.getResults());
+        });
     }
 
     @Override

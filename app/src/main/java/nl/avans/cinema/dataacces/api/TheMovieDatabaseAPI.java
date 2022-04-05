@@ -81,5 +81,4 @@ public interface TheMovieDatabaseAPI {
     @GET("4/account/{account_id}/lists")
     Call<ListsResult> getLists(@Path("account_id") String accountId,
                                @Header("authorization") String authorization);
-
 }
