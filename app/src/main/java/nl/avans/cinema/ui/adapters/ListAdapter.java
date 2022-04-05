@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import nl.avans.cinema.R;
@@ -73,7 +72,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         @Override
         public void onClick(View view) {
             //TODO van api lijst ophalen
-            mViewModel.getListFromUser(mListList.get(getAdapterPosition()).getId()).observe(mListActivity, listResult -> {
+            mViewModel.getListById(mListList.get(getAdapterPosition()).getId()).observe(mListActivity, listResult -> {
                 Intent listIntent = new Intent(mContext, SingleListActivity.class);
                 listIntent.putExtra("list", listResult);
                 mContext.startActivity(listIntent);

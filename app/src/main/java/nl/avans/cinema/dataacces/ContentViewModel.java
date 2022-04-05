@@ -103,7 +103,7 @@ public class ContentViewModel extends AndroidViewModel {
         mRepository.insertUser(user);
     }
 
-    public MutableLiveData<ListResult> getListFromUser(int listId) {
+    public MutableLiveData<ListResult> getListById(int listId) {
         return mRepository.getListFromUser(listId);
     }
 

@@ -29,6 +29,12 @@ public class SingleListActivity extends AppCompatActivity {
 
         ListResult movieList = (ListResult) getIntent().getSerializableExtra("list");
         binding.listNamePage.setText(movieList.getName());
+        binding.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Zet methode in adapter die delete button visible zet
+            }
+        });
 
         //TODO laat films zien in lijst
     }
