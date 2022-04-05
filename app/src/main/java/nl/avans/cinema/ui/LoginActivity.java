@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.LoginGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(LoginActivity.this, getResources().getString(R.string.guest_login_message), Toast.LENGTH_SHORT).show();
                 startGuestProcess();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
