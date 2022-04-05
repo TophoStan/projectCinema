@@ -111,5 +111,9 @@ public class ContentViewModel extends AndroidViewModel {
         return mRepository.getListsFromUser(account_id, session_id);
     }
 
+    public MutableLiveData<Movie> getMovieById(int id){
+        return mRepository.getMovieById(id);
+    }
+
     //TODO Crud functies uit repository hier aan toevoegen
 }

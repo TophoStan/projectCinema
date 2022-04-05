@@ -50,6 +50,7 @@ public class CinemaRepository {
     private MutableLiveData<GuestResult> mGuestData = new MutableLiveData<>();
     private MutableLiveData<ListResult> mListResult = new MutableLiveData<>();
     private MutableLiveData<ListsResult> mListsResult = new MutableLiveData<>();
+    private MutableLiveData<Movie> mMovieResult =  new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -408,6 +409,25 @@ public class CinemaRepository {
             @Override
             public void onFailure(Call<ListsResult> call, Throwable t) {
                 Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<Movie> getMovieById(int id){
+        Call<Movie> call = api.getMoveById(id);
+        apiCallGetMovieById(call);
+        return mMovieResult;
+    }
+    private void apiCallGetMovieById(Call<Movie> call){
+        call.enqueue(new Callback<Movie>() {
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response) {
+                mMovieResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Movie> call, Throwable t) {
+
             }
         });
     }
