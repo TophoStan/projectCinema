@@ -2,6 +2,7 @@ package nl.avans.cinema.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,17 +23,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.avans.cinema.R;
+import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.ui.DetailActivity;
+import nl.avans.cinema.ui.SingleListActivity;
 
 public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.ListMovieHolder> {
 
     private List<Movie> movies = new ArrayList<>();
     private Context mContext;
-    private ViewModel mViewModel;
+    private ContentViewModel mViewModel;
+    private SingleListActivity mActivity;
 
-    public ListMovieAdapter(Context context, ViewModel viewModel) {
+    public ListMovieAdapter(Context context, ContentViewModel viewModel, SingleListActivity activity) {
         this.mContext = context;
         this.mViewModel = viewModel;
+        this.mActivity = activity;
     }
 
     @NonNull
@@ -75,10 +82,16 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
             this.movieIMG = itemView.findViewById(R.id.movieIMG);
             this.movieTitle = itemView.findViewById(R.id.movieTitle);
             this.movieDeleteBtn = itemView.findViewById(R.id.deleteFilm_btn);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+             /*mViewModel.(movies.get(getAdapterPosition()).getId()).observe(mActivity, movie -> {
+                 Intent detailIntent = new Intent(mContext, DetailActivity.class);
+                 detailIntent.putExtra("movie", movie);
+                 mContext.startActivity(detailIntent);
+            });*/
 
         }
     }

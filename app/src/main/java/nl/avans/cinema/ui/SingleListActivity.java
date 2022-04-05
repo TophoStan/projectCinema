@@ -47,7 +47,7 @@ public class SingleListActivity extends AppCompatActivity {
 
 
         this.contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
-        adapter = new ListMovieAdapter(this, this.contentViewModel);
+        adapter = new ListMovieAdapter(this, this.contentViewModel, this);
         binding.listRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
         binding.listRecyclerView.setAdapter(adapter);
 
