@@ -2,6 +2,9 @@ package nl.avans.cinema.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,13 +16,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import nl.avans.cinema.R;
+import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.databinding.ActivitySingleListBinding;
-import nl.avans.cinema.domain.MovieList;
+import nl.avans.cinema.ui.adapters.ListMovieAdapter;
 
 public class SingleListActivity extends AppCompatActivity {
 
     private ActivitySingleListBinding binding;
+    private ListMovieAdapter adapter;
+    private ContentViewModel contentViewModel;
+    private ListResult movieList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +34,7 @@ public class SingleListActivity extends AppCompatActivity {
         binding = ActivitySingleListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ListResult movieList = (ListResult) getIntent().getSerializableExtra("list");
+        movieList = (ListResult) getIntent().getSerializableExtra("list");
         binding.listNamePage.setText(movieList.getName());
         binding.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +43,14 @@ public class SingleListActivity extends AppCompatActivity {
             }
         });
 
-        //TODO laat films zien in lijst
+        this.contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
+        adapter = new ListMovieAdapter(this, this.contentViewModel);
+        binding.listRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_column_count)));
+        binding.listRecyclerView.setAdapter(adapter);
+
+        contentViewModel.getListById(movieList.getId()).observe(this, listResult -> {
+            adapter.setMovies(listResult.getResults());
+        });
     }
 
     @Override
@@ -54,7 +68,7 @@ public class SingleListActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.list_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, "Come look at my movie list,\n" +
-                    "the code is:");
+                    "the code is: " + movieList.getId());
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent, "Send To"));
         } else if (item.getItemId() == R.id.list_delete) {

@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
-
             }
         });
         setHomeButtonVisibility(false);
@@ -115,7 +114,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.home_sort) {
             Toast.makeText(this, "Sort btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.home_lists) {
-            startActivity(new Intent(MainActivity.this, ListsActivity.class));
+            if (contentViewModel.getUsers().isGuest()) {
+                Toast.makeText(this, "Login to use lists!", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(MainActivity.this, ListsActivity.class));
+            }
         } else if (item.getItemId() == R.id.home_logout) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         } else if (item.getItemId() == R.id.popular) {

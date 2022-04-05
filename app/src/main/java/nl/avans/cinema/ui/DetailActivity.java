@@ -181,7 +181,11 @@ public class DetailActivity extends AppCompatActivity {
         binding.addToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DetailActivity.this, AddToListPopUp.class));
+                if (mViewModel.getUsers().isGuest()) {
+                    Toast.makeText(DetailActivity.this, "Login to use lists!", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(new Intent(DetailActivity.this, AddToListPopUp.class));
+                }
             }
         });
 

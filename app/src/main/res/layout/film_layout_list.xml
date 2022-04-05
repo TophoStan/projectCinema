@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/movieIMG"
                 android:layout_width="135dp"
                 android:layout_height="99dp"
                 android:layout_marginTop="2dp"
@@ -30,14 +30,14 @@
                 app:srcCompat="@drawable/logo" />
 
             <TextView
-                android:id="@+id/filmTitle"
+                android:id="@+id/movieTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/film_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/movieIMG" />
 
             <ImageButton
                 android:id="@+id/deleteFilm_btn"
@@ -45,8 +45,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filmTitle"
                 android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@+id/movieTitle"
                 app:srcCompat="@drawable/delete_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

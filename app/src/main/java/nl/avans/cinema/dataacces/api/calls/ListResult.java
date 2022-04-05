@@ -1,6 +1,7 @@
 package nl.avans.cinema.dataacces.api.calls;
 
 import java.io.Serializable;
+import java.util.List;
 
 import nl.avans.cinema.domain.Movie;
 
@@ -8,7 +9,7 @@ public class ListResult implements Serializable {
     private int id;
     private String name;
     private int total_results;
-    private Movie[] movies;
+    private List<Movie> results;
     private String description;
 
     public int getId() {
@@ -35,12 +36,12 @@ public class ListResult implements Serializable {
         this.total_results = total_results;
     }
 
-    public Movie[] getMovies() {
-        return movies;
+    public List<Movie> getResults() {
+        return results;
     }
 
-    public void setMovies(Movie[] movies) {
-        this.movies = movies;
+    public void setResults(List<Movie> results) {
+        this.results = results;
     }
 
     public String getDescription() {
