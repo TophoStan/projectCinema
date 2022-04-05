@@ -36,12 +36,15 @@ public class SingleListActivity extends AppCompatActivity {
 
         movieList = (ListResult) getIntent().getSerializableExtra("list");
         binding.listNamePage.setText(movieList.getName());
+
         binding.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Zet methode in adapter die delete button visible zet
             }
         });
+        binding.listDesc.setText(movieList.getDescription());
+
 
         this.contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         adapter = new ListMovieAdapter(this, this.contentViewModel);
