@@ -32,6 +32,7 @@ public class SingleListActivity extends AppCompatActivity {
 
         ListResult movieList = (ListResult) getIntent().getSerializableExtra("list");
         binding.listNamePage.setText(movieList.getName());
+        binding.listDesc.setText(movieList.getDescription());
 
         this.contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         adapter = new ListMovieAdapter(this, this.contentViewModel);
