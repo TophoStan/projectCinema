@@ -106,7 +106,8 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
                     removeList.add(deleteItemRequest);
                     ListRemoveItems listRemoveItems = new ListRemoveItems();
                     listRemoveItems.setItems(removeList);
-                    // mViewModel.deleteItemFromList(mListResult.getId(), mViewModel.getUsers().getAccess_token(), listRemoveItems);
+                    mViewModel.deleteItemFromList(mListResult.getId(), mViewModel.getUsers().getAccess_token(), listRemoveItems);
+                    mContext.startActivity(new Intent(mContext, SingleListActivity.class).putExtra("list",  mListResult));
                 }
             });
             itemView.setOnClickListener(this);

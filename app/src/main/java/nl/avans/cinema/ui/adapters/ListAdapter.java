@@ -74,6 +74,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         return mListList.size();
     }
 
+    public void clear(){
+        mListList.clear();
+    }
+
     public void setLists(List<MovieList> movieLists) {
         this.mListList = movieLists;
         notifyDataSetChanged();

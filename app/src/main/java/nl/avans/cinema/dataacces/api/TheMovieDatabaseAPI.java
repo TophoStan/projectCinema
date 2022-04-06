@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -91,12 +92,12 @@ public interface TheMovieDatabaseAPI {
 
 
     // werkt nog niet!! //
-    @DELETE("4/list/{list_id}/items?api_key=" + key)
+    @HTTP(method = "DELETE", path = "4/list/{list_id}/items?api_key=" + key, hasBody = true)
     Call<Boolean> deleteItemFromList(@Path("list_id") int listId,
                                      @Header("authorization") String authorization,
                                      @Header("Content_Type") String content_type,
                                      @Body ListRemoveItems items);
-    // !!!!!!!!!!!!!!!!//
+
 
     @POST("4/list/{list_id}/items?api_key=" + key)
     Call<AddItemResult> addItemsToList(@Path("list_id") int listId,

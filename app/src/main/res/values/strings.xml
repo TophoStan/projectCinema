@@ -39,4 +39,6 @@
     <string name="left_pointer"><![CDATA[<<]]></string>
     <string name="right_pointer"><![CDATA[>>]]></string>
     <string name="toggle_buttons_title">Toggle buttons</string>
+    <string name="add">Add</string>
+    <string name="create_list_label">Create</string>
 </resources>
