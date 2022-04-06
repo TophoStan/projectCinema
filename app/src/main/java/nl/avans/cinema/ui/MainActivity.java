@@ -9,25 +9,23 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import nl.avans.cinema.R;
 
-import nl.avans.cinema.dataacces.api.calls.MovieResults;
-import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
-import nl.avans.cinema.dataacces.api.task.FetchMovies;
-
-import nl.avans.cinema.dataacces.api.task.FetchSearchResults;
-import nl.avans.cinema.dataacces.api.task.OnFetchData;
 import nl.avans.cinema.databinding.ActivityMainBinding;
 import nl.avans.cinema.ui.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.ContentViewModel;
@@ -41,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter adapter;
     private String currentFilter;
     private int currentPageNumber;
+    private ArrayList<Movie> movieList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(this.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.home_search).getActionView();
@@ -109,12 +109,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.home_search) {
-            Toast.makeText(this, "Search btn", Toast.LENGTH_SHORT).show();
-        } else if (item.getItemId() == R.id.home_sort) {
-            Toast.makeText(this, "Sort btn", Toast.LENGTH_SHORT).show();
-        } else if (item.getItemId() == R.id.home_lists) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println(item.getTitle());
+        switch (item.getItemId()){
+            case R.id.title_asc:
+                Collections.sort(movieList, new Comparator<Movie>() {
+                    @Override
+                    public int compare(Movie movie, Movie t1) {
+                        return movie.getTitle().compareTo(t1.getTitle());
+                    }
+                });
+                adapter.setMovies(movieList);
+                return true;
+            case R.id.title_desc:
+                Collections.reverse(movieList);
+                adapter.setMovies(movieList);
+                return true;
+        }
+
+        if (item.getItemId() == R.id.home_lists) {
             startActivity(new Intent(MainActivity.this, ListsActivity.class));
         } else if (item.getItemId() == R.id.home_logout) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -132,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.upcoming) {
             currentFilter = "upcoming";
+            loadFilteredMovie(currentFilter, currentPageNumber);
+            setHomeButtonVisibility(true);
+        } else if (item.getItemId() == R.id.genre) {
+            currentFilter = "genre";
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         }
