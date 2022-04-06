@@ -49,7 +49,11 @@
         android:icon="@drawable/lists_icon"
         android:title="@string/lists"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/toggle_buttons"
+        android:title="@string/toggle_buttons_title"
+        app:actionLayout="@layout/switch_item"
+        app:showAsAction="always" />
     <item
         android:id="@+id/home_logout"
         android:title="@string/log_out"

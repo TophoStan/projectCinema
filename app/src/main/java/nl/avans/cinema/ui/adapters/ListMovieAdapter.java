@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,7 +60,12 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
         Movie movie = movies.get(position);
         holder.movieTitle.setText(movie.getTitle());
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
-        Glide.with(mContext).load(imgURL).into(holder.movieIMG);
+
+        if (movie.getPoster_path() == null) {
+            Glide.with(mContext).load(AppCompatResources.getDrawable(mContext, R.drawable.placeholderimage)).into(holder.movieIMG);
+        } else {
+            Glide.with(mContext).load(imgURL).into(holder.movieIMG);
+        }
 
         if (holder.movieDeleteBtn.getVisibility() != View.VISIBLE) {
             holder.movieDeleteBtn.setVisibility(View.VISIBLE);
@@ -108,12 +114,12 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
 
         @Override
         public void onClick(View view) {
-             mViewModel.getMovieById(movies.get(getAdapterPosition()).getId()).observe(mActivity, movie -> {
-                 Intent detailIntent = new Intent(mContext, DetailActivity.class);
-                 detailIntent.putExtra("movie", movie);
-                 detailIntent.putExtra("listPage", true);
-                 detailIntent.putExtra("list", mListResult);
-                 mContext.startActivity(detailIntent);
+            mViewModel.getMovieById(movies.get(getAdapterPosition()).getId()).observe(mActivity, movie -> {
+                Intent detailIntent = new Intent(mContext, DetailActivity.class);
+                detailIntent.putExtra("movie", movie);
+                detailIntent.putExtra("listPage", true);
+                detailIntent.putExtra("list", mListResult);
+                mContext.startActivity(detailIntent);
             });
         }
     }

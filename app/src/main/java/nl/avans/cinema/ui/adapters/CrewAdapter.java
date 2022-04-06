@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +39,8 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.CrewHolder> {
         Crew crew = crewList.get(position);
         if (crew.getProfile_path() != null) {
             Glide.with(mContext).load("https://image.tmdb.org/t/p/w300_and_h450_bestv2" + crew.getProfile_path()).into(holder.profile);
+        } else {
+            Glide.with(mContext).load(AppCompatResources.getDrawable(mContext, R.drawable.placeholderimage)).into(holder.profile);
         }
         holder.name.setText(crew.getName());
         holder.character.setText(crew.getJob());

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -40,16 +41,27 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastHolder> {
         Cast cast = castList.get(position);
         holder.title.setText(cast.getKnown_for_department());
         holder.name.setText(cast.getName());
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/original" + cast.getProfile_path()).into(holder.image);
+        if (cast.getProfile_path() == null) {
+            Glide.with(mContext).load("https://image.tmdb.org/t/p/original" + cast.getProfile_path()).into(holder.image);
+        } else {
+            Glide.with(mContext).load(AppCompatResources.getDrawable(mContext, R.drawable.placeholderimage)).into(holder.image);
+        }
     }
 
     @Override
     public int getItemCount() {
         return castList.size();
     }
-    public void setCastList(List<Cast> list){
-        List<Cast> castListToShow =  new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
+
+    public void setCastList(List<Cast> list) {
+        List<Cast> castListToShow = new ArrayList<>();
+        int loops;
+        if (list.size() > 6) {
+            loops = 6;
+        } else {
+            loops = list.size();
+        }
+        for (int i = 0; i < loops; i++) {
             castListToShow.add(list.get(i));
         }
         castList = castListToShow;
@@ -64,7 +76,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastHolder> {
         public CastHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.cast_person_title);
-            name= itemView.findViewById(R.id.cast_person_name);
+            name = itemView.findViewById(R.id.cast_person_name);
             image = itemView.findViewById(R.id.cast_person_image);
         }
     }

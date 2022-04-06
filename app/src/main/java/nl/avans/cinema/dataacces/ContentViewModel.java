@@ -33,6 +33,7 @@ public class ContentViewModel extends AndroidViewModel {
 
     private CinemaRepository mRepository;
     private LiveData<List<Movie>> mAllMovies;
+    private LiveData<String> currentFilter;
 
 
     public ContentViewModel(@NonNull Application application) {

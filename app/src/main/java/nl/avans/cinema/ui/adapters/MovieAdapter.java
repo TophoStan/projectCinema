@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,7 +25,7 @@ import nl.avans.cinema.ui.DetailActivity;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder> {
 
-    private List<Movie> movies = new ArrayList<>();
+    private List<Movie> movies;
     private Context mContext;
 
     public MovieAdapter(Context context) {
@@ -44,13 +45,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder> 
         Movie movie = movies.get(position);
         holder.movieTitle.setText(movie.getTitle());
         holder.movieRating.setText("Rating: " + movie.getVote_average());
-        String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
-        Glide.with(mContext).load(imgURL).into(holder.movieIMG);
+        if (movie.getPoster_path() == null) {
+            Glide.with(mContext).load(AppCompatResources.getDrawable(mContext, R.drawable.placeholderimage)).into(holder.movieIMG);
+        } else {
+            String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
+            Glide.with(mContext).load(imgURL).into(holder.movieIMG);
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (movies.isEmpty()) {
+        if (movies == null) {
             return 0;
         }
         return movies.size();
@@ -61,12 +66,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.FilmHolder> 
         notifyDataSetChanged();
     }
 
-    class FilmHolder extends RecyclerView.ViewHolder implements View.OnClickListener, FetchMovieDetails.OnFetchMovieDetailsListener, Serializable{
+    public List<Movie> getMoviesInAdapter() {
+        return movies;
+    }
+
+    class FilmHolder extends RecyclerView.ViewHolder implements View.OnClickListener, FetchMovieDetails.OnFetchMovieDetailsListener, Serializable {
         private TextView movieTitle;
         private ImageView movieIMG;
         private TextView movieRating;
 
-        public FilmHolder (@NonNull View itemView) {
+        public FilmHolder(@NonNull View itemView) {
             super(itemView);
             this.movieTitle = itemView.findViewById(R.id.film_title);
             this.movieIMG = itemView.findViewById(R.id.film_img);

@@ -2,22 +2,28 @@ package nl.avans.cinema.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import nl.avans.cinema.R;
@@ -33,7 +39,7 @@ import nl.avans.cinema.ui.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.domain.Movie;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnKeyListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ActivityMainBinding binding;
@@ -41,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter adapter;
     private String currentFilter;
     private int currentPageNumber;
+    private boolean isSearching;
+    private boolean buttonsAreEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
 
-        contentViewModel.getAllContentItems().observe(this, new Observer<List<Movie>>() {
-            @Override
-            public void onChanged(List<Movie> movies) {
-                adapter.setMovies(movies);
-            }
-        });
-
         binding.fabHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,10 +73,58 @@ public class MainActivity extends AppCompatActivity {
         setHomeButtonVisibility(false);
         currentPageNumber = 1;
 
-        loadFilteredMovie("popular", 1);
+        currentFilter = "popular";
+        loadFilteredMovie(currentFilter, 1);
+        binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goPageBack(binding.filmsRecyclerView);
+                binding.filmsRecyclerView.scrollToPosition(0);
+            }
+        });
+        binding.buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goPageNext(binding.filmsRecyclerView);
+            }
+        });
+        isSearching = false;
 
+        binding.currentPageNumberView.setOnKeyListener(this);
 
+        binding.filmsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!isSearching) {
+                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        goPageNext(recyclerView);
+                    }
+                    if (!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        goPageBack(recyclerView);
+                    }
+                }
+            }
+        });
 
+    }
+
+    public void goPageBack(RecyclerView recyclerView) {
+
+        if (currentPageNumber - 1 > 0) {
+            currentPageNumber -= 1;
+            recyclerView.scrollToPosition(19);
+        }
+        loadAPage(currentPageNumber);
+    }
+
+    public void goPageNext(RecyclerView recyclerView) {
+        if (currentPageNumber + 1 <= 500) {
+            currentPageNumber += 1;
+        }
+        recyclerView.scrollToPosition(0);
+        loadAPage(currentPageNumber);
     }
 
     @Override
@@ -87,23 +136,38 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
+        MenuItem itemSwitch = menu.findItem(R.id.toggle_buttons);
+        itemSwitch.setActionView(R.layout.switch_item);
+
+        Switch sw = (Switch) menu.findItem(R.id.toggle_buttons).getActionView().findViewById(R.id.switch1);
+
+        sw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buttonsAreEnabled = !buttonsAreEnabled;
+                setVisibilityOfView(binding.buttonBack, buttonsAreEnabled);
+                setVisibilityOfView(binding.buttonNext, buttonsAreEnabled);
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 contentViewModel.getSearchResults(s).observe(MainActivity.this, searchResults -> {
                     adapter.setMovies(Arrays.asList(searchResults.getMovies()));
                     setHomeButtonVisibility(true);
+                    isSearching = true;
+                    setVisibilityOfView(binding.buttonBack, true);
+                    setVisibilityOfView(binding.buttonNext, true);
+                    setVisibilityOfView(binding.currentPageNumberView, true);
                 });
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-
                 return false;
             }
-
         });
         return true;
     }
@@ -145,7 +209,11 @@ public class MainActivity extends AppCompatActivity {
     public void loadFilteredMovie(String filter, int page) {
 
         contentViewModel.getMovieResultsWithFilter(filter, page).observe(this, movieResults -> {
-            adapter.setMovies(Arrays.asList(movieResults.getMovies()));
+            if (movieResults.getMovies().length != 0) {
+                adapter.setMovies(Arrays.asList(movieResults.getMovies()));
+            } else {
+                Log.e(LOG_TAG, "movielist is empty");
+            }
         });
     }
 
@@ -155,5 +223,43 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         binding.fabHome.setVisibility(View.INVISIBLE);
+    }
+
+    public void setVisibilityOfView(View view, boolean visibility) {
+        if (visibility) {
+            view.setVisibility(View.INVISIBLE);
+        } else {
+            view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public boolean onKey(View view, int keyCode, KeyEvent event) {
+        if (keyCode == EditorInfo.IME_ACTION_SEARCH ||
+                keyCode == EditorInfo.IME_ACTION_DONE ||
+                event.getAction() == KeyEvent.ACTION_DOWN &&
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            view.setEnabled(false);
+            view.setEnabled(true);
+            int enteredPageNumber = Integer.parseInt(binding.currentPageNumberView.getText().toString());
+            loadAPage(enteredPageNumber);
+            binding.filmsRecyclerView.scrollToPosition(0);
+        }
+        return false;
+    }
+
+    public void loadAPage(int enteredPageNumber) {
+        if (enteredPageNumber > 0) {
+            if (enteredPageNumber >= 500) {
+                enteredPageNumber = 500;
+                //binding.buttonNext.setVisibility(View.INVISIBLE);
+            } else {
+                //binding.buttonNext.setVisibility(View.VISIBLE);
+            }
+            setVisibilityOfView(binding.buttonNext, buttonsAreEnabled);
+            currentPageNumber = enteredPageNumber;
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
+            loadFilteredMovie(currentFilter, currentPageNumber);
+        }
     }
 }
