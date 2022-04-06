@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +24,7 @@ import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.databinding.ActivitySingleListBinding;
 import nl.avans.cinema.ui.adapters.ListMovieAdapter;
+import nl.avans.cinema.ui.dialogs.DeleteListDialog;
 
 public class SingleListActivity extends AppCompatActivity {
 
@@ -64,7 +69,7 @@ public class SingleListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_menu,  menu);
+        inflater.inflate(R.menu.list_menu, menu);
         return true;
     }
 
@@ -79,33 +84,15 @@ public class SingleListActivity extends AppCompatActivity {
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent, "Send To"));
         } else if (item.getItemId() == R.id.list_delete) {
-            binding.sureBtn.setVisibility(View.VISIBLE);
-            binding.noBtn.setVisibility(View.VISIBLE);
-            binding.sureBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    contentViewModel.deleteList(movieList.getId(), contentViewModel.getUsers().getAccess_token()).observe(SingleListActivity.this, deleteListResult -> {
-                        if (deleteListResult.isSuccess()) {
-                            Toast.makeText(SingleListActivity.this, movieList.getName() + " has been removed!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SingleListActivity.this, movieList.getName() + " has not been removed!", Toast.LENGTH_SHORT).show();
-                        }
-                        binding.sureBtn.setVisibility(View.INVISIBLE);
-                        binding.noBtn.setVisibility(View.INVISIBLE);
-                    });
-
-                }
-            });
-            binding.noBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    binding.sureBtn.setVisibility(View.INVISIBLE);
-                    binding.noBtn.setVisibility(View.INVISIBLE);
-                }
-            });
+            openDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
-
+    private void openDialog() {
+        DeleteListDialog deleteListDialog = new DeleteListDialog();
+        deleteListDialog.setListId(movieList.getId());
+        deleteListDialog.setActivity(this);
+        deleteListDialog.show(getSupportFragmentManager(), "Delete dialog");
+    }
 }

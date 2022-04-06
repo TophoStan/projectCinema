@@ -57,25 +57,4 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/listName_page" />
 
-  <Button
-      android:id="@+id/sureBtn"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Yes, remove!"
-      android:visibility="invisible"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-  <Button
-      android:id="@+id/noBtn"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="No!"
-      android:visibility="invisible"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sureBtn" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
