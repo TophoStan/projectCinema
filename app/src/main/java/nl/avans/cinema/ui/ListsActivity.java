@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.MakeListRequest;
 import nl.avans.cinema.databinding.ActivityListsBinding;
 import nl.avans.cinema.domain.MovieList;
 import nl.avans.cinema.ui.adapters.ListAdapter;
@@ -49,6 +51,21 @@ public class ListsActivity extends AppCompatActivity {
             mListList = listsResult.getResults();
             mAdapter.setLists(mListList);
         });
+
+        binding.makeListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MakeListRequest request = new MakeListRequest();
+                request.setName(binding.nameOfNewList.getText().toString());
+                request.setPublic(true);
+                request.setIso_639_1("en");
+                contentViewModel.makeAList(contentViewModel.getUsers().getAccess_token(), request).observe(ListsActivity.this, result -> {
+
+                        Toast.makeText(ListsActivity.this, "HET LUKT AWOELEH", Toast.LENGTH_SHORT).show();
+
+                });
+            }
+        });
     }
 
     @Override
@@ -67,4 +84,5 @@ public class ListsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -108,6 +110,19 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             }
         });
 
+
+    }
+
+    boolean readLastButtonPressed() {
+        SharedPreferences sharedPref = getSharedPreferences("application", Context.MODE_PRIVATE);
+        return sharedPref.getBoolean("enableButtons", buttonsAreEnabled);
+    }
+
+    public void saveLastButtonPressed(boolean numberOfButton) {
+        SharedPreferences sharedPref = this.getSharedPreferences("application", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("enableButtons", buttonsAreEnabled);
+        editor.apply();
     }
 
     public void goPageBack(RecyclerView recyclerView) {
@@ -140,13 +155,17 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         itemSwitch.setActionView(R.layout.switch_item);
 
         Switch sw = (Switch) menu.findItem(R.id.toggle_buttons).getActionView().findViewById(R.id.switch1);
+        sw.setChecked(readLastButtonPressed());
+        setVisibilityOfView(binding.buttonBack, sw.isChecked());
+        setVisibilityOfView(binding.buttonNext, sw.isChecked());
 
         sw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonsAreEnabled = !buttonsAreEnabled;
-                setVisibilityOfView(binding.buttonBack, buttonsAreEnabled);
-                setVisibilityOfView(binding.buttonNext, buttonsAreEnabled);
+                setVisibilityOfView(binding.buttonBack, sw.isChecked());
+                setVisibilityOfView(binding.buttonNext, sw.isChecked());
+
+                saveLastButtonPressed(buttonsAreEnabled);
             }
         });
 
@@ -188,19 +207,27 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         } else if (item.getItemId() == R.id.popular) {
             currentFilter = "popular";
+            currentPageNumber =1 ;
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.top_rated) {
             currentFilter = "top_rated";
+            currentPageNumber =1 ;
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.playing_now) {
             currentFilter = "now_playing";
+            currentPageNumber =1 ;
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.upcoming) {
             currentFilter = "upcoming";
+            currentPageNumber =1 ;
             loadFilteredMovie(currentFilter, currentPageNumber);
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             setHomeButtonVisibility(true);
         }
         return super.onOptionsItemSelected(item);
@@ -209,10 +236,10 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     public void loadFilteredMovie(String filter, int page) {
 
         contentViewModel.getMovieResultsWithFilter(filter, page).observe(this, movieResults -> {
-            if (movieResults.getMovies().length != 0) {
+            if (currentPageNumber + 1  <= movieResults.getTotal_pages()) {
                 adapter.setMovies(Arrays.asList(movieResults.getMovies()));
             } else {
-                Log.e(LOG_TAG, "movielist is empty");
+                currentPageNumber = movieResults.getTotal_pages() -1;
             }
         });
     }
@@ -252,11 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         if (enteredPageNumber > 0) {
             if (enteredPageNumber >= 500) {
                 enteredPageNumber = 500;
-                //binding.buttonNext.setVisibility(View.INVISIBLE);
-            } else {
-                //binding.buttonNext.setVisibility(View.VISIBLE);
             }
-            setVisibilityOfView(binding.buttonNext, buttonsAreEnabled);
             currentPageNumber = enteredPageNumber;
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);

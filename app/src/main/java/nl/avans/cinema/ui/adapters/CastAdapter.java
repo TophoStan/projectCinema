@@ -42,9 +42,9 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastHolder> {
         holder.title.setText(cast.getKnown_for_department());
         holder.name.setText(cast.getName());
         if (cast.getProfile_path() == null) {
-            Glide.with(mContext).load("https://image.tmdb.org/t/p/original" + cast.getProfile_path()).into(holder.image);
-        } else {
             Glide.with(mContext).load(AppCompatResources.getDrawable(mContext, R.drawable.placeholderimage)).into(holder.image);
+        } else {
+            Glide.with(mContext).load("https://image.tmdb.org/t/p/original" + cast.getProfile_path()).into(holder.image);
         }
     }
 

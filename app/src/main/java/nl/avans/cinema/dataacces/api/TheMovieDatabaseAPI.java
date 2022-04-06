@@ -1,23 +1,21 @@
 package nl.avans.cinema.dataacces.api;
 
-import java.util.List;
-
 import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
-import nl.avans.cinema.dataacces.api.calls.AddItemRequest;
 import nl.avans.cinema.dataacces.api.calls.AddItemResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
-import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
 import nl.avans.cinema.dataacces.api.calls.DeleteListResult;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.dataacces.api.calls.ListsResult;
+import nl.avans.cinema.dataacces.api.calls.MakeListResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RatingRequest;
 import nl.avans.cinema.dataacces.api.calls.RatingResult;
+import nl.avans.cinema.dataacces.api.calls.MakeListRequest;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.domain.Movie;
@@ -110,5 +108,10 @@ public interface TheMovieDatabaseAPI {
     Call<DeleteListResult> deleteList(@Path("list_id") int listId,
                                       @Header("authorization") String authorization,
                                       @Header("Content_Type") String content_type);
+
+    @POST("4/list")
+    Call<MakeListResult> makeList(@Header("authorization") String authorization,
+                                  @Header("Content_Type") String content_type,
+                                  @Body MakeListRequest body);
 
 }

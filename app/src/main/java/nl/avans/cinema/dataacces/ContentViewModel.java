@@ -22,6 +22,8 @@ import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.dataacces.api.calls.ListsResult;
+import nl.avans.cinema.dataacces.api.calls.MakeListRequest;
+import nl.avans.cinema.dataacces.api.calls.MakeListResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RatingResult;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
@@ -132,6 +134,10 @@ public class ContentViewModel extends AndroidViewModel {
 
     public MutableLiveData<DeleteListResult> deleteList(int listId, String session_id) {
         return mRepository.deleteList(listId, session_id);
+    }
+
+    public MutableLiveData<MakeListResult> makeAList(String auth, MakeListRequest request){
+        return  mRepository.makeAList(auth, request);
     }
     //TODO Crud functies uit repository hier aan toevoegen
 }
