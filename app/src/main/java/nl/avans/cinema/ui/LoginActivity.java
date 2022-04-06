@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.LoginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(LoginActivity.this, getResources().getString(R.string.user_login_message), Toast.LENGTH_SHORT).show();
+
                 startLoginProcess();
             }
         });
@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             user.setAccess_token(results.getAccess_token());
             user.setGuest(false);
             mViewModel.insertUser(user);
+            Toast.makeText(LoginActivity.this, getResources().getString(R.string.user_login_message), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("user", user));
         });
     }

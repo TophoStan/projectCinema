@@ -62,6 +62,7 @@ import retrofit2.http.HEAD;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
     private ActivityDetailBinding binding;
     private ContentViewModel mViewModel;
     private CrewAdapter mCrewAdapter;
@@ -118,18 +119,7 @@ public class DetailActivity extends AppCompatActivity {
             //session id
             loadSessionId();
 
-            mViewModel.getRatedMoviesByUser(mViewModel.getUsers().getAccount_id(), mViewModel.getUsers().getAccess_token()).observe(this, ratedMovies -> {
-                Log.d("ratedmovies", ratedMovies.getMovies().length + " rated movies");
-
-                for (Movie m : ratedMovies.getMovies()) {
-                    if (m.getId() == movie.getId()) {
-                        Log.d("movie", m.getTitle() + " with a " + m.getAccount_rating().getValue() + " rating");
-                        float rating = Math.abs(m.getAccount_rating().getValue() / 2);
-                        binding.ratingBar.setRating(rating);
-                        break;
-                    }
-                }
-            });
+            getMovieRating(movie);
         }
 
         binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -137,7 +127,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 if (b) {
-                    int rating = Math.round(v) * 2;
+                    int rating = (Float.valueOf(v*2).intValue());
                     mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
 
 
@@ -187,7 +177,7 @@ public class DetailActivity extends AppCompatActivity {
                     Toast.makeText(DetailActivity.this, "Login to use lists!", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent popUpIntent = new Intent(DetailActivity.this, AddToListPopUp.class);
-                    popUpIntent.putExtra("viewmodel", (Serializable) mViewModel);
+                    popUpIntent.putExtra(LOG_TAG, (Serializable) mViewModel);
                     startActivity(popUpIntent);
                 }
             }
@@ -195,9 +185,27 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    public void getMovieRating(Movie movie){
+        mViewModel.getRatedMoviesByUser(mViewModel.getUsers().getAccount_id(), mViewModel.getUsers().getAccess_token()).observe(this, ratedMovies -> {
+            Log.d(LOG_TAG, ratedMovies.getMovies().length + " rated movies");
+            for (Movie m : ratedMovies.getMovies()) {
+                if (m.getId() == movie.getId()) {
+                    Log.d("movie", m.getTitle() + " with a " + m.getAccount_rating().getValue() + " rating");
+                    float rating = calculateRating(m.getAccount_rating().getValue());
+                    binding.ratingBar.setRating(rating);
+                    break;
+                }
+            }
+        });
+    }
+
+    public static Float calculateRating(int rating){
+        return (float) rating/2;
+    }
+
     private void loadSessionId() {
         mViewModel.convertV4ToV3SessionId(new AccessTokenResult(mViewModel.getUsers().getAccess_token())).observe(DetailActivity.this, convertedSessionId -> {
-            Log.d("SessionID", convertedSessionId.getSession_id());
+            Log.d(LOG_TAG, convertedSessionId.getSession_id());
             sessionID = convertedSessionId.getSession_id();
         });
     }
@@ -229,7 +237,6 @@ public class DetailActivity extends AppCompatActivity {
 
     public void loadVideo() {
         mViewModel.getVideoFromMovie(mMovie.getId()).observe(this, videoResults -> {
-
             if (videoResults.getResults().length != 0) {
                 for (Video video : videoResults.getResults()) {
                     if (video.isOfficial()) {
@@ -258,7 +265,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public void setRating(int movieId, int rating, String sessionId, boolean isGuest) {
         mViewModel.setMovieRating(movieId, rating, sessionId, isGuest).observe(this, ratingResults -> {
-            Log.d("ratingwerk", ratingResults.getStatus_message());
+            Log.d(LOG_TAG, ratingResults.getStatus_message() +" with rating: " +rating);
         });
     }
 
