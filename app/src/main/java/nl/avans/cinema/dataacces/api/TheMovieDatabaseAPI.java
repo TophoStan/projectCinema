@@ -9,6 +9,7 @@ import nl.avans.cinema.dataacces.api.calls.AddItemResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
+import nl.avans.cinema.dataacces.api.calls.DeleteListResult;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
@@ -104,4 +105,10 @@ public interface TheMovieDatabaseAPI {
                                        @Header("authorization") String authorization,
                                        @Header("Content_Type") String content_type,
                                        @Body ListAddItems items);
+
+    @DELETE("4/list/{list_id}?api_key=" + key)
+    Call<DeleteListResult> deleteList(@Path("list_id") int listId,
+                                      @Header("authorization") String authorization,
+                                      @Header("Content_Type") String content_type);
+
 }

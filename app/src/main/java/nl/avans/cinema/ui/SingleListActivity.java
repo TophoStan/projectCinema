@@ -70,7 +70,6 @@ public class SingleListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Context context;
         if (item.getItemId() == R.id.list_filter) {
             Toast.makeText(this, "Filter btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.list_share) {
@@ -80,8 +79,33 @@ public class SingleListActivity extends AppCompatActivity {
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent, "Send To"));
         } else if (item.getItemId() == R.id.list_delete) {
-            Toast.makeText(this, "Delete btn", Toast.LENGTH_SHORT).show();
+            binding.sureBtn.setVisibility(View.VISIBLE);
+            binding.noBtn.setVisibility(View.VISIBLE);
+            binding.sureBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    contentViewModel.deleteList(movieList.getId(), contentViewModel.getUsers().getAccess_token()).observe(SingleListActivity.this, deleteListResult -> {
+                        if (deleteListResult.isSuccess()) {
+                            Toast.makeText(SingleListActivity.this, movieList.getName() + " has been removed!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SingleListActivity.this, movieList.getName() + " has not been removed!", Toast.LENGTH_SHORT).show();
+                        }
+                        binding.sureBtn.setVisibility(View.INVISIBLE);
+                        binding.noBtn.setVisibility(View.INVISIBLE);
+                    });
+
+                }
+            });
+            binding.noBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    binding.sureBtn.setVisibility(View.INVISIBLE);
+                    binding.noBtn.setVisibility(View.INVISIBLE);
+                }
+            });
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -20,6 +20,7 @@ import nl.avans.cinema.dataacces.api.calls.AddItemResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
+import nl.avans.cinema.dataacces.api.calls.DeleteListResult;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
@@ -56,6 +57,7 @@ public class CinemaRepository {
     private MutableLiveData<Movie> mMovieResult =  new MutableLiveData<>();
     private Boolean mDeleteItemFromListResult;
     private MutableLiveData<AddItemResult> mAddItemToListResult = new MutableLiveData<>();
+    private MutableLiveData<DeleteListResult> mDeleteListResult = new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -468,9 +470,6 @@ public class CinemaRepository {
         call.enqueue(new Callback<AddItemResult>() {
             @Override
             public void onResponse(Call<AddItemResult> call, Response<AddItemResult> response) {
-
-                Log.d("responce", response.toString());
-
                 mAddItemToListResult.setValue(response.body());
             }
 
@@ -480,6 +479,26 @@ public class CinemaRepository {
             }
         });
 
+    }
+
+    public  MutableLiveData<DeleteListResult> deleteList(int listId, String session_id) {
+        Call<DeleteListResult> call = api.deleteList(listId, "Bearer " + session_id, "application/json;charset=utf-8");
+        apiCallDeleteList(call);
+        return mDeleteListResult;
+    }
+
+    private void apiCallDeleteList(Call<DeleteListResult> call) {
+        call.enqueue(new Callback<DeleteListResult>() {
+            @Override
+            public void onResponse(Call<DeleteListResult> call, Response<DeleteListResult> response) {
+                mDeleteListResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DeleteListResult> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
     }
 }
 

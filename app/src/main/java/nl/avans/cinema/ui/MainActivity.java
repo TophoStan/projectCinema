@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
             }
         });
+
         setHomeButtonVisibility(false);
         currentPageNumber = 1;
 
