@@ -21,11 +21,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="48dp"
         android:clickable="true"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/home_icon" />
+
+    <EditText
+        android:id="@+id/current_page_number_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:inputType="number"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="108dp"
+        android:text="@string/left_pointer"
+        app:layout_constraintBottom_toBottomOf="@+id/current_page_number_view"
+        app:layout_constraintEnd_toStartOf="@+id/current_page_number_view"
+        app:layout_constraintTop_toTopOf="@+id/current_page_number_view" />
+
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="108dp"
+        android:text="@string/right_pointer"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/current_page_number_view"
+        app:layout_constraintStart_toEndOf="@+id/current_page_number_view"
+        app:layout_constraintTop_toTopOf="@+id/current_page_number_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
