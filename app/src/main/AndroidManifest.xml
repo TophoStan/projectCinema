@@ -45,7 +45,8 @@
 
         <activity
             android:name=".ui.AddToListPopUp"
-            android:theme="@style/PopupWindow" />
+            android:exported="false"
+            android:label="Add to your lists"/>
 
     </application>
 

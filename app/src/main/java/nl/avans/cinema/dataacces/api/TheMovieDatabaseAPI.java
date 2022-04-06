@@ -4,10 +4,14 @@ import java.util.List;
 
 import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
+import nl.avans.cinema.dataacces.api.calls.AddItemRequest;
+import nl.avans.cinema.dataacces.api.calls.AddItemResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
+import nl.avans.cinema.dataacces.api.calls.ListAddItems;
+import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.dataacces.api.calls.ListsResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
@@ -92,5 +96,12 @@ public interface TheMovieDatabaseAPI {
     Call<Boolean> deleteItemFromList(@Path("list_id") int listId,
                                      @Header("authorization") String authorization,
                                      @Header("Content_Type") String content_type,
-                                     @Body() List<DeleteItemRequest> deleteItemRequestList);
+                                     @Body ListRemoveItems items);
+    // !!!!!!!!!!!!!!!!//
+
+    @POST("4/list/{list_id}/items?api_key=" + key)
+    Call<AddItemResult> addItemsToList(@Path("list_id") int listId,
+                                       @Header("authorization") String authorization,
+                                       @Header("Content_Type") String content_type,
+                                       @Body ListAddItems items);
 }

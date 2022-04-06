@@ -15,10 +15,14 @@ import nl.avans.cinema.dataacces.api.ApiClient;
 import nl.avans.cinema.dataacces.api.TheMovieDatabaseAPI;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
+import nl.avans.cinema.dataacces.api.calls.AddItemRequest;
+import nl.avans.cinema.dataacces.api.calls.AddItemResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
+import nl.avans.cinema.dataacces.api.calls.ListAddItems;
+import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.dataacces.api.calls.ListsResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
@@ -29,8 +33,6 @@ import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.dataacces.dao.CinemaDAO;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.User;
-import nl.avans.cinema.ui.DetailActivity;
-import nl.avans.cinema.ui.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +55,7 @@ public class CinemaRepository {
     private MutableLiveData<ListsResult> mListsResult = new MutableLiveData<>();
     private MutableLiveData<Movie> mMovieResult =  new MutableLiveData<>();
     private Boolean mDeleteItemFromListResult;
+    private MutableLiveData<AddItemResult> mAddItemToListResult = new MutableLiveData<>();
     private static final String LOG_TAG = CinemaRepository.class.getSimpleName();
 
 
@@ -435,7 +438,7 @@ public class CinemaRepository {
         });
     }
 
-    public Boolean deleteItemFromList(int listId, String session_id, List<DeleteItemRequest> deleteItemRequestList) {
+    public Boolean deleteItemFromList(int listId, String session_id, ListRemoveItems deleteItemRequestList) {
         Call<Boolean> call = api.deleteItemFromList(listId,"Bearer " + session_id, "application/json;charset=utf-8", deleteItemRequestList);
         apiCallDeleteItemFromList(call);
         return mDeleteItemFromListResult;
@@ -453,6 +456,30 @@ public class CinemaRepository {
                 Log.e(LOG_TAG, t.getMessage());
             }
         });
+    }
+
+    public MutableLiveData<AddItemResult> addItemsToList(int listId, String session_id, ListAddItems addItemRequestList) {
+        Call<AddItemResult> call = api.addItemsToList(listId, "Bearer " + session_id, "application/json;charset=utf-8", addItemRequestList);
+        apiCallAddItmesToList(call);
+        return mAddItemToListResult;
+    }
+
+    private void apiCallAddItmesToList(Call<AddItemResult> call) {
+        call.enqueue(new Callback<AddItemResult>() {
+            @Override
+            public void onResponse(Call<AddItemResult> call, Response<AddItemResult> response) {
+
+                Log.d("responce", response.toString());
+
+                mAddItemToListResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<AddItemResult> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+
     }
 }
 

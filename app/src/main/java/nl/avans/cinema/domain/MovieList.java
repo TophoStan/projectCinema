@@ -9,6 +9,7 @@ public class MovieList {
     private List<Movie> list = new ArrayList<>();
     private int id;
     private String name;
+    private int number_of_items;
 
     public MovieList(String name) {
         this.name = name;
@@ -34,4 +35,7 @@ public class MovieList {
         return list.size();
     }
 
+    public int getTotal_results() {
+        return number_of_items;
+    }
 }

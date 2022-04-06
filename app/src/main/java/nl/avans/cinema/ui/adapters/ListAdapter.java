@@ -16,8 +16,12 @@ import java.util.List;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.AddItemRequest;
+import nl.avans.cinema.dataacces.api.calls.ListAddItems;
+import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.MovieList;
 import nl.avans.cinema.ui.AddToListPopUp;
+import nl.avans.cinema.ui.DetailActivity;
 import nl.avans.cinema.ui.ListsActivity;
 import nl.avans.cinema.ui.SingleListActivity;
 
@@ -28,6 +32,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     private ContentViewModel mViewModel;
     private ListsActivity mListActivity;
     private AddToListPopUp mAddToListPopUp;
+    private boolean forAddToList = false;
+    private Movie movie;
 
     public ListAdapter(Context context, ContentViewModel viewModel, ListsActivity listActivity) {
         this.mContext = context;
@@ -53,6 +59,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     public void onBindViewHolder(ListAdapter.ListViewHolder holder, int position) {
         MovieList currentList = mListList.get(position);
         holder.listItemView.setText(currentList.getName());
+        holder.listSize.setText(currentList.getTotal_results() + " movies");
     }
 
     @Override
@@ -68,24 +75,47 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         notifyDataSetChanged();
     }
 
+    public void onAddToList(boolean onTheList, Movie movie) {
+        this.forAddToList = onTheList;
+        this.movie = movie;
+    }
+
     class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView listItemView;
+        private TextView listSize;
 
         public ListViewHolder(View itemView) {
             super(itemView);
-            this.listItemView = itemView.findViewById(R.id.list);
+            this.listItemView = itemView.findViewById(R.id.listTitle);
+            this.listSize = itemView.findViewById(R.id.listSize);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             //TODO van api lijst ophalen
-            mViewModel.getListById(mListList.get(getAdapterPosition()).getId()).observe(mListActivity, listResult -> {
-                Intent listIntent = new Intent(mContext, SingleListActivity.class);
-                listIntent.putExtra("list", listResult);
-                mContext.startActivity(listIntent);
-            });
-            Toast.makeText(mContext, "List: " + mListList.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            if (forAddToList) {
+                AddItemRequest addItemRequest = new AddItemRequest("movie", movie.getId());
+                List<AddItemRequest> addItemRequestList = new ArrayList<>();
+                addItemRequestList.add(addItemRequest);
+                ListAddItems listAddItems = new ListAddItems();
+                listAddItems.setItems(addItemRequestList);
+                MovieList list = mListList.get(getAdapterPosition());
+                mViewModel.addItemsToList(list.getId(), mViewModel.getUsers().getAccess_token(), listAddItems).observe(mAddToListPopUp, addItemResult -> {
+                    if (addItemResult.isSuccess()) {
+                        Toast.makeText(mContext, movie.getTitle() + " has been added", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, movie.getTitle() + " has not been added", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                mViewModel.getListById(mListList.get(getAdapterPosition()).getId()).observe(mListActivity, listResult -> {
+                    Intent listIntent = new Intent(mContext, SingleListActivity.class);
+                    listIntent.putExtra("list", listResult);
+                    mContext.startActivity(listIntent);
+                });
+                Toast.makeText(mContext, "List: " + mListList.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
