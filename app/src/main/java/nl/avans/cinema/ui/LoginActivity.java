@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.LoginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startLoginProcess();
             }
         });
@@ -56,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.LoginGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(LoginActivity.this, getResources().getString(R.string.guest_login_message), Toast.LENGTH_SHORT).show();
                 startGuestProcess();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
@@ -70,25 +72,27 @@ public class LoginActivity extends AppCompatActivity {
             //login(results.getRequest_token());
             String url = "https://www.themoviedb.org/auth/access?request_token=" + results.getRequest_token();
             Log.d(LOG_TAG, results.getRequest_token());
-
-            WebView webview = new WebView(this);
-
-            webview.reload();
-            webview.setBackground(new ColorDrawable(getResources().getColor(R.color.black)));
-
-            webview.setWebViewClient(new WebViewClient() {
+            for (int i = 0; i < binding.getRoot().getChildCount(); i++) {
+                binding.getRoot().getChildAt(i).setVisibility(View.INVISIBLE);
+            }
+            binding.webviewLogin.getSettings().setJavaScriptEnabled(true);
+            binding.webviewLogin.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            binding.webviewLogin.setVisibility(View.VISIBLE);
+            binding.webviewLogin.reload();
+            binding.webviewLogin.setBackground(new ColorDrawable(getResources().getColor(R.color.black)));
+            binding.webviewLogin.setWebViewClient(new WebViewClient() {
                 @Override
                 public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
-                    if ("https://www.themoviedb.org/auth/access/approve".equals(webview.getUrl())) {
+                    if ("https://www.themoviedb.org/auth/access/approve".equals(binding.webviewLogin.getUrl())) {
                         setContentView(binding.getRoot());
                         postLogin(results.getRequest_token());
                     }
                     super.doUpdateVisitedHistory(view, url, isReload);
+
                 }
             });
 
-            setContentView(webview);
-            webview.loadUrl(url);
+            binding.webviewLogin.loadUrl(url);
         });
     }
 
@@ -100,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             user.setAccess_token(results.getAccess_token());
             user.setGuest(false);
             mViewModel.insertUser(user);
+            Toast.makeText(LoginActivity.this, getResources().getString(R.string.user_login_message), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("user", user));
         });
     }

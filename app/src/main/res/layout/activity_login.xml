@@ -75,5 +75,9 @@
         android:layout_centerHorizontal="true"
         android:text="@string/guest_label" />
 
-
+    <WebView
+        android:id="@+id/webview_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 </RelativeLayout>

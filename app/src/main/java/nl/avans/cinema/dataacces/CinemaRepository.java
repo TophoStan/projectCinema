@@ -416,7 +416,8 @@ public class CinemaRepository {
         });
     }
 
-    public MutableLiveData<Movie> getMovieById(int id){
+    public MutableLiveData<Movie> getMovieById(int id)
+    {
         Call<Movie> call = api.getMoveById(id);
         apiCallGetMovieById(call);
         return mMovieResult;

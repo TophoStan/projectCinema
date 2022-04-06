@@ -33,5 +33,7 @@
     <string name="popup_cancel">Cancel</string>
     <string name="genres">Genres: </string>
     <string name="rating_label">Rating</string>
+    <string name="guest_login_message">Logged in as guest</string>
+    <string name="user_login_message">Logged in as user</string>
     <string name="bearer">eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZmUyMmY4NWQ5YTJmNTE5OWRkZGMxZWNhOGZhMmU2MCIsInN1YiI6IjYyNDQzZGRhYzUwYWQyMDA0NzAwMTkyYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fewHZDQbJlDRbCD6SFsTMMiylqxJwqjq_dyrASXjML4</string>
 </resources>
