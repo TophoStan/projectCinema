@@ -97,7 +97,7 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
                     List<DeleteItemRequest> removeList = new ArrayList<>();
                     DeleteItemRequest deleteItemRequest = new DeleteItemRequest("movie", movies.get(getAdapterPosition()).getId());
                     removeList.add(deleteItemRequest);
-                    mViewModel.deleteItemFromList(mListResult.getId(), mViewModel.getUsers().getAccess_token(), removeList);
+                    // mViewModel.deleteItemFromList(mListResult.getId(), mViewModel.getUsers().getAccess_token(), removeList);
                 }
             });
             itemView.setOnClickListener(this);

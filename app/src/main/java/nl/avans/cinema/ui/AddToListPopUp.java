@@ -9,6 +9,7 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -20,7 +21,7 @@ import nl.avans.cinema.databinding.PopupAddtolistBinding;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.MovieList;
 
-public class AddToListPopUp extends Activity {
+public class AddToListPopUp extends AppCompatActivity {
 
     private List<MovieList> movieListList = new ArrayList<>();
     private PopupAddtolistBinding binding;
@@ -33,25 +34,16 @@ public class AddToListPopUp extends Activity {
         binding = PopupAddtolistBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        int width = displayMetrics.widthPixels;
-        int height = displayMetrics.heightPixels;
-
-        getWindow().setLayout((int) (width * .8), (int) (height * .6));
-
-        contentViewModel = (ContentViewModel) getIntent().getSerializableExtra("viewmodel");
+        contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
         mAdapter = new nl.avans.cinema.ui.adapters.ListAdapter(this, contentViewModel, this);
+        mAdapter.onAddToList(true, (Movie) getIntent().getSerializableExtra("movie"));
 
         binding.yourListList.setAdapter(mAdapter);
         binding.yourListList.setLayoutManager(new LinearLayoutManager(this));
 
-
-        // hier verder, weer iets met THIS
-        /*contentViewModel.getListsFromUser(contentViewModel.getUsers().getAccount_id(), contentViewModel.getUsers().getAccess_token()).observe(this, listsResult -> {
+        contentViewModel.getListsFromUser(contentViewModel.getUsers().getAccount_id(), contentViewModel.getUsers().getAccess_token()).observe(this, listsResult -> {
             movieListList = listsResult.getResults();
             mAdapter.setLists(movieListList);
-        });*/
+        });
     }
 }

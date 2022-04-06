@@ -49,14 +49,6 @@ public class ListsActivity extends AppCompatActivity {
             mListList = listsResult.getResults();
             mAdapter.setLists(mListList);
         });
-
-        // test btn
-        binding.toAList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ListsActivity.this, SingleListActivity.class));
-            }
-        });
     }
 
     @Override

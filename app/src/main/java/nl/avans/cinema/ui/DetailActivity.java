@@ -186,9 +186,9 @@ public class DetailActivity extends AppCompatActivity {
                 if (mViewModel.getUsers().isGuest()) {
                     Toast.makeText(DetailActivity.this, "Login to use lists!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent popUpIntent = new Intent(DetailActivity.this, AddToListPopUp.class);
-                    popUpIntent.putExtra("viewmodel", (Serializable) mViewModel);
-                    startActivity(popUpIntent);
+                    Intent addToListIntent = new Intent(DetailActivity.this, AddToListPopUp.class);
+                    addToListIntent.putExtra("movie", mMovie);
+                    startActivity(addToListIntent);
                 }
             }
         });

@@ -16,6 +16,9 @@ import java.util.List;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.AddItemRequest;
+import nl.avans.cinema.dataacces.api.calls.ListResult;
+import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.MovieList;
 import nl.avans.cinema.ui.AddToListPopUp;
 import nl.avans.cinema.ui.ListsActivity;
@@ -28,6 +31,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     private ContentViewModel mViewModel;
     private ListsActivity mListActivity;
     private AddToListPopUp mAddToListPopUp;
+    private boolean forAddToList = false;
+    private Movie movie;
 
     public ListAdapter(Context context, ContentViewModel viewModel, ListsActivity listActivity) {
         this.mContext = context;
@@ -68,6 +73,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         notifyDataSetChanged();
     }
 
+    public void onAddToList(boolean onTheList, Movie movie) {
+        this.forAddToList = onTheList;
+        this.movie = movie;
+    }
+
     class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView listItemView;
 
@@ -80,12 +90,26 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         @Override
         public void onClick(View view) {
             //TODO van api lijst ophalen
-            mViewModel.getListById(mListList.get(getAdapterPosition()).getId()).observe(mListActivity, listResult -> {
-                Intent listIntent = new Intent(mContext, SingleListActivity.class);
-                listIntent.putExtra("list", listResult);
-                mContext.startActivity(listIntent);
-            });
-            Toast.makeText(mContext, "List: " + mListList.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            if (forAddToList) {
+                AddItemRequest addItemRequest = new AddItemRequest("movie", movie.getId());
+                List<AddItemRequest> addItemRequestList = new ArrayList<>();
+                addItemRequestList.add(addItemRequest);
+                MovieList list = mListList.get(getAdapterPosition());
+                /*mViewModel.addItemsToList(list.getId(), mViewModel.getUsers().getAccess_token(), addItemRequestList).observe(mAddToListPopUp, addItemResult -> {
+                    if (addItemResult.isSuccess()) {
+                        Toast.makeText(mContext, movie.getTitle() + " has been added to " + list.getName(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, movie.getTitle() + " has NOT been added to " + list.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                });*/
+            } else {
+                mViewModel.getListById(mListList.get(getAdapterPosition()).getId()).observe(mListActivity, listResult -> {
+                    Intent listIntent = new Intent(mContext, SingleListActivity.class);
+                    listIntent.putExtra("list", listResult);
+                    mContext.startActivity(listIntent);
+                });
+                Toast.makeText(mContext, "List: " + mListList.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 
 import nl.avans.cinema.dataacces.api.calls.AccessTokenRequest;
 import nl.avans.cinema.dataacces.api.calls.AccessTokenResult;
+import nl.avans.cinema.dataacces.api.calls.AddItemRequest;
+import nl.avans.cinema.dataacces.api.calls.AddItemResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
@@ -118,6 +120,10 @@ public class ContentViewModel extends AndroidViewModel {
 
     public Boolean deleteItemFromList(int listId, String authorization, List<DeleteItemRequest> deleteItemRequestList) {
         return mRepository.deleteItemFromList(listId, authorization, deleteItemRequestList);
+    }
+
+    public MutableLiveData<AddItemResult> addItemsToList(int listId, String authorization, List<AddItemRequest> addItemRequestList) {
+        return mRepository.addItemsToList(listId, authorization, addItemRequestList);
     }
     //TODO Crud functies uit repository hier aan toevoegen
 }
