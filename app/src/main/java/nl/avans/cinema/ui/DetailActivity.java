@@ -179,9 +179,6 @@ public class DetailActivity extends AppCompatActivity {
                     Intent addToListIntent = new Intent(DetailActivity.this, AddToListPopUp.class);
                     addToListIntent.putExtra("movie", mMovie);
                     startActivity(addToListIntent);
-                    Intent popUpIntent = new Intent(DetailActivity.this, AddToListPopUp.class);
-                    popUpIntent.putExtra(LOG_TAG, (Serializable) mViewModel);
-                    startActivity(popUpIntent);
                 }
             }
         });
