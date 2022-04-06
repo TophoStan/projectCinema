@@ -25,6 +25,7 @@ import java.util.List;
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
+import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.ui.DetailActivity;
@@ -97,7 +98,9 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
                     List<DeleteItemRequest> removeList = new ArrayList<>();
                     DeleteItemRequest deleteItemRequest = new DeleteItemRequest("movie", movies.get(getAdapterPosition()).getId());
                     removeList.add(deleteItemRequest);
-                    // mViewModel.deleteItemFromList(mListResult.getId(), mViewModel.getUsers().getAccess_token(), removeList);
+                    ListRemoveItems listRemoveItems = new ListRemoveItems();
+                    listRemoveItems.setItems(removeList);
+                    // mViewModel.deleteItemFromList(mListResult.getId(), mViewModel.getUsers().getAccess_token(), listRemoveItems);
                 }
             });
             itemView.setOnClickListener(this);
