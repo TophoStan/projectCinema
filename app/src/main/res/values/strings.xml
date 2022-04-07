@@ -46,4 +46,6 @@
     <string name="add_shared_list">Add shared list</string>
     <string name="filter_date">filter date</string>
     <string name="filter_rating">Filter rating</string>
+    <string name="max_rating_label">Max Rating</string>
+    <string name="minimal_rating_label">Minimal Rating</string>
 </resources>

@@ -8,9 +8,10 @@
 
     <EditText
         android:id="@+id/min_rating_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="88dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,23 +19,25 @@
 
     <EditText
         android:id="@+id/max_rating_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
         android:ems="10"
         android:inputType="number"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="@+id/min_rating_field"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/min_rating_field" />
+        app:layout_constraintStart_toEndOf="@+id/min_rating_field"
+        app:layout_constraintTop_toTopOf="@+id/min_rating_field" />
 
     <TextView
         android:id="@+id/max_rating_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Max Rating"
+        android:text="@string/max_rating_label"
         app:layout_constraintBottom_toTopOf="@+id/max_rating_field"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/min_rating_field"
+        app:layout_constraintStart_toStartOf="@+id/max_rating_field"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <TextView
@@ -42,9 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Minimal Rating"
+        android:text="@string/minimal_rating_label"
         app:layout_constraintBottom_toTopOf="@+id/min_rating_field"
-        app:layout_constraintEnd_toStartOf="@+id/max_rating_field"
-        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintEnd_toEndOf="@+id/min_rating_field"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
