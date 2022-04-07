@@ -44,4 +44,12 @@
     <string name="error_name_not_empty">Name can not be empty</string>
     <string name="login_guest_to_use_list">Login to use lists!</string>
     <string name="add_shared_list">Add shared list</string>
+    <string name="detail_add_to_list">Add to list</string>
+    <string name="detail_image">detail_image</string>
+    <string name="detail_description">Description</string>
+    <string name="detail_companies">Companies</string>
+    <string name="detail_no_genres">No genres</string>
+    <string name="detail_placeholder">TextView</string>
+    <string name="detail_title">title</string>
+    <string name="detail_crew">Crew</string>
 </resources>
