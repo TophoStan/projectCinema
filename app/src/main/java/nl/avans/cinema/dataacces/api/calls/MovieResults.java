@@ -5,6 +5,11 @@ import nl.avans.cinema.domain.Movie;
 public class MovieResults {
     private int page;
     private Movie[] results;
+    private int total_pages;
+
+    public int getTotal_pages() {
+        return total_pages;
+    }
 
     public Movie[] getMovies() {
         return results;

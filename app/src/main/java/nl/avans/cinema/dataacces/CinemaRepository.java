@@ -26,6 +26,8 @@ import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.dataacces.api.calls.ListsResult;
+import nl.avans.cinema.dataacces.api.calls.MakeListRequest;
+import nl.avans.cinema.dataacces.api.calls.MakeListResult;
 import nl.avans.cinema.dataacces.api.calls.MovieResults;
 import nl.avans.cinema.dataacces.api.calls.RatingRequest;
 import nl.avans.cinema.dataacces.api.calls.RatingResult;
@@ -54,7 +56,8 @@ public class CinemaRepository {
     private MutableLiveData<GuestResult> mGuestData = new MutableLiveData<>();
     private MutableLiveData<ListResult> mListResult = new MutableLiveData<>();
     private MutableLiveData<ListsResult> mListsResult = new MutableLiveData<>();
-    private MutableLiveData<Movie> mMovieResult =  new MutableLiveData<>();
+    private MutableLiveData<Movie> mMovieResult = new MutableLiveData<>();
+    private MutableLiveData<MakeListResult> mMakeListResult = new MutableLiveData<>();
     private Boolean mDeleteItemFromListResult;
     private MutableLiveData<AddItemResult> mAddItemToListResult = new MutableLiveData<>();
     private MutableLiveData<DeleteListResult> mDeleteListResult = new MutableLiveData<>();
@@ -341,7 +344,7 @@ public class CinemaRepository {
 
 
     public MutableLiveData<MovieResults> getRatedMoviesByUser(String account_id, String session_id) {
-        Call<MovieResults> call = api.getRatedMoviesByUser(account_id,"Bearer " + session_id);
+        Call<MovieResults> call = api.getRatedMoviesByUser(account_id, "Bearer " + session_id);
         apiCallGetRatedMoviesByUser(call);
         return mRatedMovies;
     }
@@ -420,13 +423,13 @@ public class CinemaRepository {
         });
     }
 
-    public MutableLiveData<Movie> getMovieById(int id)
-    {
+    public MutableLiveData<Movie> getMovieById(int id) {
         Call<Movie> call = api.getMoveById(id);
         apiCallGetMovieById(call);
         return mMovieResult;
     }
-    private void apiCallGetMovieById(Call<Movie> call){
+
+    private void apiCallGetMovieById(Call<Movie> call) {
         call.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response) {
@@ -441,7 +444,7 @@ public class CinemaRepository {
     }
 
     public Boolean deleteItemFromList(int listId, String session_id, ListRemoveItems deleteItemRequestList) {
-        Call<Boolean> call = api.deleteItemFromList(listId,"Bearer " + session_id, "application/json;charset=utf-8", deleteItemRequestList);
+        Call<Boolean> call = api.deleteItemFromList(listId, "Bearer " + session_id, "application/json;charset=utf-8", deleteItemRequestList);
         apiCallDeleteItemFromList(call);
         return mDeleteItemFromListResult;
     }
@@ -481,7 +484,7 @@ public class CinemaRepository {
 
     }
 
-    public  MutableLiveData<DeleteListResult> deleteList(int listId, String session_id) {
+    public MutableLiveData<DeleteListResult> deleteList(int listId, String session_id) {
         Call<DeleteListResult> call = api.deleteList(listId, "Bearer " + session_id, "application/json;charset=utf-8");
         apiCallDeleteList(call);
         return mDeleteListResult;
@@ -496,6 +499,26 @@ public class CinemaRepository {
 
             @Override
             public void onFailure(Call<DeleteListResult> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<MakeListResult> makeAList(String auth, MakeListRequest request) {
+        Call<MakeListResult> call = api.makeList("Bearer " + auth, "application/json;charset=utf-8", request);
+        apiCallMakeAList(call);
+        return mMakeListResult;
+    }
+
+    private void apiCallMakeAList(Call<MakeListResult> call) {
+        call.enqueue(new Callback<MakeListResult>() {
+            @Override
+            public void onResponse(Call<MakeListResult> call, Response<MakeListResult> response) {
+                mMakeListResult.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<MakeListResult> call, Throwable t) {
                 Log.e(LOG_TAG, t.getMessage());
             }
         });

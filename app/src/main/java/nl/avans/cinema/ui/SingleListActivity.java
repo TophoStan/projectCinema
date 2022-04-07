@@ -64,6 +64,7 @@ public class SingleListActivity extends AppCompatActivity {
         contentViewModel.getListById(movieList.getId()).observe(this, listResult -> {
             adapter.setMovies(listResult.getResults());
         });
+
     }
 
     @Override

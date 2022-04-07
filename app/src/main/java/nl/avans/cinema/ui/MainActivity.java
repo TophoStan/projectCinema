@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.util.Log;
+
 import android.view.KeyEvent;
-=======
->>>>>>> origin/SortMainActivity
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,17 +24,11 @@ import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-<<<<<<< HEAD
-import java.util.Iterator;
-=======
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.Comparator;
->>>>>>> origin/SortMainActivity
-import java.util.List;
 
 import nl.avans.cinema.R;
 
@@ -52,12 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     private MovieAdapter adapter;
     private String currentFilter;
     private int currentPageNumber;
-<<<<<<< HEAD
     private boolean isSearching;
     private boolean buttonsAreEnabled;
-=======
     private ArrayList<Movie> movieList = new ArrayList<>();
->>>>>>> origin/SortMainActivity
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +108,19 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             }
         });
 
+
+    }
+
+    boolean readLastButtonPressed() {
+        SharedPreferences sharedPref = getSharedPreferences("application", Context.MODE_PRIVATE);
+        return sharedPref.getBoolean("enableButtons", buttonsAreEnabled);
+    }
+
+    public void saveLastButtonPressed(boolean numberOfButton) {
+        SharedPreferences sharedPref = this.getSharedPreferences("application", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("enableButtons", buttonsAreEnabled);
+        editor.apply();
     }
 
     public void goPageBack(RecyclerView recyclerView) {
@@ -150,13 +154,17 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         itemSwitch.setActionView(R.layout.switch_item);
 
         Switch sw = (Switch) menu.findItem(R.id.toggle_buttons).getActionView().findViewById(R.id.switch1);
+        sw.setChecked(readLastButtonPressed());
+        setVisibilityOfView(binding.buttonBack, sw.isChecked());
+        setVisibilityOfView(binding.buttonNext, sw.isChecked());
 
         sw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonsAreEnabled = !buttonsAreEnabled;
-                setVisibilityOfView(binding.buttonBack, buttonsAreEnabled);
-                setVisibilityOfView(binding.buttonNext, buttonsAreEnabled);
+                setVisibilityOfView(binding.buttonBack, sw.isChecked());
+                setVisibilityOfView(binding.buttonNext, sw.isChecked());
+
+                saveLastButtonPressed(buttonsAreEnabled);
             }
         });
 
@@ -183,22 +191,9 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     }
 
     @Override
-<<<<<<< HEAD
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.home_search) {
-            Toast.makeText(this, "Search btn", Toast.LENGTH_SHORT).show();
-        } else if (item.getItemId() == R.id.home_sort) {
-            Toast.makeText(this, "Sort btn", Toast.LENGTH_SHORT).show();
-        } else if (item.getItemId() == R.id.home_lists) {
-            if (contentViewModel.getUsers().isGuest()) {
-                Toast.makeText(this, "Login to use lists!", Toast.LENGTH_SHORT).show();
-            } else {
-                startActivity(new Intent(MainActivity.this, ListsActivity.class));
-            }
-=======
     public boolean onOptionsItemSelected(MenuItem item) {
         System.out.println(item.getTitle());
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.title_asc:
                 Collections.sort(movieList, new Comparator<Movie>() {
                     @Override
@@ -214,26 +209,41 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
                 return true;
         }
 
-        if (item.getItemId() == R.id.home_lists) {
-            startActivity(new Intent(MainActivity.this, ListsActivity.class));
->>>>>>> origin/SortMainActivity
+        if (item.getItemId() == R.id.home_search) {
+            Toast.makeText(this, "Search btn", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.home_sort) {
+            Toast.makeText(this, "Sort btn", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.home_lists) {
+            if (contentViewModel.getUsers().isGuest()) {
+                Toast.makeText(this, "Login to use lists!", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(MainActivity.this, ListsActivity.class));
+            }
         } else if (item.getItemId() == R.id.home_logout) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         } else if (item.getItemId() == R.id.popular) {
             currentFilter = "popular";
+            currentPageNumber = 1;
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.top_rated) {
             currentFilter = "top_rated";
+            currentPageNumber = 1;
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.playing_now) {
             currentFilter = "now_playing";
+            currentPageNumber = 1;
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.upcoming) {
             currentFilter = "upcoming";
+            currentPageNumber = 1;
             loadFilteredMovie(currentFilter, currentPageNumber);
+            binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.genre) {
             currentFilter = "genre";
@@ -246,10 +256,10 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     public void loadFilteredMovie(String filter, int page) {
 
         contentViewModel.getMovieResultsWithFilter(filter, page).observe(this, movieResults -> {
-            if (movieResults.getMovies().length != 0) {
+            if (currentPageNumber + 1 <= movieResults.getTotal_pages()) {
                 adapter.setMovies(Arrays.asList(movieResults.getMovies()));
             } else {
-                Log.e(LOG_TAG, "movielist is empty");
+                currentPageNumber = movieResults.getTotal_pages() - 1;
             }
         });
     }
@@ -289,11 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         if (enteredPageNumber > 0) {
             if (enteredPageNumber >= 500) {
                 enteredPageNumber = 500;
-                //binding.buttonNext.setVisibility(View.INVISIBLE);
-            } else {
-                //binding.buttonNext.setVisibility(View.VISIBLE);
             }
-            setVisibilityOfView(binding.buttonNext, buttonsAreEnabled);
             currentPageNumber = enteredPageNumber;
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
