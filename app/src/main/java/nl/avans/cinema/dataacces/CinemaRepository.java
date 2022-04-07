@@ -21,6 +21,7 @@ import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.DeleteItemRequest;
 import nl.avans.cinema.dataacces.api.calls.DeleteListResult;
+import nl.avans.cinema.dataacces.api.calls.GenreListResult;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
@@ -34,6 +35,7 @@ import nl.avans.cinema.dataacces.api.calls.RatingResult;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
 import nl.avans.cinema.dataacces.dao.CinemaDAO;
+import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.User;
 import retrofit2.Call;
@@ -58,6 +60,7 @@ public class CinemaRepository {
     private MutableLiveData<ListsResult> mListsResult = new MutableLiveData<>();
     private MutableLiveData<Movie> mMovieResult = new MutableLiveData<>();
     private MutableLiveData<MakeListResult> mMakeListResult = new MutableLiveData<>();
+    private MutableLiveData<GenreListResult> mGenreList = new MutableLiveData<>();
     private Boolean mDeleteItemFromListResult;
     private MutableLiveData<AddItemResult> mAddItemToListResult = new MutableLiveData<>();
     private MutableLiveData<DeleteListResult> mDeleteListResult = new MutableLiveData<>();
@@ -522,6 +525,27 @@ public class CinemaRepository {
                 Log.e(LOG_TAG, t.getMessage());
             }
         });
+    }
+
+    public MutableLiveData<GenreListResult> getGenres(){
+        Call<GenreListResult> call = api.getGenres();
+        call.enqueue(new Callback<GenreListResult>() {
+            @Override
+            public void onResponse(Call<GenreListResult> call, Response<GenreListResult> response) {
+                mGenreList.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GenreListResult> call, Throwable t) {
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+        return mGenreList;
+    }
+    public MutableLiveData<MovieResults> getMoviesByGenre(String genres, int page){
+        Call<MovieResults> call = api.getMoviesByGenre(genres, page);
+        apiCallMovieResults(call);
+        return mMovieFilteredResults;
     }
 }
 

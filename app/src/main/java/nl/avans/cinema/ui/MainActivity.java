@@ -32,12 +32,15 @@ import java.util.Comparator;
 
 import nl.avans.cinema.R;
 
+import nl.avans.cinema.dataacces.api.calls.GenreListResult;
 import nl.avans.cinema.databinding.ActivityMainBinding;
+import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.ui.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.ContentViewModel;
 import nl.avans.cinema.domain.Movie;
+import nl.avans.cinema.ui.dialogs.GenreDialogFilterFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnKeyListener {
+public class MainActivity extends AppCompatActivity implements View.OnKeyListener, GenreDialogFilterFragment.NoticeDialogListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ActivityMainBinding binding;
@@ -46,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     private String currentFilter;
     private int currentPageNumber;
     private boolean isSearching;
+    private boolean isFilteringGenre;
     private boolean buttonsAreEnabled;
+    private String currentGenreFilter;
     private ArrayList<Movie> movieList = new ArrayList<>();
 
 
@@ -108,7 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             }
         });
 
-
+        if (currentPageNumber == 1) {
+            setVisibilityOfView(binding.buttonBack, true);
+        }
     }
 
     boolean readLastButtonPressed() {
@@ -128,8 +135,14 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         if (currentPageNumber - 1 > 0) {
             currentPageNumber -= 1;
             recyclerView.scrollToPosition(19);
+            setVisibilityOfView(binding.buttonBack, true);
         }
         loadAPage(currentPageNumber);
+        if (currentPageNumber == 1) {
+            setVisibilityOfView(binding.buttonBack, true);
+        } else {
+            setVisibilityOfView(binding.buttonBack, false);
+        }
     }
 
     public void goPageNext(RecyclerView recyclerView) {
@@ -138,6 +151,11 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
         }
         recyclerView.scrollToPosition(0);
         loadAPage(currentPageNumber);
+        if (currentPageNumber == 1) {
+            setVisibilityOfView(binding.buttonBack, true);
+        } else {
+            setVisibilityOfView(binding.buttonBack, false);
+        }
     }
 
     @Override
@@ -155,13 +173,21 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
 
         Switch sw = (Switch) menu.findItem(R.id.toggle_buttons).getActionView().findViewById(R.id.switch1);
         sw.setChecked(readLastButtonPressed());
-        setVisibilityOfView(binding.buttonBack, sw.isChecked());
+        if (currentPageNumber == 1) {
+            setVisibilityOfView(binding.buttonBack, true);
+        } else {
+            setVisibilityOfView(binding.buttonBack, sw.isChecked());
+        }
         setVisibilityOfView(binding.buttonNext, sw.isChecked());
 
         sw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setVisibilityOfView(binding.buttonBack, sw.isChecked());
+                if (currentPageNumber == 1) {
+                    setVisibilityOfView(binding.buttonBack, true);
+                } else {
+                    setVisibilityOfView(binding.buttonBack, sw.isChecked());
+                }
                 setVisibilityOfView(binding.buttonNext, sw.isChecked());
 
                 saveLastButtonPressed(buttonsAreEnabled);
@@ -246,8 +272,13 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.genre) {
-            currentFilter = "genre";
-            loadFilteredMovie(currentFilter, currentPageNumber);
+            //TODO filter op genre
+            contentViewModel.getGenres().observe(this, genreListResult -> {
+                GenreDialogFilterFragment filterFragment = new GenreDialogFilterFragment(genreListResult);
+                filterFragment.show(getSupportFragmentManager(), "FilterGenreDialog");
+            });
+
+
             setHomeButtonVisibility(true);
         }
         return super.onOptionsItemSelected(item);
@@ -302,7 +333,36 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             }
             currentPageNumber = enteredPageNumber;
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
-            loadFilteredMovie(currentFilter, currentPageNumber);
+            if (isFilteringGenre) {
+                loadMovieByGenres(currentGenreFilter);
+            } else {
+                loadFilteredMovie(currentFilter, currentPageNumber);
+            }
         }
+    }
+
+    @Override
+    public void onDialogPositiveClick(GenreListResult genres) {
+        StringBuilder builder = new StringBuilder();
+        if (genres.getGenres().size() > 1) {
+            for (Genre g : genres.getGenres()) {
+                builder.append(g.getId());
+                builder.append(",");
+            }
+            builder.replace(builder.toString().length() - 1, builder.toString().length(), "");
+        } else {
+            builder.append(genres.getGenres().get(0).getId() + "");
+        }
+        currentGenreFilter = builder.toString();
+        loadMovieByGenres(builder.toString());
+
+    }
+
+    public void loadMovieByGenres(String genres) {
+        contentViewModel.getMoviesByGenre(genres, currentPageNumber).observe(this, movieResults -> {
+            adapter.setMovies(Arrays.asList(movieResults.getMovies()));
+            setHomeButtonVisibility(true);
+            isFilteringGenre = true;
+        });
     }
 }
