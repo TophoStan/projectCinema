@@ -109,7 +109,6 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             listAddItems.setItems(newListMovies);
 
             contentViewModel.addItemsToList(listId, contentViewModel.getUsers().getAccess_token(), listAddItems).observe(this, resultListShare -> {
-                Toast.makeText(this, "Added " + request.getName(), Toast.LENGTH_SHORT).show();
                 if (resultListShare.isSuccess()) {
                     Toast.makeText(this, "Added " + request.getName(), Toast.LENGTH_SHORT).show();
                     reloadPage();
