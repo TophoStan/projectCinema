@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +30,7 @@ import java.util.Arrays;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import nl.avans.cinema.R;
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     private boolean isFilteringGenre;
     private boolean buttonsAreEnabled;
     private String currentGenreFilter;
-    private ArrayList<Movie> movieList = new ArrayList<>();
+    private List<Movie> movieList = new ArrayList<>();
 
 
     @Override
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             }
         });
         isSearching = false;
+        isFilteringGenre = false;
 
         binding.currentPageNumberView.setOnKeyListener(this);
 
@@ -218,19 +221,28 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        System.out.println(item.getTitle());
+
         switch (item.getItemId()) {
             case R.id.title_asc:
-                Collections.sort(movieList, new Comparator<Movie>() {
+                movieList.sort(new Comparator<Movie>() {
                     @Override
                     public int compare(Movie movie, Movie t1) {
+                        Log.d(LOG_TAG, t1.getTitle() + "!");
                         return movie.getTitle().compareTo(t1.getTitle());
                     }
                 });
+
                 adapter.setMovies(movieList);
                 return true;
             case R.id.title_desc:
-                Collections.reverse(movieList);
+                movieList.sort(new Comparator<Movie>() {
+                    @Override
+                    public int compare(Movie movie, Movie t1) {
+                        Log.d(LOG_TAG, t1.getTitle() + "!");
+                        return t1.getTitle().compareTo(movie.getTitle());
+                    }
+                });
+
                 adapter.setMovies(movieList);
                 return true;
         }
@@ -288,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
 
         contentViewModel.getMovieResultsWithFilter(filter, page).observe(this, movieResults -> {
             if (currentPageNumber + 1 <= movieResults.getTotal_pages()) {
+                movieList = (Arrays.asList(movieResults.getMovies()));
                 adapter.setMovies(Arrays.asList(movieResults.getMovies()));
             } else {
                 currentPageNumber = movieResults.getTotal_pages() - 1;
@@ -361,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     public void loadMovieByGenres(String genres) {
         contentViewModel.getMoviesByGenre(genres, currentPageNumber).observe(this, movieResults -> {
             adapter.setMovies(Arrays.asList(movieResults.getMovies()));
+            movieList = (Arrays.asList(movieResults.getMovies()));
             setHomeButtonVisibility(true);
             isFilteringGenre = true;
         });
