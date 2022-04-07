@@ -24,12 +24,12 @@ public class Movie implements Serializable {
     private String overview;
     @ColumnInfo(name = "genreList")
     private List<Genre> genres;
+    private List<Integer> genre_ids;
     private List<Company> production_companies;
     //rating
     private double vote_average;
     private double vote_count;
     private double popularity;
-    private List<Integer> genre_ids;
     private String homepage;
     private boolean adult;
     private boolean hasMovie;

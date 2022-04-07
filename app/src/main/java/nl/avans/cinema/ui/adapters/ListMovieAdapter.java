@@ -2,24 +2,18 @@ package nl.avans.cinema.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +29,7 @@ import nl.avans.cinema.ui.SingleListActivity;
 
 public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.ListMovieHolder> {
 
-    private List<Movie> movies = new ArrayList<>();
+    private List<Movie> mMovies = new ArrayList<>();
     private Context mContext;
     private ContentViewModel mViewModel;
     private SingleListActivity mActivity;
@@ -60,7 +54,7 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
     @Override
     public void onBindViewHolder(@NonNull ListMovieHolder holder, int position) {
         mHolder = holder;
-        Movie movie = movies.get(position);
+        Movie movie = mMovies.get(position);
         holder.movieTitle.setText(movie.getTitle());
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
 
@@ -69,28 +63,19 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
         } else {
             Glide.with(mContext).load(imgURL).into(holder.movieIMG);
         }
-        if (View.VISIBLE == mHolder.movieDeleteBtn.getVisibility()) {
-            mHolder.movieDeleteBtn.setVisibility(View.INVISIBLE);
-        } else {
-            mHolder.movieDeleteBtn.setVisibility(View.VISIBLE);
-        }
 
-    }
-
-    public ListMovieHolder getHolder() {
-        return mHolder;
     }
 
     @Override
     public int getItemCount() {
-        if (movies.isEmpty()) {
+        if (mMovies.isEmpty()) {
             return 0;
         }
-        return movies.size();
+        return mMovies.size();
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setMovies(List<Movie> mMovies) {
+        this.mMovies = mMovies;
         notifyDataSetChanged();
     }
 
@@ -109,7 +94,7 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
                 @Override
                 public void onClick(View view) {
                     List<DeleteItemRequest> removeList = new ArrayList<>();
-                    DeleteItemRequest deleteItemRequest = new DeleteItemRequest("movie", movies.get(getAdapterPosition()).getId());
+                    DeleteItemRequest deleteItemRequest = new DeleteItemRequest("movie", mMovies.get(getAdapterPosition()).getId());
                     removeList.add(deleteItemRequest);
                     ListRemoveItems listRemoveItems = new ListRemoveItems();
                     listRemoveItems.setItems(removeList);
@@ -122,7 +107,7 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
 
         @Override
         public void onClick(View view) {
-            mViewModel.getMovieById(movies.get(getAdapterPosition()).getId()).observe(mActivity, movie -> {
+            mViewModel.getMovieById(mMovies.get(getAdapterPosition()).getId()).observe(mActivity, movie -> {
                 Intent detailIntent = new Intent(mContext, DetailActivity.class);
                 detailIntent.putExtra("movie", movie);
                 detailIntent.putExtra("listPage", true);

@@ -63,6 +63,7 @@ public class GenreDialogFilterFragment extends DialogFragment {
                 listResult.setGenres(genreList);
 
                 mListener.onDialogPositiveClick(listResult);
+                genreList.clear();
             }
         });
         alert.setNegativeButton(R.string.popup_cancel, new DialogInterface.OnClickListener() {
