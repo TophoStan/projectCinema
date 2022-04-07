@@ -9,6 +9,10 @@
         android:title="@string/home"
         app:showAsAction="never" />
     <item
+        android:id="@+id/lists_add_shared"
+        android:title="@string/add_shared_list"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/lists_logout"
         android:title="@string/log_out"
         app:showAsAction="never" />

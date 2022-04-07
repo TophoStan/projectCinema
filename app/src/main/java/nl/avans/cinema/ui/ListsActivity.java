@@ -74,6 +74,9 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             startActivity(new Intent(ListsActivity.this, MainActivity.class));
         } else if (item.getItemId() == R.id.lists_logout) {
             startActivity(new Intent(ListsActivity.this, LoginActivity.class));
+        } else if (item.getItemId() == R.id.lists_add_shared) {
+            AddSharedListDialog sharedDiaglog = new AddSharedListDialog();
+            sharedDiaglog.show(getSupportFragmentManager(), "SharedListDialog");
         }
         return super.onOptionsItemSelected(item);
     }
