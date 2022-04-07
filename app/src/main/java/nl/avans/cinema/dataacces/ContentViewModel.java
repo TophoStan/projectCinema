@@ -1,6 +1,9 @@
 package nl.avans.cinema.dataacces;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -44,6 +47,7 @@ public class ContentViewModel extends AndroidViewModel {
 
     public LiveData<List<Movie>> getAllContentItems(){
         return mAllMovies;
+
     }
 
     public Movie getMovie(int id){
