@@ -104,13 +104,15 @@ public class DetailActivity extends AppCompatActivity {
             binding.genreTitle.setText(R.string.genres);
         }
 
-        StringBuilder genresString = new StringBuilder();
-        for (Genre g : movie.getGenres()) {
-            genresString.append(g.getName());
-            genresString.append(", ");
+        if (!movie.getGenres().isEmpty()) {
+            StringBuilder genresString = new StringBuilder();
+            for (Genre g : movie.getGenres()) {
+                genresString.append(g.getName());
+                genresString.append(", ");
+            }
+            genresString.deleteCharAt(genresString.length() - 2);
+            binding.detailGenre.setText(genresString);
         }
-        genresString.deleteCharAt(genresString.length() - 2);
-        binding.detailGenre.setText(genresString);
 
         binding.detailDescription.setText(mMovie.getOverview());
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -45,13 +46,15 @@ public class AddSharedListDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 EditText listIdInput = inflator.findViewById(R.id.add_list_code);
-                int listId = Integer.getInteger(listIdInput.getText().toString());
+                int listId = Integer.valueOf(listIdInput.getText().toString());
+                Log.d("listId", listIdInput.getText().toString());
                 contentViewModel.getListById(listId).observe(getActivity(), listResult -> {
                     MakeListRequest request = new MakeListRequest();
                     request.setName(listResult.getName());
                     request.setIso_639_1("en");
                     request.setPublic(true);
-                    listener.onDialogPositiveClickShare(request, listResult.getResults(), listResult.getId());
+                    request.setDescription(listResult.getDescription());
+                    listener.onDialogPositiveClickShare(request, listResult.getResults());
             });
             }
         });
@@ -79,7 +82,7 @@ public class AddSharedListDialog extends DialogFragment {
 
 
     public interface NoticeDialogListener {
-        void onDialogPositiveClickShare(MakeListRequest request, List<Movie> movies, int listId);
+        void onDialogPositiveClickShare(MakeListRequest request, List<Movie> movies);
     }
 }
 

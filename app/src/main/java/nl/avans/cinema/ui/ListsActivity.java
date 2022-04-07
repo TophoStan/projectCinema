@@ -100,7 +100,7 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
     }
 
     @Override
-    public void onDialogPositiveClickShare(MakeListRequest request, List<Movie> movies, int listId) {
+    public void onDialogPositiveClickShare(MakeListRequest request, List<Movie> movies) {
         contentViewModel.makeAList(contentViewModel.getUsers().getAccess_token(), request).observe(this, result -> {
 
             List<AddItemRequest> newListMovies = new ArrayList<>();
@@ -111,7 +111,7 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             ListAddItems listAddItems = new ListAddItems();
             listAddItems.setItems(newListMovies);
 
-            contentViewModel.addItemsToList(listId, contentViewModel.getUsers().getAccess_token(), listAddItems).observe(this, resultListShare -> {
+            contentViewModel.addItemsToList(result.getId(), contentViewModel.getUsers().getAccess_token(), listAddItems).observe(this, resultListShare -> {
                 if (resultListShare.isSuccess()) {
                     Toast.makeText(this, "Added " + request.getName(), Toast.LENGTH_SHORT).show();
                     reloadPage();
