@@ -44,4 +44,6 @@
     <string name="error_name_not_empty">Name can not be empty</string>
     <string name="login_guest_to_use_list">Login to use lists!</string>
     <string name="add_shared_list">Add shared list</string>
+    <string name="filter_date">filter date</string>
+    <string name="filter_rating">Filter rating</string>
 </resources>

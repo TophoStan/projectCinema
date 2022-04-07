@@ -2,22 +2,17 @@ package nl.avans.cinema.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import nl.avans.cinema.R;
@@ -29,9 +24,11 @@ import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.ui.adapters.ListMovieAdapter;
 import nl.avans.cinema.ui.dialogs.DeleteListDialog;
+import nl.avans.cinema.ui.dialogs.DialogTransferData;
 import nl.avans.cinema.ui.dialogs.GenreDialogFilterFragment;
+import nl.avans.cinema.ui.dialogs.RatingFilterDialog;
 
-public class SingleListActivity extends AppCompatActivity implements GenreDialogFilterFragment.NoticeDialogListener {
+public class SingleListActivity extends AppCompatActivity implements GenreDialogFilterFragment.NoticeDialogListener, DialogTransferData {
 
     private static final String LOG_TAG = SingleListActivity.class.getSimpleName();
     private ActivitySingleListBinding binding;
@@ -112,17 +109,19 @@ public class SingleListActivity extends AppCompatActivity implements GenreDialog
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent, "Send To"));
         } else if (item.getItemId() == R.id.list_delete) {
-            openDialog();
+            openDialogDelete();
         } else if (item.getItemId() == R.id.filter_genre) {
             contentViewModel.getGenres().observe(this, genreListResult -> {
                 GenreDialogFilterFragment filterFragment = new GenreDialogFilterFragment(genreListResult);
                 filterFragment.show(getSupportFragmentManager(), "FilterGenreDialog");
             });
+        } else if (item.getItemId() == R.id.filter_rating){
+            openRatingFilterDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void openDialog() {
+    private void openDialogDelete() {
 
         mDeleteDialog = new DeleteListDialog();
         mDeleteDialog.setListId(movieList.getId());
@@ -148,6 +147,27 @@ public class SingleListActivity extends AppCompatActivity implements GenreDialog
             if(mDeleteDialog != null){
                 mDeleteDialog.dismiss();
             }
+            return;
+        }
+        Toast.makeText(this, "No movies with selected filter", Toast.LENGTH_SHORT).show();
+    }
+
+    public void openRatingFilterDialog(){
+        RatingFilterDialog ratingFilterDialog = new RatingFilterDialog(this);
+        ratingFilterDialog.show(getSupportFragmentManager(), "RatingFilterDialog");
+    }
+
+    @Override
+    public void onDialogPositiveClick(int min, int max) {
+        ArrayList<Movie> filteredList = new ArrayList<>();
+        for (Movie m: movieList.getResults()) {
+            if(m.getVote_average() >= min && m.getVote_average() <= max){
+                filteredList.add(m);
+            }
+        }
+        if (!(filteredList.size() == 0)) {
+            adapter.setMovies(filteredList);
+            binding.removeFilterFab.setVisibility(View.VISIBLE);
             return;
         }
         Toast.makeText(this, "No movies with selected filter", Toast.LENGTH_SHORT).show();

@@ -12,6 +12,9 @@
             <item
                 android:id="@+id/filter_genre"
                 android:title="@string/filter_menu" />
+            <item
+                android:id="@+id/filter_rating"
+                android:title="@string/filter_rating" />
         </menu>
     </item>
     <item
