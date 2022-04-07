@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -46,7 +47,7 @@ public class SingleListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Zet methode in adapter die delete button visible zet
-                adapter.setMovies(movieList.getResults());
+                changeDeleteButtonVisibility();
             }
         });
 
@@ -63,9 +64,24 @@ public class SingleListActivity extends AppCompatActivity {
 
         contentViewModel.getListById(movieList.getId()).observe(this, listResult -> {
             adapter.setMovies(listResult.getResults());
+
         });
 
+
+
     }
+
+    public void changeDeleteButtonVisibility(){
+        for (int i = 0; i < binding.listRecyclerView.getChildCount(); i++) {
+            if(binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).getVisibility() == View.VISIBLE){
+                binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).setVisibility(View.INVISIBLE);
+            } else {
+                binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).setVisibility(View.VISIBLE);
+
+            }
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

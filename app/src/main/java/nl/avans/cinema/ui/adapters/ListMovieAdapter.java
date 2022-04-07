@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -39,6 +40,7 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
     private ContentViewModel mViewModel;
     private SingleListActivity mActivity;
     private ListResult mListResult;
+    private ListMovieHolder mHolder;
 
     public ListMovieAdapter(Context context, ContentViewModel viewModel, SingleListActivity activity, ListResult listResult) {
         this.mContext = context;
@@ -56,7 +58,8 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListMovieAdapter.ListMovieHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListMovieHolder holder, int position) {
+        mHolder = holder;
         Movie movie = movies.get(position);
         holder.movieTitle.setText(movie.getTitle());
         String imgURL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movie.getPoster_path();
@@ -66,12 +69,16 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
         } else {
             Glide.with(mContext).load(imgURL).into(holder.movieIMG);
         }
-
-        if (holder.movieDeleteBtn.getVisibility() != View.VISIBLE) {
-            holder.movieDeleteBtn.setVisibility(View.VISIBLE);
+        if (View.VISIBLE == mHolder.movieDeleteBtn.getVisibility()) {
+            mHolder.movieDeleteBtn.setVisibility(View.INVISIBLE);
         } else {
-            holder.movieDeleteBtn.setVisibility(View.INVISIBLE);
+            mHolder.movieDeleteBtn.setVisibility(View.VISIBLE);
         }
+
+    }
+
+    public ListMovieHolder getHolder() {
+        return mHolder;
     }
 
     @Override
@@ -107,7 +114,7 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.List
                     ListRemoveItems listRemoveItems = new ListRemoveItems();
                     listRemoveItems.setItems(removeList);
                     mViewModel.deleteItemFromList(mListResult.getId(), mViewModel.getUsers().getAccess_token(), listRemoveItems);
-                    mContext.startActivity(new Intent(mContext, SingleListActivity.class).putExtra("list",  mListResult));
+                    mContext.startActivity(new Intent(mContext, SingleListActivity.class).putExtra("list", mListResult));
                 }
             });
             itemView.setOnClickListener(this);

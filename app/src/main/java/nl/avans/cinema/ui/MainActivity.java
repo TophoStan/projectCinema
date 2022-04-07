@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             Toast.makeText(this, "Sort btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.home_lists) {
             if (contentViewModel.getUsers().isGuest()) {
-                Toast.makeText(this, "Login to use lists!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.login_guest_to_use_list), Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(MainActivity.this, ListsActivity.class));
             }
