@@ -93,7 +93,6 @@ public interface TheMovieDatabaseAPI {
                                @Header("authorization") String authorization);
 
 
-    // werkt nog niet!! //
     @HTTP(method = "DELETE", path = "4/list/{list_id}/items?api_key=" + key, hasBody = true)
     Call<Boolean> deleteItemFromList(@Path("list_id") int listId,
                                      @Header("authorization") String authorization,
