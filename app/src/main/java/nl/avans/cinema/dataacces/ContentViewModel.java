@@ -152,5 +152,4 @@ public class ContentViewModel extends AndroidViewModel {
     public MutableLiveData<MovieResults> getMoviesByGenre(String genre, int page){
         return  mRepository.getMoviesByGenre(genre, page);
     }
-    //TODO Crud functies uit repository hier aan toevoegen
 }

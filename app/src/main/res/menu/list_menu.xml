@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/list_filter"
         android:icon="@drawable/filter_icon"
-        app:showAsAction="always"
-        android:title="@string/filter_menu" >
+        android:title="@string/filter_menu"
+        app:showAsAction="always">
 
         <menu>
-             <item
-                 android:id="@+id/filter_genre"
-                 android:title="@string/filter_menu"
-                 />
+            <item
+                android:id="@+id/filter_genre"
+                android:title="@string/filter_menu" />
         </menu>
     </item>
     <item
         android:id="@+id/list_share"
-        tools:icon="@drawable/share_icon"
+        android:title="@string/share_menu"
         app:showAsAction="always"
-        android:title="@string/share_menu" />
+        android:icon="@drawable/share_icon" />
     <item
         android:id="@+id/list_delete"
+        android:title="@string/delete_text_btn"
         app:showAsAction="always"
-        tools:icon="@drawable/delete_icon"
-        android:title="@string/delete_text_btn" />
+        android:icon="@drawable/delete_icon" />
+
 
 </menu>

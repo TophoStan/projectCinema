@@ -45,7 +45,6 @@ public abstract class CinemaDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            //TODO Vul database
                 mDao.deleteAll();
             return null;
         }

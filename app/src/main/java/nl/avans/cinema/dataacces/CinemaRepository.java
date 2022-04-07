@@ -213,7 +213,6 @@ public class CinemaRepository {
 
             @Override
             public void onFailure(Call<RequestTokenResult> call, Throwable t) {
-                //TODO errors
                 Log.e(LOG_TAG, t.getMessage());
             }
         });
@@ -527,7 +526,7 @@ public class CinemaRepository {
         });
     }
 
-    public MutableLiveData<GenreListResult> getGenres(){
+    public MutableLiveData<GenreListResult> getGenres() {
         Call<GenreListResult> call = api.getGenres();
         call.enqueue(new Callback<GenreListResult>() {
             @Override
@@ -542,13 +541,12 @@ public class CinemaRepository {
         });
         return mGenreList;
     }
-    public MutableLiveData<MovieResults> getMoviesByGenre(String genres, int page){
+
+    public MutableLiveData<MovieResults> getMoviesByGenre(String genres, int page) {
         Call<MovieResults> call = api.getMoviesByGenre(genres, page);
         apiCallMovieResults(call);
         return mMovieFilteredResults;
     }
 }
 
-
-//TODO voeg meerdere CRUD functies toe
 

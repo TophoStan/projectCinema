@@ -221,7 +221,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.detail_trailer) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
+
             if (trailerLink != null) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink)));
             } else {

@@ -23,7 +23,6 @@ import java.util.List;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.api.calls.GenreListResult;
-import nl.avans.cinema.databinding.GenreFilterDialogBinding;
 import nl.avans.cinema.domain.Genre;
 
 public class GenreDialogFilterFragment extends DialogFragment {
@@ -33,20 +32,15 @@ public class GenreDialogFilterFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Get the layout inflater
         LayoutInflater linf = LayoutInflater.from(getContext());
-        // Inflate and set the layout for the dialog
         final View inflator = linf.inflate(R.layout.genre_filter_dialog, null);
-        // Pass null as the parent view because its going in the dialog layout
         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         alert.setView(inflator);
 
-        // Add action buttons
         alert.setPositiveButton(R.string.create_list_label, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 List<Genre> genreList = new ArrayList<>();
-                //EditText name = getActivity().findViewById(R.id.make_list_name);                mListener.onDialogPositiveClick(new GenreListResult());
                 ChipGroup group = (ChipGroup) inflator.findViewById(R.id.chip_group_genre_filter);
                 for (int i : group.getCheckedChipIds()) {
                     Chip chip = (Chip) inflator.findViewById(i);

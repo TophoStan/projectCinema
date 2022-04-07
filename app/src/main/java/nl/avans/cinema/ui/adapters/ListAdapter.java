@@ -101,7 +101,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
         @Override
         public void onClick(View view) {
-            //TODO van api lijst ophalen
             if (forAddToList) {
                 AddItemRequest addItemRequest = new AddItemRequest("movie", movie.getId());
                 List<AddItemRequest> addItemRequestList = new ArrayList<>();
