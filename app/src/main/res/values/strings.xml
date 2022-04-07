@@ -7,7 +7,6 @@
     <string name="register_label">REGISTER</string>
     <string name="guest_label">CONTINUE\nAS GUEST</string>
     <string name="username_label">Username:</string>
-
     <string name="welcome_label">Welcome!</string>
     <string name="cinema_title">Cinema</string>
     <string name="film_title">film_title</string>
@@ -19,7 +18,6 @@
     <string name="otherLists_title">Other lists</string>
     <string name="delete_text_btn">Delete</string>
     <string name="shareMenu_btn">Share</string>
-    <string name="share_menu">Share</string>
     <string name="description_title">Date:</string>
     <string name="description_price">Price:</string>
     <string name="description_genre">Genre:</string>
@@ -35,9 +33,9 @@
     <string name="rating_label">Rating</string>
     <string name="guest_login_message">Logged in as guest</string>
     <string name="user_login_message">Logged in as user</string>
-    <string name="bearer">eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZmUyMmY4NWQ5YTJmNTE5OWRkZGMxZWNhOGZhMmU2MCIsInN1YiI6IjYyNDQzZGRhYzUwYWQyMDA0NzAwMTkyYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fewHZDQbJlDRbCD6SFsTMMiylqxJwqjq_dyrASXjML4</string>
-    <string name="left_pointer"><![CDATA[<<]]></string>
-    <string name="right_pointer"><![CDATA[>>]]></string>
+    <string name="bearer" translatable="false">eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZmUyMmY4NWQ5YTJmNTE5OWRkZGMxZWNhOGZhMmU2MCIsInN1YiI6IjYyNDQzZGRhYzUwYWQyMDA0NzAwMTkyYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fewHZDQbJlDRbCD6SFsTMMiylqxJwqjq_dyrASXjML4</string>
+    <string name="left_pointer" translatable="false"><![CDATA[<<]]></string>
+    <string name="right_pointer" translatable="false"><![CDATA[>>]]></string>
     <string name="toggle_buttons_title">Toggle buttons</string>
     <string name="add">Add</string>
     <string name="create_list_label">Create</string>
@@ -52,4 +50,33 @@
     <string name="detail_placeholder">TextView</string>
     <string name="detail_title">title</string>
     <string name="detail_crew">Crew</string>
+    <string name="make_list_name">Name</string>
+    <string name="placeholder_checkbox">CheckBox</string>
+    <string name="listname">Listname</string>
+    <string name="list_code">List code</string>
+    <string name="list_name">List name</string>
+    <string name="description">Description</string>
+    <string name="publish">Publish</string>
+    <string name="choose_genres">Choose the genres you want to filter on</string>
+    <string name="action">Action</string>
+    <string name="adventure">Adventure</string>
+    <string name="crime">Crime</string>
+    <string name="documentary">Documentary</string>
+    <string name="drama">Drama</string>
+    <string name="comedy">Comedy</string>
+    <string name="family">Family</string>
+    <string name="fantasy">Fantasy</string>
+    <string name="history">History</string>
+    <string name="horror">Horror</string>
+    <string name="romance">Romance</string>
+    <string name="science_fiction">Science fiction</string>
+    <string name="companyname">CompanyName</string>
+    <string name="crew_person_name">Crew person name</string>
+    <string name="character_name">Character name</string>
+    <string name="listsize">listSize</string>
+    <string name="listtitle">listTitle</string>
+    <string name="desc">desc</string>
+    <string name="Add_to_lists">Add to your lists</string>
+    <string name="list">List</string>
+    <string name="movie">Movie</string>
 </resources>

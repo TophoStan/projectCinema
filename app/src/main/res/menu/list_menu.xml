@@ -20,7 +20,7 @@
         android:id="@+id/list_share"
         tools:icon="@drawable/share_icon"
         app:showAsAction="always"
-        android:title="@string/share_menu" />
+        android:title="@string/shareMenu_btn" />
     <item
         android:id="@+id/list_delete"
         app:showAsAction="always"

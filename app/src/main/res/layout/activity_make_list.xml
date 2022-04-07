@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.MakeListActivity">
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/editTextTextPersonName"
@@ -12,7 +11,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="@string/make_list_name"
         tools:layout_editor_absoluteX="75dp"
         tools:layout_editor_absoluteY="61dp" />
 
@@ -30,7 +29,7 @@
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CheckBox"
+        android:text="@string/placeholder_checkbox"
         tools:layout_editor_absoluteX="130dp"
         tools:layout_editor_absoluteY="225dp" />
 

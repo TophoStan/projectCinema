@@ -27,20 +27,20 @@
         <activity
             android:name=".ui.DetailActivity"
             android:exported="false"
-            android:label="Movie" />
+            android:label="@string/movie" />
         <activity
             android:name=".ui.ListsActivity"
             android:exported="false"
-            android:label="Lists" />
+            android:label="@string/lists" />
         <activity
             android:name=".ui.SingleListActivity"
             android:exported="false"
-            android:label="List"
+            android:label="@string/list"
             android:parentActivityName=".ui.ListsActivity" />
         <activity
             android:name=".ui.AddToListPopUp"
             android:exported="false"
-            android:label="Add to your lists" />
+            android:label="@string/Add_to_lists" />
     </application>
 
 </manifest>

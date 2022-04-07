@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Choose the genres you want to filter on" />
+        android:text="@string/choose_genres" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group_genre_filter"
@@ -25,84 +25,84 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Action" />
+            android:text="@string/action" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/adventure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Adventure" />
+            android:text="@string/adventure" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/crime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Crime" />
+            android:text="@string/crime" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/documentary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Documentary" />
+            android:text="@string/documentary" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/drama"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Drama" />
+            android:text="@string/drama" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/comedy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Comedy" />
+            android:text="@string/comedy" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/family"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Family" />
+            android:text="@string/family" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/fantasy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Fantasy" />
+            android:text="@string/fantasy" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="History" />
+            android:text="@string/history" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/horror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Horror" />
+            android:text="@string/horror" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/romance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Romance" />
+            android:text="@string/romance" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/science_fiction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="Science fiction" />
+            android:text="@string/science_fiction" />
 
     </com.google.android.material.chip.ChipGroup>
 

@@ -13,7 +13,7 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="36dp"
       android:layout_marginTop="24dp"
-      android:text="Listname"
+      android:text="@string/listname"
       android:textSize="20sp"
       android:textStyle="bold"
       app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
       android:layout_width="341dp"
       android:layout_height="wrap_content"
       android:layout_marginTop="4dp"
-      android:text="desc"
+      android:text="@string/desc"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/listName_page" />
