@@ -3,15 +3,15 @@ package nl.avans.cinema.domain;
 import java.io.Serializable;
 
 public class Genre implements Serializable {
-    private int genreId;
+    private int id;
     private String name;
 
-    public int getGenreId() {
-        return genreId;
+    public int getId() {
+        return id;
     }
 
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

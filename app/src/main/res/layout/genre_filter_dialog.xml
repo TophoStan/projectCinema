@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/genre_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Choose the genres you want to filter on" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_genre_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_weight="1">
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Action" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/adventure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Adventure" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/crime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Crime" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/documentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Documentary" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/drama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Drama" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/comedy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Comedy" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/family"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Family" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fantasy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Fantasy" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="History" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/horror"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Horror" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/romance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Romance" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/science_fiction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Science fiction" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+</LinearLayout>

@@ -23,7 +23,7 @@
     <string name="description_title">Date:</string>
     <string name="description_price">Price:</string>
     <string name="description_genre">Genre:</string>
-    <string name="crew_title_lable">Crew</string>
+    <string name="crew_title_label">Crew</string>
     <string name="cast_title_label">Cast</string>
     <string name="home">Home</string>
     <string name="log_out">Log out</string>
@@ -41,4 +41,6 @@
     <string name="toggle_buttons_title">Toggle buttons</string>
     <string name="add">Add</string>
     <string name="create_list_label">Create</string>
+    <string name="error_name_not_empty">Name can not be empty</string>
+    <string name="login_guest_to_use_list">Login to use lists!</string>
 </resources>

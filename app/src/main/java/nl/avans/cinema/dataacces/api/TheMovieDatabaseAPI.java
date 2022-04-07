@@ -6,6 +6,7 @@ import nl.avans.cinema.dataacces.api.calls.AddItemResult;
 import nl.avans.cinema.dataacces.api.calls.Convert4To3Result;
 import nl.avans.cinema.dataacces.api.calls.CreditResults;
 import nl.avans.cinema.dataacces.api.calls.DeleteListResult;
+import nl.avans.cinema.dataacces.api.calls.GenreListResult;
 import nl.avans.cinema.dataacces.api.calls.GuestResult;
 import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.ListRemoveItems;
@@ -18,6 +19,7 @@ import nl.avans.cinema.dataacces.api.calls.RatingResult;
 import nl.avans.cinema.dataacces.api.calls.MakeListRequest;
 import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
 import nl.avans.cinema.dataacces.api.calls.VideoResults;
+import nl.avans.cinema.domain.Genre;
 import nl.avans.cinema.domain.Movie;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -115,4 +117,10 @@ public interface TheMovieDatabaseAPI {
                                   @Header("Content_Type") String content_type,
                                   @Body MakeListRequest body);
 
+    @GET("3/genre/movie/list?api_key=" + key)
+    Call<GenreListResult> getGenres();
+
+    @GET("3/discover/movie?api_key=" + key)
+    Call<MovieResults> getMoviesByGenre(@Query("with_genres") String genres,
+                                        @Query("page") int pageNumber);
 }

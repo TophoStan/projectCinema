@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/make_list_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="List name"
-        />
+        android:paddingTop="5dp"
+        android:text="List name" />
 
     <EditText
         android:id="@+id/make_list_name"
