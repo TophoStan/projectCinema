@@ -13,9 +13,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -25,17 +26,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 import nl.avans.cinema.R;
 
-import nl.avans.cinema.dataacces.api.calls.MovieResults;
-import nl.avans.cinema.dataacces.api.calls.RequestTokenResult;
-import nl.avans.cinema.dataacces.api.task.FetchMovies;
-
-import nl.avans.cinema.dataacces.api.task.FetchSearchResults;
-import nl.avans.cinema.dataacces.api.task.OnFetchData;
 import nl.avans.cinema.databinding.ActivityMainBinding;
 import nl.avans.cinema.ui.adapters.MovieAdapter;
 import nl.avans.cinema.dataacces.ContentViewModel;
@@ -51,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     private int currentPageNumber;
     private boolean isSearching;
     private boolean buttonsAreEnabled;
+    private ArrayList<Movie> movieList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(this.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.home_search).getActionView();
@@ -192,7 +191,24 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println(item.getTitle());
+        switch (item.getItemId()) {
+            case R.id.title_asc:
+                Collections.sort(movieList, new Comparator<Movie>() {
+                    @Override
+                    public int compare(Movie movie, Movie t1) {
+                        return movie.getTitle().compareTo(t1.getTitle());
+                    }
+                });
+                adapter.setMovies(movieList);
+                return true;
+            case R.id.title_desc:
+                Collections.reverse(movieList);
+                adapter.setMovies(movieList);
+                return true;
+        }
+
         if (item.getItemId() == R.id.home_search) {
             Toast.makeText(this, "Search btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.home_sort) {
@@ -207,27 +223,31 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         } else if (item.getItemId() == R.id.popular) {
             currentFilter = "popular";
-            currentPageNumber =1 ;
+            currentPageNumber = 1;
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.top_rated) {
             currentFilter = "top_rated";
-            currentPageNumber =1 ;
+            currentPageNumber = 1;
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.playing_now) {
             currentFilter = "now_playing";
-            currentPageNumber =1 ;
+            currentPageNumber = 1;
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.upcoming) {
             currentFilter = "upcoming";
-            currentPageNumber =1 ;
+            currentPageNumber = 1;
             loadFilteredMovie(currentFilter, currentPageNumber);
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
+            setHomeButtonVisibility(true);
+        } else if (item.getItemId() == R.id.genre) {
+            currentFilter = "genre";
+            loadFilteredMovie(currentFilter, currentPageNumber);
             setHomeButtonVisibility(true);
         }
         return super.onOptionsItemSelected(item);
@@ -236,10 +256,10 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     public void loadFilteredMovie(String filter, int page) {
 
         contentViewModel.getMovieResultsWithFilter(filter, page).observe(this, movieResults -> {
-            if (currentPageNumber + 1  <= movieResults.getTotal_pages()) {
+            if (currentPageNumber + 1 <= movieResults.getTotal_pages()) {
                 adapter.setMovies(Arrays.asList(movieResults.getMovies()));
             } else {
-                currentPageNumber = movieResults.getTotal_pages() -1;
+                currentPageNumber = movieResults.getTotal_pages() - 1;
             }
         });
     }

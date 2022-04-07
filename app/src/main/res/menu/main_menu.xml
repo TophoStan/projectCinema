@@ -35,6 +35,11 @@
                 android:icon="@drawable/filter_icon"
                 android:title="Upcoming"
                 app:showAsAction="always" />
+            <item
+                android:id="@+id/genre"
+                android:icon="@drawable/filter_icon"
+                android:title="Genre"
+                app:showAsAction="always"/>
         </menu>
     </item>
 
@@ -42,7 +47,18 @@
         android:id="@+id/home_sort"
         android:icon="@drawable/sort_icon"
         android:title="@string/sort_menu"
-        app:showAsAction="always" />
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/title_asc"
+                android:icon="@drawable/sort_icon"
+                android:title="Title ASC" />
+            <item
+                android:id="@+id/title_desc"
+                android:icon="@drawable/sort_icon"
+                android:title="Title DESC" />
+        </menu>
+    </item>
 
     <item
         android:id="@+id/home_lists"
