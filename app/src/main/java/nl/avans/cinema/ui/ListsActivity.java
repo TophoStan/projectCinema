@@ -2,19 +2,15 @@ package nl.avans.cinema.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,7 +23,6 @@ import nl.avans.cinema.databinding.ActivityListsBinding;
 import nl.avans.cinema.domain.MovieList;
 import nl.avans.cinema.ui.adapters.ListAdapter;
 import nl.avans.cinema.ui.dialogs.AddSharedListDialog;
-import nl.avans.cinema.ui.dialogs.ChoiseDialog;
 import nl.avans.cinema.ui.dialogs.MakeListDialogFragment;
 
 public class ListsActivity extends AppCompatActivity implements MakeListDialogFragment.NoticeDialogListener {
@@ -57,7 +52,7 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             mListList = listsResult.getResults();
             mAdapter.setLists(mListList);
         });
-        AddSharedListDialog dialog = new AddSharedListDialog();
+        MakeListDialogFragment dialog = new MakeListDialogFragment();
         binding.makeListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
