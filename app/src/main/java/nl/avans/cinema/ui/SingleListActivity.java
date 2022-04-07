@@ -2,14 +2,11 @@ package nl.avans.cinema.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,18 +14,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.view.Window;
 import android.widget.Toast;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.GenreListResult;
 import nl.avans.cinema.dataacces.api.calls.ListResult;
 import nl.avans.cinema.databinding.ActivitySingleListBinding;
+import nl.avans.cinema.domain.Genre;
+import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.ui.adapters.ListMovieAdapter;
 import nl.avans.cinema.ui.dialogs.DeleteListDialog;
+import nl.avans.cinema.ui.dialogs.GenreDialogFilterFragment;
 
-public class SingleListActivity extends AppCompatActivity {
+public class SingleListActivity extends AppCompatActivity implements GenreDialogFilterFragment.NoticeDialogListener {
 
+    private static final String LOG_TAG = SingleListActivity.class.getSimpleName();
     private ActivitySingleListBinding binding;
     private ListMovieAdapter adapter;
     private ContentViewModel contentViewModel;
@@ -67,21 +72,20 @@ public class SingleListActivity extends AppCompatActivity {
 
         });
 
-
-
-    }
-
-    public void changeDeleteButtonVisibility(){
         for (int i = 0; i < binding.listRecyclerView.getChildCount(); i++) {
-            if(binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).getVisibility() == View.VISIBLE){
-                binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).setVisibility(View.INVISIBLE);
-            } else {
-                binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).setVisibility(View.VISIBLE);
-
-            }
+            binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).setVisibility(View.INVISIBLE);
         }
     }
 
+    public void changeDeleteButtonVisibility() {
+        for (int i = 0; i < binding.listRecyclerView.getChildCount(); i++) {
+            if (binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).getVisibility() == View.VISIBLE) {
+                binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).setVisibility(View.INVISIBLE);
+            } else {
+                binding.listRecyclerView.getChildAt(i).findViewById(R.id.deleteFilm_btn).setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,7 +97,6 @@ public class SingleListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.list_filter) {
-            Toast.makeText(this, "Filter btn", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.list_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, "Come look at my movie list,\n" +
@@ -102,6 +105,11 @@ public class SingleListActivity extends AppCompatActivity {
             startActivity(Intent.createChooser(intent, "Send To"));
         } else if (item.getItemId() == R.id.list_delete) {
             openDialog();
+        } else if (item.getItemId() == R.id.filter_genre) {
+            contentViewModel.getGenres().observe(this, genreListResult -> {
+                GenreDialogFilterFragment filterFragment = new GenreDialogFilterFragment(genreListResult);
+                filterFragment.show(getSupportFragmentManager(), "FilterGenreDialog");
+            });
         }
         return super.onOptionsItemSelected(item);
     }
@@ -112,4 +120,30 @@ public class SingleListActivity extends AppCompatActivity {
         deleteListDialog.setActivity(this);
         deleteListDialog.show(getSupportFragmentManager(), "Delete dialog");
     }
+
+    @Override
+    public void onDialogPositiveClick(GenreListResult genres) {
+        ArrayList<Movie> filteredMovies = new ArrayList<>();
+        for (Movie m : movieList.getResults()) {
+            for (Genre g : genres.getGenres()) {
+                for (Integer i : m.getGenre_ids()) {
+                    if (g.getId() == i && !filteredMovies.contains(m)) {
+                        Log.d("moviegenre", m.getTitle() + " " + g.getName());
+                        filteredMovies.add(m);
+                    }
+                }
+            }
+        }
+        if (!(filteredMovies.size() == 0)) {
+            adapter.setMovies(filteredMovies);
+            return;
+        }
+        Toast.makeText(this, "No movies with selected filter", Toast.LENGTH_SHORT).show();
+    }
+
+    public void reset(){
+
+    }
+
+
 }
