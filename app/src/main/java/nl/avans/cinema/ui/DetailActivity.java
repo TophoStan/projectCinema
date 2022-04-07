@@ -70,7 +70,7 @@ public class DetailActivity extends AppCompatActivity {
     private Movie mMovie;
     private String trailerLink;
     private String moviePageLink;
-    private String link = "https://www.themoviedb.org/video/play?key=";
+    private String link = "https://www.youtube.com/watch?v=";
     private String sessionID;
 
     @Override

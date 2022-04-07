@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -39,15 +40,21 @@ public class MakeListDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 //EditText name = getActivity().findViewById(R.id.make_list_name);
+
+
                 String nameString = et1.getText().toString();
                 String descString = et2.getText().toString();
 
-                MakeListRequest request = new MakeListRequest();
-                request.setPublic(isPublic.isChecked());
-                request.setName(nameString);
-                request.setDescription(descString);
-                request.setIso_639_1("en");
-                listener.onDialogPositiveClick(request);
+                if (!nameString.isEmpty()) {
+                    MakeListRequest request = new MakeListRequest();
+                    request.setPublic(isPublic.isChecked());
+                    request.setName(nameString);
+                    request.setDescription(descString);
+                    request.setIso_639_1("en");
+                    listener.onDialogPositiveClick(request);
+                }
+                Toast.makeText(getContext(), R.string.error_name_not_empty, Toast.LENGTH_SHORT).show();
+
             }
         });
         alert.setNegativeButton(R.string.popup_cancel, new DialogInterface.OnClickListener() {
