@@ -85,6 +85,8 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             reloadPage();
         });
 
+
+        // set movies
     }
 
     public void reloadPage(){
