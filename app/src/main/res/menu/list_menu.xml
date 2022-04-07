@@ -21,7 +21,11 @@
         android:id="@+id/list_share"
         android:title="@string/share_menu"
         app:showAsAction="always"
+<<<<<<< HEAD
+        android:title="@string/shareMenu_btn" />
+=======
         android:icon="@drawable/share_icon" />
+>>>>>>> 936d9424688c925425a76279f371d23f0e567830
     <item
         android:id="@+id/list_delete"
         android:title="@string/delete_text_btn"

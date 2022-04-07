@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="26dp"
         android:layout_marginBottom="30dp"
-        android:text="Add to list"
+        android:text="@string/detail_add_to_list"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="detail_image"
+                android:contentDescription="@string/detail_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:text="Description"
+                android:text="@string/detail_description"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/castRecyclerview"
                 app:layout_constraintHorizontal_bias="0.571"
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="252dp"
-                android:text="Companies"
+                android:text="@string/detail_companies"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/castRecyclerview"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:text="No genres"
+                android:text="@string/detail_no_genres"
                 app:layout_constraintStart_toEndOf="@+id/genre_title"
                 app:layout_constraintTop_toBottomOf="@+id/detail_date" />
 
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:text="TextView"
+                android:text="@string/detail_placeholder"
                 app:layout_constraintStart_toEndOf="@+id/date_title"
                 app:layout_constraintTop_toBottomOf="@+id/detail_title" />
 
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="title"
+                android:text="@string/detail_title"
                 android:textSize="26sp"
                 app:layout_constraintStart_toEndOf="@+id/detail_image"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -149,7 +149,7 @@
                 android:id="@+id/crew_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Crew"
+                android:text="@string/detail_crew"
                 android:textSize="26sp"
                 app:layout_constraintStart_toStartOf="@+id/company_recyclerview"
                 app:layout_constraintTop_toBottomOf="@+id/company_recyclerview" />

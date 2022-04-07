@@ -11,6 +11,6 @@
         android:id="@+id/detail_share"
         android:icon="@drawable/share_icon"
         app:showAsAction="always"
-        android:title="@string/share_menu" />
+        android:title="@string/shareMenu_btn" />
 
 </menu>
