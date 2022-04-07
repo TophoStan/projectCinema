@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
@@ -34,6 +36,8 @@ public class AddSharedListDialog extends DialogFragment {
         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         alert.setView(inflator);
 
+        contentViewModel = new ViewModelProvider(this).get(ContentViewModel.class);
+
         final EditText et1 = (EditText) inflator.findViewById(R.id.add_list_code);
         // Add action buttons
         alert.setPositiveButton(R.string.create_list_label, new DialogInterface.OnClickListener() {
@@ -47,8 +51,6 @@ public class AddSharedListDialog extends DialogFragment {
                     request.setIso_639_1("en");
                     listener.onDialogPositiveClick(request);
             });
-
-
             }
         });
         alert.setNegativeButton(R.string.popup_cancel, new DialogInterface.OnClickListener() {
