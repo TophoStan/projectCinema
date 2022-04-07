@@ -18,14 +18,17 @@ import java.util.List;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.AddItemRequest;
+import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.MakeListRequest;
 import nl.avans.cinema.databinding.ActivityListsBinding;
+import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.MovieList;
 import nl.avans.cinema.ui.adapters.ListAdapter;
 import nl.avans.cinema.ui.dialogs.AddSharedListDialog;
 import nl.avans.cinema.ui.dialogs.MakeListDialogFragment;
 
-public class ListsActivity extends AppCompatActivity implements MakeListDialogFragment.NoticeDialogListener {
+public class ListsActivity extends AppCompatActivity implements MakeListDialogFragment.NoticeDialogListener, AddSharedListDialog.NoticeDialogListener {
 
     private List<MovieList> mListList = new ArrayList<>();
     private ActivityListsBinding binding;
@@ -84,9 +87,6 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             Toast.makeText(this, "Added " + request.getName(), Toast.LENGTH_SHORT).show();
             reloadPage();
         });
-
-
-        // set movies
     }
 
     public void reloadPage(){
@@ -96,4 +96,25 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
         overridePendingTransition(0, 0);
     }
 
+    @Override
+    public void onDialogPositiveClickShare(MakeListRequest request, List<Movie> movies, int listId) {
+        contentViewModel.makeAList(contentViewModel.getUsers().getAccess_token(), request).observe(this, result -> {
+
+            List<AddItemRequest> newListMovies = new ArrayList<>();
+            for (Movie m :movies) {
+                AddItemRequest addItemRequest = new AddItemRequest("movie", m.getId());
+                newListMovies.add(addItemRequest);
+            }
+            ListAddItems listAddItems = new ListAddItems();
+            listAddItems.setItems(newListMovies);
+
+            contentViewModel.addItemsToList(listId, contentViewModel.getUsers().getAccess_token(), listAddItems).observe(this, resultListShare -> {
+                Toast.makeText(this, "Added " + request.getName(), Toast.LENGTH_SHORT).show();
+                if (resultListShare.isSuccess()) {
+                    Toast.makeText(this, "Added " + request.getName(), Toast.LENGTH_SHORT).show();
+                    reloadPage();
+                }
+            });
+        });
+    }
 }
