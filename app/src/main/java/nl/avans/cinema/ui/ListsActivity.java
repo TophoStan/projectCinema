@@ -26,6 +26,8 @@ import nl.avans.cinema.dataacces.api.calls.MakeListRequest;
 import nl.avans.cinema.databinding.ActivityListsBinding;
 import nl.avans.cinema.domain.MovieList;
 import nl.avans.cinema.ui.adapters.ListAdapter;
+import nl.avans.cinema.ui.dialogs.AddSharedListDialog;
+import nl.avans.cinema.ui.dialogs.ChoiseDialog;
 import nl.avans.cinema.ui.dialogs.MakeListDialogFragment;
 
 public class ListsActivity extends AppCompatActivity implements MakeListDialogFragment.NoticeDialogListener {
@@ -55,7 +57,7 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             mListList = listsResult.getResults();
             mAdapter.setLists(mListList);
         });
-        MakeListDialogFragment dialog = new MakeListDialogFragment();
+        AddSharedListDialog dialog = new AddSharedListDialog();
         binding.makeListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
