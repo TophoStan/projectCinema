@@ -49,6 +49,7 @@ public class AddSharedListDialog extends DialogFragment {
                     MakeListRequest request = new MakeListRequest();
                     request.setName(listResult.getName());
                     request.setIso_639_1("en");
+                    request.setPublic(true);
                     listener.onDialogPositiveClick(request);
             });
             }
