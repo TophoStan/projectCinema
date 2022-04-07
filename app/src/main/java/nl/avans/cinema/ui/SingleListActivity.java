@@ -38,6 +38,7 @@ public class SingleListActivity extends AppCompatActivity implements GenreDialog
     private ListMovieAdapter adapter;
     private ContentViewModel contentViewModel;
     private ListResult movieList;
+    private DeleteListDialog mDeleteDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,13 @@ public class SingleListActivity extends AppCompatActivity implements GenreDialog
         contentViewModel.getListById(movieList.getId()).observe(this, listResult -> {
             adapter.setMovies(listResult.getResults());
 
+        });
+        binding.removeFilterFab.setVisibility(View.INVISIBLE);
+        binding.removeFilterFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+            }
         });
 
         for (int i = 0; i < binding.listRecyclerView.getChildCount(); i++) {
@@ -115,10 +123,11 @@ public class SingleListActivity extends AppCompatActivity implements GenreDialog
     }
 
     private void openDialog() {
-        DeleteListDialog deleteListDialog = new DeleteListDialog();
-        deleteListDialog.setListId(movieList.getId());
-        deleteListDialog.setActivity(this);
-        deleteListDialog.show(getSupportFragmentManager(), "Delete dialog");
+
+        mDeleteDialog = new DeleteListDialog();
+        mDeleteDialog.setListId(movieList.getId());
+        mDeleteDialog.setActivity(this);
+        mDeleteDialog.show(getSupportFragmentManager(), "Delete dialog");
     }
 
     @Override
@@ -128,7 +137,6 @@ public class SingleListActivity extends AppCompatActivity implements GenreDialog
             for (Genre g : genres.getGenres()) {
                 for (Integer i : m.getGenre_ids()) {
                     if (g.getId() == i && !filteredMovies.contains(m)) {
-                        Log.d("moviegenre", m.getTitle() + " " + g.getName());
                         filteredMovies.add(m);
                     }
                 }
@@ -136,14 +144,17 @@ public class SingleListActivity extends AppCompatActivity implements GenreDialog
         }
         if (!(filteredMovies.size() == 0)) {
             adapter.setMovies(filteredMovies);
+            binding.removeFilterFab.setVisibility(View.VISIBLE);
+            if(mDeleteDialog != null){
+                mDeleteDialog.dismiss();
+            }
             return;
         }
         Toast.makeText(this, "No movies with selected filter", Toast.LENGTH_SHORT).show();
     }
 
-    public void reset(){
-
+    public void reset() {
+        adapter.setMovies(movieList.getResults());
+        binding.removeFilterFab.setVisibility(View.INVISIBLE);
     }
-
-
 }

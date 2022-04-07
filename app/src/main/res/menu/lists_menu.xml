@@ -12,7 +12,7 @@
         android:id="@+id/lists_home"
         android:icon="@drawable/home_icon"
         android:title="@string/home"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/lists_logout"
         android:title="@string/log_out"

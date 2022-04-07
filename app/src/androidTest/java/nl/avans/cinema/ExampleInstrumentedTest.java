@@ -84,7 +84,6 @@ public class ExampleInstrumentedTest {
         sleep();
         onView(withId(R.id.filmsRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withText(R.string.trailer)).perform(click());
-        //TODO zoek film die geen trailer heeft
     }
 
     @Test

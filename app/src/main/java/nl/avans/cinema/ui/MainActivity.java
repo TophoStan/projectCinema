@@ -284,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             setHomeButtonVisibility(true);
         } else if (item.getItemId() == R.id.genre) {
-            //TODO filter op genre
             contentViewModel.getGenres().observe(this, genreListResult -> {
                 GenreDialogFilterFragment filterFragment = new GenreDialogFilterFragment(genreListResult);
                 filterFragment.show(getSupportFragmentManager(), "FilterGenreDialog");
