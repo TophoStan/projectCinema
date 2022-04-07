@@ -2,19 +2,15 @@ package nl.avans.cinema.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,13 +18,17 @@ import java.util.List;
 
 import nl.avans.cinema.R;
 import nl.avans.cinema.dataacces.ContentViewModel;
+import nl.avans.cinema.dataacces.api.calls.AddItemRequest;
+import nl.avans.cinema.dataacces.api.calls.ListAddItems;
 import nl.avans.cinema.dataacces.api.calls.MakeListRequest;
 import nl.avans.cinema.databinding.ActivityListsBinding;
+import nl.avans.cinema.domain.Movie;
 import nl.avans.cinema.domain.MovieList;
 import nl.avans.cinema.ui.adapters.ListAdapter;
+import nl.avans.cinema.ui.dialogs.AddSharedListDialog;
 import nl.avans.cinema.ui.dialogs.MakeListDialogFragment;
 
-public class ListsActivity extends AppCompatActivity implements MakeListDialogFragment.NoticeDialogListener {
+public class ListsActivity extends AppCompatActivity implements MakeListDialogFragment.NoticeDialogListener, AddSharedListDialog.NoticeDialogListener {
 
     private List<MovieList> mListList = new ArrayList<>();
     private ActivityListsBinding binding;
@@ -77,6 +77,9 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             startActivity(new Intent(ListsActivity.this, MainActivity.class));
         } else if (item.getItemId() == R.id.lists_logout) {
             startActivity(new Intent(ListsActivity.this, LoginActivity.class));
+        } else if (item.getItemId() == R.id.lists_add_shared) {
+            AddSharedListDialog sharedDiaglog = new AddSharedListDialog();
+            sharedDiaglog.show(getSupportFragmentManager(), "SharedListDialog");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -87,7 +90,6 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
             Toast.makeText(this, "Added " + request.getName(), Toast.LENGTH_SHORT).show();
             reloadPage();
         });
-
     }
 
     public void reloadPage(){
@@ -97,4 +99,24 @@ public class ListsActivity extends AppCompatActivity implements MakeListDialogFr
         overridePendingTransition(0, 0);
     }
 
+    @Override
+    public void onDialogPositiveClickShare(MakeListRequest request, List<Movie> movies, int listId) {
+        contentViewModel.makeAList(contentViewModel.getUsers().getAccess_token(), request).observe(this, result -> {
+
+            List<AddItemRequest> newListMovies = new ArrayList<>();
+            for (Movie m :movies) {
+                AddItemRequest addItemRequest = new AddItemRequest("movie", m.getId());
+                newListMovies.add(addItemRequest);
+            }
+            ListAddItems listAddItems = new ListAddItems();
+            listAddItems.setItems(newListMovies);
+
+            contentViewModel.addItemsToList(listId, contentViewModel.getUsers().getAccess_token(), listAddItems).observe(this, resultListShare -> {
+                if (resultListShare.isSuccess()) {
+                    Toast.makeText(this, "Added " + request.getName(), Toast.LENGTH_SHORT).show();
+                    reloadPage();
+                }
+            });
+        });
+    }
 }
