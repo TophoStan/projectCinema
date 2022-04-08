@@ -344,6 +344,11 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
                 enteredPageNumber = 500;
             }
             currentPageNumber = enteredPageNumber;
+            if(currentPageNumber > 1 ){
+                binding.buttonBack.setVisibility(View.VISIBLE);
+            }  else {
+                binding.buttonBack.setVisibility(View.INVISIBLE);
+            }
             binding.currentPageNumberView.setText(String.valueOf(currentPageNumber));
             if (isFilteringGenre) {
                 loadMovieByGenres(currentGenreFilter);
