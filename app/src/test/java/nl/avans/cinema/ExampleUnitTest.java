@@ -20,7 +20,7 @@ public class ExampleUnitTest {
         assertEquals(5, DetailActivity.calculateRating(10), 0.1);
     }
     @Test
-    public void calculateRatingRequires5Ensures2(){
+    public void calculateRatingRequires5Ensures2dot5(){
         assertEquals(2.5, DetailActivity.calculateRating(5), 0.1);
     }
     @Test
