@@ -42,12 +42,10 @@
     <string name="error_name_not_empty">Name can not be empty</string>
     <string name="login_guest_to_use_list">Login to use lists!</string>
     <string name="add_shared_list">Add shared list</string>
-<<<<<<< HEAD
     <string name="filter_date">filter date</string>
     <string name="filter_rating">Filter rating</string>
-    <string name="max_rating_label">Max Rating</string>
+    <string name="max_rating_label">Maximal Rating</string>
     <string name="minimal_rating_label">Minimal Rating</string>
-=======
     <string name="detail_add_to_list">Add to list</string>
     <string name="detail_image">detail_image</string>
     <string name="detail_description">Description</string>
@@ -85,5 +83,5 @@
     <string name="Add_to_lists">Add to your lists</string>
     <string name="list">List</string>
     <string name="movie">Movie</string>
->>>>>>> c47c6de4f4a48f619550a6b48938f744ba2f8c2b
+    <string name="filter_genre">Filter genre</string>
 </resources>

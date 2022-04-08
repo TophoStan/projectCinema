@@ -11,7 +11,7 @@
         <menu>
             <item
                 android:id="@+id/filter_genre"
-                android:title="@string/filter_menu" />
+                android:title="@string/filter_genre" />
             <item
                 android:id="@+id/filter_rating"
                 android:title="@string/filter_rating" />
@@ -19,13 +19,9 @@
     </item>
     <item
         android:id="@+id/list_share"
-        android:title="@string/share_menu"
-        app:showAsAction="always"
-<<<<<<< HEAD
-        android:title="@string/shareMenu_btn" />
-=======
-        android:icon="@drawable/share_icon" />
->>>>>>> 936d9424688c925425a76279f371d23f0e567830
+        android:title="@string/shareMenu_btn"
+        android:icon="@drawable/share_icon"
+        app:showAsAction="always" />
     <item
         android:id="@+id/list_delete"
         android:title="@string/delete_text_btn"

@@ -76,4 +76,8 @@
     <string name="Add_to_lists">Voeg toe aan jouw lijsten</string>
     <string name="list">Lijst</string>
     <string name="movie">Film</string>
+    <string name="filter_date">Filter Datum</string>
+    <string name="filter_rating">Filter Beoordeling</string>
+    <string name="max_rating_label">Maximale Beoordeling</string>
+    <string name="minimal_rating_label">Minimale Beoordeling</string>
 </resources>
